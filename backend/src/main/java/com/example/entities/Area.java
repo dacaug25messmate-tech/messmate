@@ -23,6 +23,7 @@ public class Area {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int area_id;
+	
 	String area_name;
 	
 	@ManyToOne

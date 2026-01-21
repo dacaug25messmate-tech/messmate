@@ -21,5 +21,6 @@ public class City {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int city_id;
+	
 	String city_name;
 }
