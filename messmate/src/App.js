@@ -1,8 +1,13 @@
-import { Routes, Route } from 'react-router-dom';
-import AppHomeNavbar from './components/AppHomeNavbar';
-import AppHome from './components/AppHome';
-import Login from './components/Login';
-import Register from './components/Register';
+import { Routes, Route } from "react-router-dom";
+import AppHomeNavbar from "./components/AppHomeNavbar";
+import AppHome from "./components/AppHome";
+import Login from "./components/Login";
+import Register from "./components/Register";
+
+import AdminDashboard from "./components/dashboards/AdminDashboard";
+import CustomerDashboard from "./components/dashboards/CustomerDashboard";
+import MessOwnerDashboard from "./components/dashboards/MessOwnerDashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -11,8 +16,35 @@ function App() {
 
       <Routes>
         <Route path="/" element={<AppHome />} />
-         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} /> 
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute role="ADMIN">
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/customer"
+          element={
+            <ProtectedRoute role="CUSTOMER">
+              <CustomerDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/messowner"
+          element={
+            <ProtectedRoute role="MESSOWNER">
+              <MessOwnerDashboard />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </>
   );
