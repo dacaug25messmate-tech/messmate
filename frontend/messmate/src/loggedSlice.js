@@ -1,18 +1,26 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit";
 
-//slice - part of store
-export const loggedSlice = createSlice ({
-    name: "logged",
-    initialState: {
-        loggedIn : false,
-        role:""
+export const loggedSlice = createSlice({
+  name: "logged",
+  initialState: {
+    loggedIn: false,
+    role: "",
+    username: ""
+  },
+  reducers: {
+    login: (state, action) => {
+      const { role, username } = action.payload;
+      state.loggedIn = true;
+      state.role = role;
+      state.username = username;
     },
-    reducers: {
-        login:(state, action) => { console.log(action.payload);return { loggedIn: true, role: action.payload} },
-        logout: (state) => { return {loggedIn: false}  } 
+    logout: (state) => {
+      state.loggedIn = false;
+      state.role = "";
+      state.username = "";
     }
-})
+  }
+});
 
-export const {login} = loggedSlice.actions
-export const {logout} = loggedSlice.actions 
-export default loggedSlice.reducer
+export const { login, logout } = loggedSlice.actions;
+export default loggedSlice.reducer;
