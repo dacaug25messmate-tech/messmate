@@ -9,5 +9,4 @@ public class P06MessmateApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(P06MessmateApplication.class, args);
 	}
-
 }
