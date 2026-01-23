@@ -68,7 +68,7 @@ export default function Register() {
           <option value="2">Mess Owner</option>
           <option value="3">Customer</option>
         </select>
-        {errors.roleId && <small className="text-danger">{errors.roleId.message}</small>}
+        {errors.roleId && <small className="text-danger">{errors.roleId.message}</small>}<br></br>
 
         {/* Username */}
         <label>Username <span style={{ color: "red" }}>*</span></label>
@@ -84,7 +84,7 @@ export default function Register() {
             }
           })}
         />
-        {errors.userName && <small className="text-danger">{errors.userName.message}</small>}
+        {errors.userName && <small className="text-danger">{errors.userName.message}</small>}<br></br>
 
         {/* Password */}
         <label>Password <span style={{ color: "red" }}>*</span></label>
@@ -100,7 +100,7 @@ export default function Register() {
             }
           })}
         />
-        {errors.password && <small className="text-danger">{errors.password.message}</small>}
+        {errors.password && <small className="text-danger">{errors.password.message}</small>}<br></br>
 
         {/* Email */}
         <label>Email <span style={{ color: "red" }}>*</span></label>
@@ -115,7 +115,7 @@ export default function Register() {
             }
           })}
         />
-        {errors.email && <small className="text-danger">{errors.email.message}</small>}
+        {errors.email && <small className="text-danger">{errors.email.message}</small>}<br></br>
 
         {/* Phone */}
         <label>Phone <span style={{ color: "red" }}>*</span></label>
@@ -130,7 +130,7 @@ export default function Register() {
             }
           })}
         />
-        {errors.phone && <small className="text-danger">{errors.phone.message}</small>}
+        {errors.phone && <small className="text-danger">{errors.phone.message}</small>}<br></br>
 
         {/* Address */}
         <label>Address <span style={{ color: "red" }}>*</span></label>
@@ -139,7 +139,7 @@ export default function Register() {
           placeholder="Address"
           {...register("address", { required: "Address is required" })}
         />
-        {errors.address && <small className="text-danger">{errors.address.message}</small>}
+        {errors.address && <small className="text-danger">{errors.address.message}</small>}<br></br>
 
         {/* City */}
         <label>City <span style={{ color: "red" }}>*</span></label>
@@ -152,7 +152,7 @@ export default function Register() {
             <option key={c.cityId} value={c.cityId}>{c.cityName}</option>
           ))}
         </select>
-        {errors.cityId && <small className="text-danger">{errors.cityId.message}</small>}
+        {errors.cityId && <small className="text-danger">{errors.cityId.message}</small>}<br></br>
 
         {/* Area */}
         <label>Area <span style={{ color: "red" }}>*</span></label>
@@ -166,7 +166,7 @@ export default function Register() {
             <option key={a.areaId} value={a.areaId}>{a.area_name}</option>
           ))}
         </select>
-        {errors.areaId && <small className="text-danger">{errors.areaId.message}</small>}
+        {errors.areaId && <small className="text-danger">{errors.areaId.message}</small>}<br></br>
 
         {/* Security Question */}
         <label>Security Question <span style={{ color: "red" }}>*</span></label>
@@ -179,7 +179,7 @@ export default function Register() {
             <option key={q.questionId} value={q.questionId}>{q.questionText}</option>
           ))}
         </select>
-        {errors.questionId && <small className="text-danger">{errors.questionId.message}</small>}
+        {errors.questionId && <small className="text-danger">{errors.questionId.message}</small>}<br></br>
 
         {/* Answer */}
         <label>Answer <span style={{ color: "red" }}>*</span></label>
@@ -188,7 +188,7 @@ export default function Register() {
           placeholder="Your Answer"
           {...register("questionAnswer", { required: "Answer is required" })}
         />
-        {errors.questionAnswer && <small className="text-danger">{errors.questionAnswer.message}</small>}
+        {errors.questionAnswer && <small className="text-danger">{errors.questionAnswer.message}</small>}<br></br>
 
         <button className="btn btn-success w-100">Register</button>
       </form>
