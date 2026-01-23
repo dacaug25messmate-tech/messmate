@@ -25,18 +25,33 @@ export default function Login() {
         body: JSON.stringify({ userName, password })
       });
 
-      if (!response.ok) {
+      //  Invalid login → toast instead of alert
+      if (response.status === 401) {
         toast.error("Invalid username or password");
+        setLoading(false);
+        return;
+      }
+
+      // Other server errors
+      if (!response.ok) {
+        toast.error("Internal server error. Please try again later");
         setLoading(false);
         return;
       }
 
       const data = await response.json();
 
-      // Save user info in localStorage
+      // Extra check if backend returns invalid data
+      if (!data || !data.uid || !data.role) {
+        toast.error("Invalid login response from server");
+        setLoading(false);
+        return;
+      }
+
+      //  Save user info in localStorage
       localStorage.setItem("userid", data.uid);
       localStorage.setItem("username", data.uname);
-      localStorage.setItem("role", data.role); // store role name
+      localStorage.setItem("role", data.role);
 
       // Update Redux state
       dispatch(login({
@@ -48,7 +63,7 @@ export default function Login() {
 
       toast.success("Login successfully");
 
-      // Redirect after 1.5 seconds based on role name
+      //  Redirect after 1.5s based on role
       setTimeout(() => {
         if (data.role === "ADMIN") navigate("/admin");
         else if (data.role === "CUSTOMER") navigate("/customer");
