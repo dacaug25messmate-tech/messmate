@@ -1,5 +1,6 @@
 package com.example.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,7 +21,9 @@ public class Role {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int role_id;
+	@Column(name="role_id")
+	int roleId;
 	
-	String role_name;
+	@Column(name="role_name")
+	String roleName;
 }

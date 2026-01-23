@@ -1,5 +1,6 @@
 package com.example.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,11 +23,13 @@ public class Area {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int area_id;
+	@Column(name="area_id")
+	int areaId;
 	
+	@Column(name="areaName")
 	String area_name;
 	
 	@ManyToOne
 	@JoinColumn(name="city_id")
-	City city_id;
+	City cityId;
 }

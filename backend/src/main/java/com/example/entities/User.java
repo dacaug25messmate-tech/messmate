@@ -1,5 +1,6 @@
 package com.example.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,13 +23,15 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int user_id;
+	int userid;
 	
-	String user_name;
+	@Column(name="user_name")
+	String userName;
 	
 	String password;
 	
-	String full_name;
+	@Column(name="full_name")
+	String fullName;
 	
 	String email;
 	
@@ -38,15 +41,16 @@ public class User {
 	
 	@ManyToOne
 	@JoinColumn(name="role_id")
-	Role role_id;
+	Role roleId;
 	
 	@ManyToOne
 	@JoinColumn(name="question_id")
-	Question question_id;
+	Question questionId;
 	
-	String question_answer;
+	@Column(name="question_answer")
+	String questionAnswer;
 	
 	@ManyToOne
 	@JoinColumn(name="area_id")
-	Area area_id;
+	Area areaId;
 }
