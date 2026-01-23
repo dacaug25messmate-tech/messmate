@@ -2,25 +2,23 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../loggedSlice";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify"; 
+import "react-toastify/dist/ReactToastify.css";        
 import "../styles/login.css";
 
 export default function Login() {
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false); 
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!userName || !password) {
-      alert("All fields are required");
-      return;
-    }
+    setLoading(true);
 
     try {
-      //call to api
       const response = await fetch("http://localhost:2025/user/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -28,17 +26,19 @@ export default function Login() {
       });
 
       if (!response.ok) {
-        throw new Error("Invalid username or password");
+        toast.error("Invalid username or password");
+        setLoading(false);
+        return;
       }
 
       const data = await response.json();
 
-      // LocalStorage
+      // Save user info in localStorage
       localStorage.setItem("userid", data.uid);
       localStorage.setItem("username", data.uname);
-      localStorage.setItem("role", data.role);
+      localStorage.setItem("role", data.role); // store role name
 
-      // Redux
+      // Update Redux state
       dispatch(login({
         loggedIn: true,
         userid: data.uid,
@@ -46,14 +46,20 @@ export default function Login() {
         role: data.role
       }));
 
-      // Navigation
-      console.log(data.role);
-      if (data.role === "ADMIN") navigate("/admin");
-      else if (data.role === "CUSTOMER") navigate("/customer");
-      else if (data.role === "MESSOWNER") navigate("/messowner");
+      toast.success("Login successfully");
+
+      // Redirect after 1.5 seconds based on role name
+      setTimeout(() => {
+        if (data.role === "ADMIN") navigate("/admin");
+        else if (data.role === "CUSTOMER") navigate("/customer");
+        else if (data.role === "MESSOWNER") navigate("/messowner");
+        else navigate("/"); // fallback
+      }, 1500);
 
     } catch (err) {
-      alert(err.message);
+      toast.error("Network error. Please check server connection");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -67,7 +73,8 @@ export default function Login() {
           <input
             className="form-control"
             value={userName}
-            onChange={e => setUsername(e.target.value)}
+            onChange={e => setUsername(e.target.value)} 
+            required
           />
         </div>
 
@@ -78,13 +85,20 @@ export default function Login() {
             className="form-control"
             value={password}
             onChange={e => setPassword(e.target.value)}
+            required
           />
         </div>
 
-        <button type="submit" className="btn btn-primary w-100" >
-          Login
+        <button
+          type="submit"
+          className="btn btn-primary w-100"
+          disabled={loading}
+        >
+          {loading ? "Logging in..." : "Login"}
         </button>
       </form>
+
+      <ToastContainer position="top-center" autoClose={2000} />
     </div>
   );
 }
