@@ -5,6 +5,8 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 
 import AdminDashboard from "./components/dashboards/AdminDashboard";
+import AdminViewUsers from "./components/AdminViewUsers";
+import AdminPendingUsers from "./components/AdminPendingUsers"; // ✅ ADD THIS
 import CustomerDashboard from "./components/dashboards/CustomerDashboard";
 import MessOwnerDashboard from "./components/dashboards/MessOwnerDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -19,6 +21,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
+        {/* ADMIN ROUTES */}
         <Route
           path="/admin"
           element={
@@ -26,8 +29,21 @@ function App() {
               <AdminDashboard />
             </ProtectedRoute>
           }
-        />
+        >
+          {/* ✅ CHECK REGISTRATION REQUESTS */}
+          <Route
+            path="pendingusers"
+            element={<AdminPendingUsers />}
+          />
 
+          {/* ✅ VIEW ALL USERS */}
+          <Route
+            path="viewusers"
+            element={<AdminViewUsers />}
+          />
+        </Route>
+
+        {/* CUSTOMER */}
         <Route
           path="/customer"
           element={
@@ -37,6 +53,7 @@ function App() {
           }
         />
 
+        {/* MESS OWNER */}
         <Route
           path="/messowner"
           element={

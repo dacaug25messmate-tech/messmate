@@ -1,228 +1,242 @@
-import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Register() {
-  const [form, setForm] = useState({
-    userName: "",
-    password: "",
-    fullName: "",
-    email: "",
-    phone: "",
-    address: "",
-    cityId: "",        // store selected city ID
-    areaId: "",        // store selected area ID
-    questionId: "",    // security question ID
-    questionAnswer: "",
-    roleId: ""  
-  });
-
   const [cities, setCities] = useState([]);
   const [areas, setAreas] = useState([]);
   const [questions, setQuestions] = useState([]);
 
-  // Fetch cities and security questions on component mount
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors }
+  } = useForm({ mode: "onSubmit" });
+
+  const selectedCity = watch("cityId");
+
   useEffect(() => {
     fetch("http://localhost:2025/api/cities")
       .then(res => res.json())
-      .then(data => setCities(data))
-      .catch(err => console.error("Error fetching cities:", err));
+      .then(setCities);
 
     fetch("http://localhost:2025/api/security-questions")
       .then(res => res.json())
-      .then(data => setQuestions(data))
-      .catch(err => console.error("Error fetching questions:", err));
+      .then(setQuestions);
   }, []);
 
-  // Fetch areas when a city is selected
   useEffect(() => {
-    if (!form.cityId) return;
+    if (!selectedCity) return;
 
-    fetch(`http://localhost:2025/api/areas/${form.cityId}`)
+    fetch(`http://localhost:2025/api/areas/${selectedCity}`)
       .then(res => res.json())
-      .then(data => setAreas(data))
-      .catch(err => console.error("Error fetching areas:", err));
-  }, [form.cityId]);
+      .then(setAreas);
+  }, [selectedCity]);
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!form.userName || !form.password || !form.fullName) { 
-      alert("Please fill required fields (username, password, full name).");
-      return;
-    }
+  const onSubmit = async (formData) => {
+    const payload = {
+      ...formData,
+      status: formData.roleId === "3" ? "APPROVE" : "PENDING"
+    };
 
     try {
       const response = await fetch("http://localhost:2025/user/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form)
+        body: JSON.stringify(payload)
       });
 
-      if (!response.ok) {
-        const errData = await response.json();
-        throw new Error(errData.message || "Registration failed");
+      // Username already exists
+      if (response.status === 409) {
+        const msg = await response.text();
+        toast.error(msg || "Username already exists");
+        return;
       }
 
-      const data = await response.json();
-      console.log("Registration success:", data);
-      alert("Registered successfully!");
-      window.location.href = "/"; // redirect to login
-    } catch (err) {
-      console.error(err);
-      alert(err.message);
+      // Other errors
+      if (!response.ok) {
+        toast.error("Registration failed. Please try again.");
+        return;
+      }
+
+      toast.success("Registered successfully!");
+      setTimeout(() => window.location.href = "/", 1500);
+
+    } catch (error) {
+      toast.error("Server not responding");
     }
   };
 
   return (
-    <div className="container mt-4 auth-container">
-      <h4 className="mb-3">Register</h4>
+    <div className="auth-container">
+      <form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
+        <h4>Register</h4>
 
-      <form onSubmit={handleSubmit} className="auth-form">
-        {/* ROLE DROPDOWN */}
-        <div className="mb-2">
-          <select
-            name="roleId"
-            className="form-select mb-2"
-            value={form.roleId}
-            onChange={handleChange}
-          >
-            <option value="">Select Role</option>
-            <option value="2">Mess Owner</option>
-            <option value="3">Customer</option>
-          </select>
-        </div>
+        {/* Role */}
+        <label>Role <span style={{ color: "red" }}>*</span></label>
+        <select
+          className="form-select mb-2"
+          {...register("roleId", { required: "Please select a role" })}
+        >
+          <option value="">Select Role</option>
+          <option value="2">Mess Owner</option>
+          <option value="3">Customer</option>
+        </select>
+        {errors.roleId && <small className="text-danger">{errors.roleId.message}</small>}
+        <br />
 
-        <div className="mb-2">
-          <input
-            name="userName"
-            className="form-control"
-            placeholder="Username"
-            value={form.userName}
-            onChange={handleChange}
-          />
-        </div>
+        {/* Full Name */}
+        <label>Full Name <span style={{ color: "red" }}>*</span></label>
+        <input
+          className="form-control mb-2"
+          placeholder="Full Name"
+          {...register("fullName", {
+            required: "Full name is required",
+            minLength: { value: 3, message: "Full name must be at least 3 characters" },
+            pattern: {
+              value: /^[A-Za-z ]+$/,
+              message: "Full name should contain only letters"
+            }
+          })}
+        />
+        {errors.fullName && <small className="text-danger">{errors.fullName.message}</small>}
+        <br />
 
-        <div className="mb-2">
-          <input
-            name="password"
-            type="password"
-            className="form-control"
-            placeholder="Password"
-            value={form.password}
-            onChange={handleChange}
-          />
-        </div>
+        {/* Username */}
+        <label>Username <span style={{ color: "red" }}>*</span></label>
+        <input
+          className="form-control mb-2"
+          placeholder="Username"
+          {...register("userName", {
+            required: "Username is required",
+            minLength: { value: 3, message: "Username must be at least 3 characters" },
+            pattern: {
+              value: /^[A-Za-z]+$/,
+              message: "Username should contain only letters"
+            }
+          })}
+        />
+        {errors.userName && <small className="text-danger">{errors.userName.message}</small>}
+        <br />
 
-        <div className="mb-2">
-          <input
-            name="fullName"
-            className="form-control"
-            placeholder="Full Name"
-            value={form.fullName}
-            onChange={handleChange}
-          />
-        </div>
+        {/* Password */}
+        <label>Password <span style={{ color: "red" }}>*</span></label>
+        <input
+          type="password"
+          className="form-control mb-2"
+          placeholder="Password"
+          {...register("password", {
+            required: "Password is required",
+            pattern: {
+              value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,12}$/,
+              message: "8-12 chars, uppercase, lowercase, number & special char"
+            }
+          })}
+        />
+        {errors.password && <small className="text-danger">{errors.password.message}</small>}
+        <br />
 
-        <div className="mb-2">
-          <input
-            name="email"
-            type="email"
-            className="form-control"
-            placeholder="Email"
-            value={form.email}
-            onChange={handleChange}
-          />
-        </div>
+        {/* Email */}
+        <label>Email <span style={{ color: "red" }}>*</span></label>
+        <input
+          className="form-control mb-2"
+          placeholder="Email"
+          {...register("email", {
+            required: "Email is required",
+            pattern: {
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              message: "Invalid email format"
+            }
+          })}
+        />
+        {errors.email && <small className="text-danger">{errors.email.message}</small>}
+        <br />
 
-        <div className="mb-2">
-          <input
-            name="phone"
-            className="form-control"
-            placeholder="Phone"
-            value={form.phone}
-            onChange={handleChange}
-          />
-        </div>
+        {/* Phone */}
+        <label>Phone <span style={{ color: "red" }}>*</span></label>
+        <input
+          className="form-control mb-2"
+          placeholder="Phone"
+          {...register("phone", {
+            required: "Phone number is required",
+            pattern: {
+              value: /^[6-9]\d{9}$/,
+              message: "10 digits starting with 6-9"
+            }
+          })}
+        />
+        {errors.phone && <small className="text-danger">{errors.phone.message}</small>}
+        <br />
 
-        <div className="mb-2">
-          <input
-            name="address"
-            className="form-control"
-            placeholder="Address"
-            value={form.address}
-            onChange={handleChange}
-          />
-        </div>
+        {/* Address */}
+        <label>Address <span style={{ color: "red" }}>*</span></label>
+        <input
+          className="form-control mb-2"
+          placeholder="Address"
+          {...register("address", { required: "Address is required" })}
+        />
+        {errors.address && <small className="text-danger">{errors.address.message}</small>}
+        <br />
 
-        {/* City Dropdown */}
-        <div className="mb-2">
-          <select
-            name="cityId"
-            className="form-select"
-            value={form.cityId}
-            onChange={handleChange}
-          >
-            <option value="">Select City</option>
-            {cities.map(city => (
-              <option key={city.cityId} value={city.cityId}>
-                {city.cityName}
-              </option>
-            ))}
-          </select>
-        </div>
+        {/* City */}
+        <label>City <span style={{ color: "red" }}>*</span></label>
+        <select
+          className="form-select mb-2"
+          {...register("cityId", { required: "Please select a city" })}
+        >
+          <option value="">Select City</option>
+          {cities.map(c => (
+            <option key={c.cityId} value={c.cityId}>{c.cityName}</option>
+          ))}
+        </select>
+        {errors.cityId && <small className="text-danger">{errors.cityId.message}</small>}
+        <br />
 
-        {/* Area Dropdown (depends on selected city) */}
-        <div className="mb-2">
-          <select
-            name="areaId"
-            className="form-select"
-            value={form.areaId}
-            onChange={handleChange}
-            disabled={!form.cityId}
-          >
-            <option value="">Select Area</option>
-            {areas.map(area => (
-              <option key={area.areaId} value={area.areaId}>
-                {area.area_name}
-              </option>
-            ))}
-          </select>
-        </div>
+        {/* Area */}
+        <label>Area <span style={{ color: "red" }}>*</span></label>
+        <select
+          className="form-select mb-2"
+          disabled={!selectedCity}
+          {...register("areaId", { required: "Please select an area" })}
+        >
+          <option value="">Select Area</option>
+          {areas.map(a => (
+            <option key={a.areaId} value={a.areaId}>{a.area_name}</option>
+          ))}
+        </select>
+        {errors.areaId && <small className="text-danger">{errors.areaId.message}</small>}
+        <br />
 
-        {/* Security Question Dropdown */}
-        <div className="mb-2">
-          <select
-            name="questionId"
-            className="form-select"
-            value={form.questionId}
-            onChange={handleChange}
-          >
-            <option value="">Select Security Question</option>
-            {questions.map(q => (
-              <option key={q.questionId} value={q.questionId}>
-                {q.questionText}
-              </option>
-            ))}
-          </select>
-        </div>
+        {/* Security Question */}
+        <label>Security Question <span style={{ color: "red" }}>*</span></label>
+        <select
+          className="form-select mb-2"
+          {...register("questionId", { required: "Please select a security question" })}
+        >
+          <option value="">Select Question</option>
+          {questions.map(q => (
+            <option key={q.questionId} value={q.questionId}>{q.questionText}</option>
+          ))}
+        </select>
+        {errors.questionId && <small className="text-danger">{errors.questionId.message}</small>}
+        <br />
 
-        <div className="mb-3">
-          <input
-            name="questionAnswer"
-            className="form-control"
-            placeholder="Your Answer"
-            value={form.questionAnswer}
-            onChange={handleChange}
-          />
-        </div>
+        {/* Answer */}
+        <label>Answer <span style={{ color: "red" }}>*</span></label>
+        <input
+          className="form-control mb-3"
+          placeholder="Your Answer"
+          {...register("questionAnswer", { required: "Answer is required" })}
+        />
+        {errors.questionAnswer && <small className="text-danger">{errors.questionAnswer.message}</small>}
+        <br />
 
-        <button type="submit" className="btn btn-success w-100">
-          Register
-        </button>
+        <button className="btn btn-success w-100">Register</button>
       </form>
+
+      <ToastContainer position="top-center" autoClose={2000} />
     </div>
   );
 }

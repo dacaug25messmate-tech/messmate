@@ -53,4 +53,6 @@ public class User {
 	@ManyToOne
 	@JoinColumn(name="area_id")
 	Area areaId;
+
+	String status;
 }
