@@ -5,8 +5,8 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 
 import AdminDashboard from "./components/dashboards/AdminDashboard";
-import AdminViewUsers from "./components/AdminViewUsers";
-import AdminPendingUsers from "./components/AdminPendingUsers"; // ✅ ADD THIS
+import AdminViewUsers from "./components/admin/AdminViewUsers";
+import AdminFoodItemRequests from "./components/admin/AdminFoodItemRequests";
 import CustomerDashboard from "./components/dashboards/CustomerDashboard";
 import MessOwnerDashboard from "./components/dashboards/MessOwnerDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -21,7 +21,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* ADMIN ROUTES */}
+        {/* ADMIN */}
         <Route
           path="/admin"
           element={
@@ -30,17 +30,8 @@ function App() {
             </ProtectedRoute>
           }
         >
-          {/* ✅ CHECK REGISTRATION REQUESTS */}
-          <Route
-            path="pendingusers"
-            element={<AdminPendingUsers />}
-          />
-
-          {/* ✅ VIEW ALL USERS */}
-          <Route
-            path="viewusers"
-            element={<AdminViewUsers />}
-          />
+          <Route path="viewusers" element={<AdminViewUsers />} />
+          <Route path="menu-requests" element={<AdminFoodItemRequests />} />
         </Route>
 
         {/* CUSTOMER */}

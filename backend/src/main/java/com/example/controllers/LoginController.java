@@ -42,5 +42,4 @@ public class LoginController {
                         .body("Unknown error");
         }
     }
-
 }
