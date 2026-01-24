@@ -16,7 +16,7 @@ export default function AdminDashboard() {
     {
       label: "Check Registration Requests",
       icon: <FaUserPlus />,
-      path: "pendingUsers"
+      path: "pendingusers"
     },
     {
       label: "View All Users",

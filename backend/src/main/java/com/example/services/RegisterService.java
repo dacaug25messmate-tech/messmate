@@ -60,6 +60,14 @@ public class RegisterService {
 	        user.setQuestionId(question);
 	        user.setQuestionAnswer(request.getQuestionAnswer());
 	        user.setAreaId(area);
+	        
+	     // ROLE-BASED STATUS (SERVER ENFORCED)
+	        if (role.getRoleName().equalsIgnoreCase("CUSTOMER")) {
+	            user.setStatus("APPROVE");
+	        } else if (role.getRoleName().equalsIgnoreCase("MESSOWNER")) {
+	            user.setStatus("PENDING");
+	        }
+	        
 	        urepo.save(user);
 
 	        RegisterResponse response = new RegisterResponse();

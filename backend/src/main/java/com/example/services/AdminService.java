@@ -38,8 +38,10 @@ public class AdminService {
 	    }
 	    
 	    // View all users
+	 // View only APPROVED users
 	    public List<User> getAllUsers() {
-	        return userRepository.findAll();
+	        return userRepository.findByStatus("APPROVED");
 	    }
+
 }
 

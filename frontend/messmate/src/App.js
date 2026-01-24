@@ -6,6 +6,7 @@ import Register from "./components/Register";
 
 import AdminDashboard from "./components/dashboards/AdminDashboard";
 import AdminViewUsers from "./components/AdminViewUsers";
+import AdminPendingUsers from "./components/AdminPendingUsers"; // ✅ ADD THIS
 import CustomerDashboard from "./components/dashboards/CustomerDashboard";
 import MessOwnerDashboard from "./components/dashboards/MessOwnerDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -29,7 +30,13 @@ function App() {
             </ProtectedRoute>
           }
         >
-          {/* View Users renders INSIDE AdminDashboard */}
+          {/* ✅ CHECK REGISTRATION REQUESTS */}
+          <Route
+            path="pendingusers"
+            element={<AdminPendingUsers />}
+          />
+
+          {/* ✅ VIEW ALL USERS */}
           <Route
             path="viewusers"
             element={<AdminViewUsers />}
