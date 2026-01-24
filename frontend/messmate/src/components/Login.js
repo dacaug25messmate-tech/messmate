@@ -58,7 +58,7 @@ export default function Login() {
       return;
     }
 
-    // 💾 Save login data
+    // Save login data
     localStorage.setItem("userid", data.uid);
     localStorage.setItem("username", data.uname);
     localStorage.setItem("role", data.role);

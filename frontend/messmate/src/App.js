@@ -5,11 +5,12 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 
 import AdminDashboard from "./components/dashboards/AdminDashboard";
-import AdminViewUsers from "./components/AdminViewUsers";
-import AdminPendingUsers from "./components/AdminPendingUsers"; // ✅ ADD THIS
+import AdminViewUsers from "./components/admin/AdminViewUsers";
+import AdminPendingUsers from "./components/admin/AdminPendingUsers"; // ✅ ADD THIS
 import CustomerDashboard from "./components/dashboards/CustomerDashboard";
 import MessOwnerDashboard from "./components/dashboards/MessOwnerDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminViewFeedback from "./components/admin/AdminViewFeedback";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/" element={<AppHome />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        
 
         {/* ADMIN ROUTES */}
         <Route
@@ -41,6 +43,9 @@ function App() {
             path="viewusers"
             element={<AdminViewUsers />}
           />
+          <Route 
+            path="/admin/feedback" 
+            element={<AdminViewFeedback />} />
         </Route>
 
         {/* CUSTOMER */}

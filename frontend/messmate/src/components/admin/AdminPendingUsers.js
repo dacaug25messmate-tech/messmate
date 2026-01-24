@@ -1,11 +1,11 @@
-import "../styles/dashboard.css";
+import "../../styles/dashboard.css";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchPendingUsers,
   approveUser,
   rejectUser
-} from "../adminPendingUsersSlice";
+} from "../../adminPendingUsersSlice";
 
 export default function AdminPendingUsers() {
   const dispatch = useDispatch();
