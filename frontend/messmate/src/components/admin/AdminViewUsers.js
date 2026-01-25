@@ -1,7 +1,7 @@
-import "../styles/dashboard.css";
+import "../../styles/dashboard.css";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllUsers } from "../adminUsersSlice";
+import { fetchAllUsers } from "../../adminUsersSlice";
 
 export default function AdminViewUsers() {
   const dispatch = useDispatch();

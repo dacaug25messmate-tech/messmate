@@ -5,7 +5,7 @@ import {
   fetchPendingUsers,
   approveUser,
   rejectUser
-} from "../adminPendingUsersSlice";
+} from "../../adminPendingUsersSlice";
 
 export default function AdminPendingUsers() {
   const dispatch = useDispatch();
