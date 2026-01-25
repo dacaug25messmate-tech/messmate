@@ -10,6 +10,7 @@ import AdminFoodItemRequests from "./components/admin/AdminFoodItemRequests";
 import CustomerDashboard from "./components/dashboards/CustomerDashboard";
 import MessOwnerDashboard from "./components/dashboards/MessOwnerDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import MessOwnerFoodRequestForm from "./components/messowner/MessOwnerFoodRequestForm";
 
 function App() {
   return (
@@ -52,7 +53,10 @@ function App() {
               <MessOwnerDashboard />
             </ProtectedRoute>
           }
-        />
+        >
+          <Route path="request-item" element={<MessOwnerFoodRequestForm />} />
+          </Route>
+
       </Routes>
     </>
   );

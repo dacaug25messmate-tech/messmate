@@ -1,19 +1,32 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   submitFoodRequest,
   resetStatus,
 } from "../../messOwnerFoodRequestSlice";
+import { fetchSubCategories } from "../../subCategoriesSlice";
 
-export default function MessOwnerFoodRequestForm({ subCategories, messId }) {
+export default function MessOwnerFoodRequestForm() {
   const dispatch = useDispatch();
+
   const { loading, error, success } = useSelector(
     (state) => state.messOwnerRequests
   );
 
+  const { subCategories } = useSelector(
+    (state) => state.subCategories
+  );
+
+  const messId = useSelector((state) => state.logged.messId);
+
   const [itemName, setItemName] = useState("");
   const [description, setDescription] = useState("");
   const [subCategoryId, setSubCategoryId] = useState("");
+
+  // 🔥 Fetch subcategories when page loads
+  useEffect(() => {
+    dispatch(fetchSubCategories());
+  }, [dispatch]);
 
   useEffect(() => {
     if (success) {
@@ -26,28 +39,29 @@ export default function MessOwnerFoodRequestForm({ subCategories, messId }) {
   }, [success, dispatch]);
 
   const handleSubmit = (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!itemName || !subCategoryId || !messId) {
-    alert("Please fill in all required fields");
-    return;
-  }
+    if (!itemName || !subCategoryId || !messId) {
+      alert("Please fill in all required fields");
+      return;
+    }
 
-  dispatch(
-    submitFoodRequest({
-      itemName,
-      description,
-      subCategoryId: Number(subCategoryId), // convert to integer
-      messId: Number(messId),               //ensure messId is integer
-    })
-  );
-};
-
+    dispatch(
+      submitFoodRequest({
+        itemName,
+        description,
+        subCategoryId: Number(subCategoryId),
+        messId: Number(messId),
+      })
+    );
+  };
 
   return (
     <div className="container mt-4">
       <h3>Request New Food Item</h3>
+
       <form onSubmit={handleSubmit} className="mt-3">
+
         <div className="mb-3">
           <label>Item Name</label>
           <input
@@ -58,14 +72,16 @@ export default function MessOwnerFoodRequestForm({ subCategories, messId }) {
             required
           />
         </div>
+
         <div className="mb-3">
           <label>Description</label>
           <textarea
             className="form-control"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-          ></textarea>
+          />
         </div>
+
         <div className="mb-3">
           <label>Subcategory</label>
           <select
@@ -75,13 +91,18 @@ export default function MessOwnerFoodRequestForm({ subCategories, messId }) {
             required
           >
             <option value="">Select Subcategory</option>
+
             {subCategories.map((sc) => (
-              <option key={sc.subCategoryId} value={sc.subCategoryId}>
+              <option
+                key={sc.subCategoryId}
+                value={sc.subCategoryId}
+              >
                 {sc.subCategoryName}
               </option>
             ))}
           </select>
         </div>
+
         <button
           type="submit"
           className="btn btn-primary"
@@ -89,6 +110,7 @@ export default function MessOwnerFoodRequestForm({ subCategories, messId }) {
         >
           {loading ? "Submitting..." : "Submit Request"}
         </button>
+
         {error && <p className="text-danger mt-2">{error}</p>}
       </form>
     </div>
