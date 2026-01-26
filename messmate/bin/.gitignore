@@ -1,0 +1,19 @@
+# ===== Backend (Spring Boot / Maven) =====
+backend/target/
+target/
+
+# Eclipse / IDE files
+.project
+.classpath
+.settings/
+
+# ===== Frontend (React) =====
+messmate/node_modules/
+
+# ===== IDEs =====
+.idea/
+.vscode/
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
