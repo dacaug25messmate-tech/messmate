@@ -1,3 +1,0 @@
-INDEX VERSION 1.134
-file:/D:/cdac/Project/P06_Messmate/.metadata/.plugins/org.eclipse.jdt.core/1865797976.index
-meta_index
