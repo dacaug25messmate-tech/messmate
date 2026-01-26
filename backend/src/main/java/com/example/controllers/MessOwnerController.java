@@ -11,6 +11,7 @@ import com.example.entities.SubCategory;
 import com.example.repository.MessRepository;
 import com.example.repository.SubCategoryRepository;
 import com.example.services.FoodItemRequestService;
+import com.example.services.MessOwnerService;
 
 @RestController
 @RequestMapping("/api/messowner")
@@ -18,7 +19,7 @@ import com.example.services.FoodItemRequestService;
 public class MessOwnerController {
 
     @Autowired
-    private FoodItemRequestService service;
+    private FoodItemRequestService foodservice;
 
     @Autowired
     private SubCategoryRepository subCategoryRepository;
@@ -26,6 +27,10 @@ public class MessOwnerController {
     @Autowired
     private MessRepository messRepository;
 
+    @Autowired
+    private MessOwnerService messService;
+    
+    
     @PostMapping("/food-requests")
     public ResponseEntity<?> createRequest(@RequestBody FoodItemRequestDTO dto) {
 
@@ -50,7 +55,15 @@ public class MessOwnerController {
         req.setMessId(mess);
         req.setStatus("PENDING");
 
-        FoodItemRequest saved = service.saveRequest(req);
+        FoodItemRequest saved = foodservice.saveRequest(req);
         return ResponseEntity.ok(saved);
     }
+    
+    
+    //GET http://localhost:2025/api/messowner/customers/{messId}
+    @GetMapping("/customers/{messId}")
+    public ResponseEntity<?> getRegisteredCustomers(@PathVariable int messId) {
+        return ResponseEntity.ok(messService.getRegisteredCustomers(messId));
+    }
+
 }

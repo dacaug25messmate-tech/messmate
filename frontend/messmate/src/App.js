@@ -11,6 +11,7 @@ import CustomerDashboard from "./components/dashboards/CustomerDashboard";
 import MessOwnerDashboard from "./components/dashboards/MessOwnerDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MessOwnerFoodRequestForm from "./components/messowner/MessOwnerFoodRequestForm";
+import ViewRegisteredCustomers from "./components/messowner/ViewRegisteredCustomers";
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
           }
         >
           <Route path="request-item" element={<MessOwnerFoodRequestForm />} />
+          <Route path="customers" element={<ViewRegisteredCustomers />} />
           </Route>
 
       </Routes>
