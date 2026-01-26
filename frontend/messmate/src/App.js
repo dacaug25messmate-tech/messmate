@@ -6,11 +6,15 @@ import Register from "./components/Register";
 
 import AdminDashboard from "./components/dashboards/AdminDashboard";
 import AdminViewUsers from "./components/admin/AdminViewUsers";
-import AdminPendingUsers from "./components/admin/AdminPendingUsers"; // ✅ ADD THIS
+import AdminPendingUsers from "./components/admin/AdminPendingUsers";
+import AdminViewFeedback from "./components/admin/AdminViewFeedback";
+
 import CustomerDashboard from "./components/dashboards/CustomerDashboard";
 import MessOwnerDashboard from "./components/dashboards/MessOwnerDashboard";
+import MessOwnerSubscriptions from "./components/messowner/MessOwnerSubscriptions";
+
+
 import ProtectedRoute from "./components/ProtectedRoute";
-import AdminViewFeedback from "./components/admin/AdminViewFeedback";
 
 function App() {
   return (
@@ -18,12 +22,12 @@ function App() {
       <AppHomeNavbar />
 
       <Routes>
+        {/* PUBLIC */}
         <Route path="/" element={<AppHome />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        
 
-        {/* ADMIN ROUTES */}
+        {/* ADMIN */}
         <Route
           path="/admin"
           element={
@@ -32,20 +36,9 @@ function App() {
             </ProtectedRoute>
           }
         >
-          {/* ✅ CHECK REGISTRATION REQUESTS */}
-          <Route
-            path="pendingusers"
-            element={<AdminPendingUsers />}
-          />
-
-          {/* ✅ VIEW ALL USERS */}
-          <Route
-            path="viewusers"
-            element={<AdminViewUsers />}
-          />
-          <Route 
-            path="/admin/feedback" 
-            element={<AdminViewFeedback />} />
+          <Route path="pendingusers" element={<AdminPendingUsers />} />
+          <Route path="viewusers" element={<AdminViewUsers />} />
+          <Route path="feedback" element={<AdminViewFeedback />} />
         </Route>
 
         {/* CUSTOMER */}
@@ -66,7 +59,14 @@ function App() {
               <MessOwnerDashboard />
             </ProtectedRoute>
           }
-        />
+        >
+          {/* 🔥 VIEW REGISTERED CUSTOMERS */}
+          <Route
+            path="customers"
+            element={<MessOwnerSubscriptions />}
+          />
+        </Route>
+
       </Routes>
     </>
   );
