@@ -1,0 +1,66 @@
+/* ====== Dashboard Layout ====== */
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+}
+
+/* ====== Sidebar ====== */
+.dashboard-sidebar {
+  width: 260px;
+  background-color: #ffffff;
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.sidebar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  cursor: pointer;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar-item:hover {
+  background-color: #f0f0f0;
+}
+
+.sidebar-item.active {
+  background-color: #0d6efd;
+  color: #ffffff;
+}
+
+.sidebar-icon {
+  margin-right: 12px;
+  font-size: 16px;
+}
+
+/* ====== Main Content ====== */
+.dashboard-main {
+  flex: 1;
+  padding: 30px;
+  background-color: #f9f9f9;
+  overflow-y: auto;
+}
+
+.dashboard-main h2 {
+  margin-bottom: 20px;
+}

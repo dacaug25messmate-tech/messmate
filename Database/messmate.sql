@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
 --
--- Host: localhost    Database: P06_Messmate
+-- Host: localhost    Database: p06_messmate
 -- ------------------------------------------------------
 -- Server version	8.0.42
 
@@ -18,14 +18,13 @@
 --
 -- Table structure for table `area`
 --
-CREATE DATABASE P06_Messmate;
-USE P06_Messmate;
+
 DROP TABLE IF EXISTS `area`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `area` (
   `area_id` int NOT NULL AUTO_INCREMENT,
-  `area_name` varchar(100) NOT NULL,
+  `area_name` varchar(255) DEFAULT NULL,
   `city_id` int NOT NULL,
   PRIMARY KEY (`area_id`),
   UNIQUE KEY `area_id_UNIQUE` (`area_id`),
@@ -53,7 +52,7 @@ DROP TABLE IF EXISTS `category`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `category` (
   `category_id` int NOT NULL AUTO_INCREMENT,
-  `category_name` enum('Veg','Non Veg','Jain') NOT NULL,
+  `category_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`category_id`),
   UNIQUE KEY `category_id_UNIQUE` (`category_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -78,7 +77,7 @@ DROP TABLE IF EXISTS `city`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `city` (
   `city_id` int NOT NULL AUTO_INCREMENT,
-  `city_name` varchar(45) NOT NULL,
+  `city_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`city_id`),
   UNIQUE KEY `city_id_UNIQUE` (`city_id`),
   UNIQUE KEY `city_name_UNIQUE` (`city_name`)
@@ -134,14 +133,14 @@ DROP TABLE IF EXISTS `food_item`;
 CREATE TABLE `food_item` (
   `food_item_id` int NOT NULL AUTO_INCREMENT,
   `sub_category_id` int NOT NULL,
-  `food_name` varchar(45) NOT NULL,
+  `food_name` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`food_item_id`),
   UNIQUE KEY `food_item_id_UNIQUE` (`food_item_id`),
   UNIQUE KEY `food_name_UNIQUE` (`food_name`),
   KEY `sub_category_id_idx` (`sub_category_id`),
   CONSTRAINT `fooditem_sub_category_id` FOREIGN KEY (`sub_category_id`) REFERENCES `sub_category` (`sub_category_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -150,6 +149,7 @@ CREATE TABLE `food_item` (
 
 LOCK TABLES `food_item` WRITE;
 /*!40000 ALTER TABLE `food_item` DISABLE KEYS */;
+INSERT INTO `food_item` VALUES (44,2,'Paneer Butter Masala','Delicious spicy dish'),(45,2,'Pav Bhaji','Pav Bhaji');
 /*!40000 ALTER TABLE `food_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -163,9 +163,9 @@ DROP TABLE IF EXISTS `food_item_request`;
 CREATE TABLE `food_item_request` (
   `request_id` int NOT NULL AUTO_INCREMENT,
   `mess_id` int NOT NULL,
-  `item_name` varchar(45) NOT NULL,
+  `item_name` varchar(255) DEFAULT NULL,
   `item_description` varchar(255) NOT NULL,
-  `status` enum('PENDING','APPROVED','REJECTED') NOT NULL DEFAULT 'PENDING',
+  `status` varchar(255) DEFAULT NULL,
   `sub_category_id` int NOT NULL,
   PRIMARY KEY (`request_id`),
   UNIQUE KEY `request_id_UNIQUE` (`request_id`),
@@ -173,7 +173,7 @@ CREATE TABLE `food_item_request` (
   KEY `sub_category_id_idx` (`sub_category_id`),
   CONSTRAINT `request_mess_id` FOREIGN KEY (`mess_id`) REFERENCES `mess` (`mess_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `request_sub_category_id` FOREIGN KEY (`sub_category_id`) REFERENCES `sub_category` (`sub_category_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -182,6 +182,7 @@ CREATE TABLE `food_item_request` (
 
 LOCK TABLES `food_item_request` WRITE;
 /*!40000 ALTER TABLE `food_item_request` DISABLE KEYS */;
+INSERT INTO `food_item_request` VALUES (1,1,'Biryani','Chicken Biryani','REJECTED',5),(2,1,'Paneer Butter Masala','Delicious spicy dish','APPROVED',2),(3,1,'Chicken Tikka Masala','Non Veg food item','REJECTED',5),(4,1,'Misal Pav','Kolhapuri Misal','REJECTED',2),(5,1,'Pav Bhaji','Pav Bhaji','APPROVED',2),(6,1,'Pav bhaji','pav bhaji','REJECTED',2),(7,1,'Dal Khichadi','','REJECTED',2);
 /*!40000 ALTER TABLE `food_item_request` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -255,9 +256,9 @@ DROP TABLE IF EXISTS `mess`;
 CREATE TABLE `mess` (
   `mess_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
-  `mess_name` varchar(45) NOT NULL,
-  `mess_address` varchar(100) NOT NULL,
-  `mess_type` enum('Veg','NonVeg','Mixed','Jain') NOT NULL,
+  `mess_name` varchar(255) DEFAULT NULL,
+  `mess_address` varchar(255) DEFAULT NULL,
+  `mess_type` varchar(255) DEFAULT NULL,
   `lunch_open_time` time NOT NULL,
   `lunch_close_time` time NOT NULL,
   `dinner_open_time` time NOT NULL,
@@ -269,7 +270,7 @@ CREATE TABLE `mess` (
   KEY `area_id_idx` (`area_id`),
   CONSTRAINT `area_id` FOREIGN KEY (`area_id`) REFERENCES `area` (`area_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`userid`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -278,6 +279,7 @@ CREATE TABLE `mess` (
 
 LOCK TABLES `mess` WRITE;
 /*!40000 ALTER TABLE `mess` DISABLE KEYS */;
+INSERT INTO `mess` VALUES (1,2,'SP Mess','Gokhalenagar','NonVeg','08:00:00','14:00:00','18:00:00','22:00:00',3);
 /*!40000 ALTER TABLE `mess` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -318,15 +320,15 @@ DROP TABLE IF EXISTS `monthly_plan`;
 CREATE TABLE `monthly_plan` (
   `plan_id` int NOT NULL AUTO_INCREMENT,
   `mess_id` int NOT NULL,
-  `plan_name` varchar(45) DEFAULT NULL,
-  `monthly_price` decimal(10,2) NOT NULL,
-  `meal_inclusion` enum('Lunch','Dinner','Both') NOT NULL,
+  `plan_name` varchar(255) DEFAULT NULL,
+  `monthly_price` double DEFAULT NULL,
+  `meal_inclusion` varchar(255) DEFAULT NULL,
   `validity_period` int NOT NULL,
   PRIMARY KEY (`plan_id`),
   UNIQUE KEY `plan_id_UNIQUE` (`plan_id`),
   KEY `mess_id_idx` (`mess_id`),
   CONSTRAINT `plan_mess_id` FOREIGN KEY (`mess_id`) REFERENCES `mess` (`mess_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -335,6 +337,7 @@ CREATE TABLE `monthly_plan` (
 
 LOCK TABLES `monthly_plan` WRITE;
 /*!40000 ALTER TABLE `monthly_plan` DISABLE KEYS */;
+INSERT INTO `monthly_plan` VALUES (1,1,'xyz',9000,'LUNCH',30);
 /*!40000 ALTER TABLE `monthly_plan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -379,7 +382,7 @@ DROP TABLE IF EXISTS `role`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `role` (
   `role_id` int NOT NULL AUTO_INCREMENT,
-  `role_name` enum('ADMIN','CUSTOMER','MESSOWNER') NOT NULL,
+  `role_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`role_id`),
   UNIQUE KEY `role_id_UNIQUE` (`role_id`),
   UNIQUE KEY `role_name_UNIQUE` (`role_name`)
@@ -429,7 +432,7 @@ DROP TABLE IF EXISTS `sub_category`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `sub_category` (
   `sub_category_id` int NOT NULL AUTO_INCREMENT,
-  `sub_category_name` varchar(45) NOT NULL,
+  `sub_category_name` varchar(255) DEFAULT NULL,
   `category_id` int NOT NULL,
   PRIMARY KEY (`sub_category_id`),
   UNIQUE KEY `sub_category_id_UNIQUE` (`sub_category_id`),
@@ -461,14 +464,14 @@ CREATE TABLE `subscription` (
   `plan_id` int NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
-  `status` enum('Active','Expired','Cancel') NOT NULL,
+  `status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`subscription_id`),
   UNIQUE KEY `subscription_id_UNIQUE` (`subscription_id`),
   KEY `plan_id_idx` (`plan_id`),
   KEY `user_id_idx` (`user_id`),
   CONSTRAINT `subscription_plan_id` FOREIGN KEY (`plan_id`) REFERENCES `monthly_plan` (`plan_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `subscription_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`userid`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -477,6 +480,7 @@ CREATE TABLE `subscription` (
 
 LOCK TABLES `subscription` WRITE;
 /*!40000 ALTER TABLE `subscription` DISABLE KEYS */;
+INSERT INTO `subscription` VALUES (1,6,1,'2026-01-26','2026-02-26','ACTIVE');
 /*!40000 ALTER TABLE `subscription` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -489,29 +493,28 @@ DROP TABLE IF EXISTS `user`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
   `userid` int NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(45) NOT NULL,
-  `password` varchar(45) NOT NULL,
-  `full_name` varchar(45) NOT NULL,
-  `email` varchar(45) NOT NULL,
-  `phone` varchar(10) NOT NULL,
-  `address` varchar(100) NOT NULL,
+  `user_name` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `full_name` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
   `role_id` int NOT NULL,
   `question_id` int NOT NULL,
-  `question_answer` varchar(100) NOT NULL,
+  `question_answer` varchar(255) DEFAULT NULL,
   `area_id` int NOT NULL,
+  `status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`userid`),
   UNIQUE KEY `userid_UNIQUE` (`userid`),
   UNIQUE KEY `user_name_UNIQUE` (`user_name`),
   UNIQUE KEY `password_UNIQUE` (`password`),
-  UNIQUE KEY `email_UNIQUE` (`email`),
-  UNIQUE KEY `phone_UNIQUE` (`phone`),
   KEY `role_id_idx` (`role_id`),
   KEY `question_id_idx` (`question_id`),
   KEY `area_id_idx` (`area_id`),
   CONSTRAINT `question_id` FOREIGN KEY (`question_id`) REFERENCES `security_question` (`question_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `user_area_id` FOREIGN KEY (`area_id`) REFERENCES `area` (`area_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -520,7 +523,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'sanika123','123','Sanika Patil','sanikapatil9657@gmail.com','9209016602','Shree Samarth PG',1,1,'Biryani',3);
+INSERT INTO `user` VALUES (1,'sanika123','123','Sanika Patil','sanikapatil9657@gmail.com','9209016602','Shree Samarth PG',1,1,'Biryani',3,'APPROVED'),(2,'shruti123','9876','Shruti Patil','patilshrutia473@gmail.com','9322606920','Karad',2,2,'Purple',1,'APPROVED'),(5,'shreya','111','Shreya123','s@gmail.com','098655','karad',2,1,'Biryani',1,'REJECTED'),(6,'gayatri','Gayatri@123','Gayatri Patil','gayatri@gmail.com','9876543218','Pune',3,2,'Black',6,'APPROVED'),(7,'vaishnavi','Vaishnavi@12','Vaishnavi','vaishnavi@gmail.com','9876543777','Pune',2,2,'White',2,'REJECTED'),(8,'samrudhi','Samr123@','Samrudhi','sam@gmail.com','9999999999','Pune',2,2,'Pink',2,'APPROVED'),(11,'kiran','Kiran@123','Kiran','kiran@gmail.com','9876543266','Pune',3,3,'Uri',6,'APPROVED');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -533,4 +536,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-01-21  8:56:41
+-- Dump completed on 2026-01-27 13:51:09

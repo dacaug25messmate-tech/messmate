@@ -10,30 +10,37 @@ import com.example.repository.UserRepository;
 
 @Service
 public class LoginService {
-	
-	@Autowired
-	UserRepository urepo;
-	
-	public LoginResponse login(LoginRequest request){
-		User user = urepo.findByUserName(request.getUserName());
 
-	    LoginResponse response = new LoginResponse();
+    @Autowired
+    private UserRepository userRepository;
 
-	    if (user == null) {
-	        response.setStatus("USER_NOT_FOUND");
-	        return response;
-	    }
+    public LoginResponse login(LoginRequest request) {
 
-	    if (user.getPassword().equals(request.getPassword())) {
-	        response.setStatus("SUCCESS");
-	        response.setUid(user.getUserid());
-	        response.setUname(user.getUserName());	       
-	        response.setRole(user.getRoleId().getRoleName()); 
-	        return response;
-	    }
+        LoginResponse response = new LoginResponse();
 
-	    response.setStatus("INVALID_PASSWORD");
-	    return response;
-		
-	}
+        User user = userRepository.findByUserName(request.getUserName());
+
+        if (user == null) {
+            response.setStatus("USER_NOT_FOUND");
+            return response;
+        }
+
+        if (!user.getPassword().equals(request.getPassword())) {
+            response.setStatus("INVALID_PASSWORD");
+            return response;
+        }
+
+        
+        response.setStatus("SUCCESS");
+        response.setUid(user.getUserid());         
+        response.setUname(user.getUserName());
+        response.setRole(user.getRoleId().getRoleName());
+
+        
+        if ("MESSOWNER".equalsIgnoreCase(user.getRoleId().getRoleName())) {
+            response.setUserId(user.getUserid());
+        }
+
+        return response;
+    }
 }

@@ -1,5 +1,8 @@
+
 # Maven / Java
 target/
+
+.metadata/
 
 # Logs
 *.log
@@ -12,6 +15,8 @@ Thumbs.db
 .vscode/
 .idea/
 *.iml
+.project/
 
 # Node
 node_modules/
+>>>>>>> df69b6b51d46228f299d4c0bd14b2ed526d91793

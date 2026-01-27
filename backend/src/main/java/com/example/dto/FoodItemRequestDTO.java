@@ -9,10 +9,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class LoginResponse {
-    private String status;
-    private Integer uid;
-    private String uname;
-    private String role;
-    private Integer userId; 
+public class FoodItemRequestDTO {
+
+	private String foodName;
+    private String description;
+    private Integer subCategoryId; 
+    private Integer messId;
 }
