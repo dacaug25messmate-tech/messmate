@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "*") // allow requests from frontend
+@CrossOrigin(origins = "*") 
 public class RegistrationFormController {
 
     @Autowired

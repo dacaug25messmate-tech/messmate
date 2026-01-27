@@ -13,7 +13,6 @@ export default function CustomerDashboard() {
 
   return (
     <div className="dashboard-container">
-      {/* Sidebar */}
       <div className="dashboard-sidebar">
         <div className="sidebar-header">
           <h4>Customer</h4>

@@ -9,6 +9,8 @@ import AdminViewUsers from "./components/admin/AdminViewUsers";
 import AdminPendingUsers from "./components/admin/AdminPendingUsers"; 
 import CustomerDashboard from "./components/dashboards/CustomerDashboard";
 import MessOwnerDashboard from "./components/dashboards/MessOwnerDashboard";
+import MessOwnerRatings from "./components/messowner/messownerRatings"; 
+
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminMenuManagement from "./components/admin/AdminMenuManagement";
 import ManageDailyMenu from "./components/messowner/ManageDailyMenu";
@@ -19,6 +21,7 @@ function App() {
       <AppHomeNavbar />
 
       <Routes>
+        {/* PUBLIC */}
         <Route path="/" element={<AppHome />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

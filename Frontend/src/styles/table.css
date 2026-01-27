@@ -1,0 +1,31 @@
+.table-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.custom-table th,
+.custom-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.custom-table th {
+  background: #f4f6f8;
+  text-align: left;
+}
+
+.status.active {
+  color: green;
+  font-weight: bold;
+}
+
+.status.expired {
+  color: red;
+  font-weight: bold;
+}
