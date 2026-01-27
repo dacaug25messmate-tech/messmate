@@ -9,6 +9,7 @@ import com.example.dto.LoginRequest;
 import com.example.dto.LoginResponse;
 import com.example.services.LoginService;
 
+
 @RestController
 @RequestMapping("/user")
 @CrossOrigin(origins = "http://localhost:3000") 
@@ -19,16 +20,28 @@ public class LoginController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+
         LoginResponse response = loginService.login(request);
 
         switch (response.getStatus()) {
+
             case "SUCCESS":
                 return ResponseEntity.ok(response);
+
             case "USER_NOT_FOUND":
             case "INVALID_PASSWORD":
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+
+            case "ACCESS_DENIED":
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+
+            case "NOT_APPROVED":
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+
             default:
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unknown error");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Unknown error");
         }
     }
+
 }

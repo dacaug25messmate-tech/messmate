@@ -30,4 +30,6 @@ public class RegisterRequest {
 	int areaId;
 	
 	int cityId;
+	
+	private String status;
 }
