@@ -1,1 +1,0 @@
-export const userservice_url = "http://localhost:8080/user";
