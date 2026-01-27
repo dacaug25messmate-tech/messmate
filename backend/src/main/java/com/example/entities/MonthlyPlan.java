@@ -1,38 +1,46 @@
 package com.example.entities;
 
-import jakarta.persistence.*;
+import java.time.LocalDate;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
+@Entity
+@Table(name = "monthly_plan")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "monthly_plan")   // ⚠️ change to "plan" if your table name is plan
 public class MonthlyPlan {
+	
+	@Id
+	@Column(name="plan_id")
+	int planId;
+	
+	@Column(name="plan_name")
+	String planName;
+	
+	@Column(name="monthly_price")
+	double monthlyPrice;
+	
+	@Column(name="meal_inclusion")
+	String mealInclusion;         //Lunch, Dinner, Both
+	
+	@Column(name="validity_period")
+	int validityPeriod;               // number of days the plan will be valid
+	
+	@ManyToOne
+	@JoinColumn(name = "mess_id")
+	private Mess mess;
+	
+	
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "plan_id")
-    private Long planId;
-
-    @Column(name = "mess_id")
-    private Long messId;
-
-    @Column(name = "plan_name")
-    private String planName;
-
-    @Column(name = "monthly_price")
-    private Double monthlyPrice;
-
-    @Column(name = "meal_inclusion")
-    private String mealInclusion;
-
-    @Column(name = "validity_period")
-    private Integer validityPeriod;
-
-    
 }

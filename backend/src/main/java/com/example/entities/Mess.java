@@ -15,9 +15,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Entity
 @Table(name = "mess")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Mess {
 
     @Id

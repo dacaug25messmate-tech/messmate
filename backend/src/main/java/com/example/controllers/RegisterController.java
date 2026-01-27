@@ -30,7 +30,7 @@ public class RegisterController {
             //  Validation failure (username/email exists)
             if ("FAILURE".equals(response.getStatus())) {
                 return ResponseEntity
-                        .status(HttpStatus.CONFLICT) // 409
+                        .status(HttpStatus.CONFLICT) 
                         .body(response.getMessage());
             }
 

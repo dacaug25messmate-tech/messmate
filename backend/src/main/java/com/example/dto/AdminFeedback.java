@@ -18,21 +18,4 @@ public class AdminFeedback{
     private int rating;
     private String comments;
 
-//    public AdminFeedback(
-//        int ratingId,
-//        String messName,
-//        String messAddress,
-//        String userName,
-//        int rating,
-//        String comments
-//    ) {
-//        this.ratingId = ratingId;
-//        this.messName = messName;
-//        this.messAddress = messAddress;
-//        this.userName = userName;
-//        this.rating = rating;
-//        this.comments = comments;
-//    }
-
-    // getters only (setters optional)
 }
