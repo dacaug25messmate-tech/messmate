@@ -1,19 +1,11 @@
 package com.example.entities;
 
-import java.time.LocalTime;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.*;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Table(name = "mess")
@@ -28,18 +20,18 @@ public class Mess {
     @Column(name = "mess_id")
     private Integer messId;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User userId;  
+    // FK to user table (owner)
+    @Column(name = "user_id")
+    private Integer userId;
 
-    @Column(name = "mess_name")
+    @Column(name = "mess_name", nullable = false)
     private String messName;
 
     @Column(name = "mess_address")
     private String messAddress;
 
     @Column(name = "mess_type")
-    private String messType;
+    private String messType;   // Veg / Mixed / Non-Veg
 
     @Column(name = "lunch_open_time")
     private LocalTime lunchOpenTime;
@@ -53,7 +45,10 @@ public class Mess {
     @Column(name = "dinner_close_time")
     private LocalTime dinnerCloseTime;
 
-    @ManyToOne
-    @JoinColumn(name = "area_id")
-    private Area areaId; 
+    @Column(name = "area_id")
+    private Integer areaId;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "mess", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<MealMenu> mealMenus;
 }

@@ -4,12 +4,18 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.entities.Category;
+import com.example.entities.FoodItem;
+import com.example.entities.SubCategory;
 import com.example.entities.User;
 import com.example.services.AdminService;
 
@@ -48,4 +54,51 @@ public class AdminController {
     public List<User> getAllUsers() {
         return adminService.getAllUsers();
     }
+    
+    // ================= CATEGORY MANAGEMENT =================
+
+    @GetMapping("/categories")
+    public List<Category> getCategories() {
+        return adminService.getAllCategories();
+    }
+
+    @PostMapping("/category")
+    public Category addCategory(@RequestBody Category category) {
+        return adminService.addCategory(category);
+    }
+
+    // ================= SUBCATEGORY MANAGEMENT =================
+
+    @GetMapping("/subcategories/{categoryId}")
+    public List<SubCategory> getSubCategories(@PathVariable int categoryId) {
+        return adminService.getSubCategoriesByCategory(categoryId);
+    }
+
+    @PostMapping("/subcategory/{categoryId}")
+    public SubCategory addSubCategory(@PathVariable int categoryId, @RequestBody SubCategory subCategory) {
+        return adminService.addSubCategory(categoryId, subCategory);
+    }
+
+    // ================= FOOD ITEM MANAGEMENT =================
+
+    @GetMapping("/fooditems/{subCategoryId}")
+    public List<FoodItem> getFoodItems(@PathVariable int subCategoryId) {
+        return adminService.getFoodItemsBySubCategory(subCategoryId);
+    }
+
+    @PostMapping("/fooditem/{subCategoryId}")
+    public FoodItem addFoodItem(@PathVariable int subCategoryId, @RequestBody FoodItem item) {
+        return adminService.addFoodItem(subCategoryId, item);
+    }
+
+    @PutMapping("/fooditem/{id}")
+    public FoodItem updateFoodItem(@PathVariable int id, @RequestBody FoodItem item) {
+        return adminService.updateFoodItem(id, item);
+    }
+
+    @DeleteMapping("/fooditem/{id}")
+    public void deleteFoodItem(@PathVariable int id) {
+        adminService.deleteFoodItem(id);
+    }
+
 }

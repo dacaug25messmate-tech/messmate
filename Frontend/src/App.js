@@ -6,12 +6,12 @@ import Register from "./components/Register";
 
 import AdminDashboard from "./components/dashboards/AdminDashboard";
 import AdminViewUsers from "./components/admin/AdminViewUsers";
-import AdminFoodItemRequests from "./components/admin/AdminFoodItemRequests";
+import AdminPendingUsers from "./components/admin/AdminPendingUsers"; 
 import CustomerDashboard from "./components/dashboards/CustomerDashboard";
 import MessOwnerDashboard from "./components/dashboards/MessOwnerDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
-import MessOwnerFoodRequestForm from "./components/messowner/MessOwnerFoodRequestForm";
-import ViewRegisteredCustomers from "./components/messowner/ViewRegisteredCustomers";
+import AdminMenuManagement from "./components/admin/AdminMenuManagement";
+import ManageDailyMenu from "./components/messowner/ManageDailyMenu";
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* ADMIN */}
+        {/* ADMIN ROUTES */}
         <Route
           path="/admin"
           element={
@@ -32,8 +32,23 @@ function App() {
             </ProtectedRoute>
           }
         >
-          <Route path="viewusers" element={<AdminViewUsers />} />
-          <Route path="menu-requests" element={<AdminFoodItemRequests />} />
+          {/* ✅ CHECK REGISTRATION REQUESTS */}
+          <Route
+            path="pendingusers"
+            element={<AdminPendingUsers />}
+          />
+
+          {/* ✅ VIEW ALL USERS */}
+          <Route
+            path="viewusers"
+            element={<AdminViewUsers />}
+          />
+
+          {/*manage menu structure*/}
+          <Route
+            path="menu"
+            element={<AdminMenuManagement />}
+          />
         </Route>
 
         {/* CUSTOMER */}
@@ -55,10 +70,13 @@ function App() {
             </ProtectedRoute>
           }
         >
-          <Route path="request-item" element={<MessOwnerFoodRequestForm />} />
-          <Route path="customers" element={<ViewRegisteredCustomers />} />
-          </Route>
 
+          <Route
+            path="dailymenu" 
+            element={<ManageDailyMenu />} 
+          />
+          
+        </Route>
       </Routes>
     </>
   );

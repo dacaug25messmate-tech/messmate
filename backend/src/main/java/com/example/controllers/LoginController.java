@@ -9,6 +9,7 @@ import com.example.dto.LoginRequest;
 import com.example.dto.LoginResponse;
 import com.example.services.LoginService;
 
+
 @RestController
 @RequestMapping("/user")
 @CrossOrigin(origins = "http://localhost:3000") 
@@ -42,4 +43,5 @@ public class LoginController {
                         .body("Unknown error");
         }
     }
+
 }

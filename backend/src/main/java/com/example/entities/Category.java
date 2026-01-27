@@ -1,6 +1,5 @@
 package com.example.entities;
 
-import jakarta.annotation.Generated;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

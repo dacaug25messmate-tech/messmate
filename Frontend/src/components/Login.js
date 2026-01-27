@@ -2,63 +2,89 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../loggedSlice";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify"; 
+import "react-toastify/dist/ReactToastify.css";        
 import "../styles/login.css";
 
 export default function Login() {
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false); 
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
+  setLoading(true);
 
-    if (!userName || !password) {
-      alert("All fields are required");
+  try {
+    const response = await fetch("http://localhost:2025/user/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userName, password })
+    });
+
+    // Parse JSON FIRST
+    const data = await response.json();
+
+    // Invalid username / password
+    if (response.status === 401) {
+      toast.error("Invalid username or password");
       return;
     }
 
-    try {
-      //call to api
-      const response = await fetch("http://localhost:2025/user/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userName, password })
-      });
-
-      if (!response.ok) {
-        throw new Error("Invalid username or password");
+    // Rejected / Not approved
+    if (response.status === 403) {
+      if (data.status === "ACCESS_DENIED") {
+        toast.error("Access Denied");
+      } else if (data.status === "NOT_APPROVED") {
+        toast.warning("Wait until admin approval");
+      } else {
+        toast.error("You are not allowed to login");
       }
+      return;
+    }
 
-      const data = await response.json();
+    // Other backend issues
+    if (!response.ok) {
+      toast.error("Internal server error. Please try again later");
+      return;
+    }
 
-      // LocalStorage
-      localStorage.setItem("userid", data.uid);
-      localStorage.setItem("username", data.uname);
-      localStorage.setItem("role", data.role);
+    // Safety check
+    if (!data || !data.uid || !data.role) {
+      toast.error("Invalid login response from server");
+      return;
+    }
 
-      // Redux
-      dispatch(login({
-        loggedIn: true,
-        userid: data.uid,
-        username: data.uname,
-        role: data.role,
-        messId: data.messId
-      }));
-      console.log("LOGIN RESPONSE:", data);
+    // 💾 Save login data
+    localStorage.setItem("userid", data.uid);
+    localStorage.setItem("username", data.uname);
+    localStorage.setItem("role", data.role);
 
+    dispatch(login({
+      loggedIn: true,
+      userid: data.uid,
+      username: data.uname,
+      role: data.role
+    }));
 
-      // Navigation
-      
+    toast.success("Login successfully");
+
+    setTimeout(() => {
       if (data.role === "ADMIN") navigate("/admin");
       else if (data.role === "CUSTOMER") navigate("/customer");
       else if (data.role === "MESSOWNER") navigate("/messowner");
+      else navigate("/");
+    }, 1500);
 
-    } catch (err) {
-      alert(err.message);
-    }
-  };
+  } catch (err) {
+    toast.error("Network error. Please check server connection");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="auth-container">
@@ -70,7 +96,8 @@ export default function Login() {
           <input
             className="form-control"
             value={userName}
-            onChange={e => setUsername(e.target.value)}
+            onChange={e => setUsername(e.target.value)} 
+            required
           />
         </div>
 
@@ -81,13 +108,20 @@ export default function Login() {
             className="form-control"
             value={password}
             onChange={e => setPassword(e.target.value)}
+            required
           />
         </div>
 
-        <button type="submit" className="btn btn-primary w-100" >
-          Login
+        <button
+          type="submit"
+          className="btn btn-primary w-100"
+          disabled={loading}
+        >
+          {loading ? "Logging in..." : "Login"}
         </button>
       </form>
+
+      <ToastContainer position="top-center" autoClose={2000} />
     </div>
   );
 }

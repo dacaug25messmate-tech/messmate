@@ -10,9 +10,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LoginResponse {
-    private String status;
-    private Integer uid;
-    private String uname;
+	private String status;
+	private int uid;
+	private String uname;
     private String role;
-    private Integer userId; 
 }

@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.1</version>
+		<version>4.0.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>P06_Messmate</artifactId>
+	<artifactId>Backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>P06_Messmate</name>
+	<name>Backend</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
