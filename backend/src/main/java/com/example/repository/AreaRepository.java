@@ -9,3 +9,4 @@ import com.example.entities.Area;
 public interface AreaRepository extends JpaRepository<Area, Integer> {
 	List<Area> findByCityId_CityId(Integer cityId);
 }
+//List<Area> findByCityId(Integer cityId);
