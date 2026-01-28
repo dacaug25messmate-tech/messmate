@@ -101,15 +101,15 @@ public class MessOwnerController {
         );
     }
     
-    @PostMapping("/mess")
-    public ResponseEntity<?> addMess(@RequestBody MessRequestDTO dto) {
-        try {
-            Mess savedMess = messOwnerService.addMess(dto);
-            return ResponseEntity.ok(savedMess);
-        } catch (RuntimeException ex) {
-            return ResponseEntity.badRequest().body(ex.getMessage());
-        }
-    }
+//    @PostMapping("/mess")
+//    public ResponseEntity<?> addMess(@RequestBody MessRequestDTO dto) {
+//        try {
+//            Mess savedMess = messOwnerService.addMess(dto);
+//            return ResponseEntity.ok(savedMess);
+//        } catch (RuntimeException ex) {
+//            return ResponseEntity.badRequest().body(ex.getMessage());
+//        }
+//    }
 
     // ---------------------------
     // Update Mess by messId

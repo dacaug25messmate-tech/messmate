@@ -7,10 +7,15 @@ import Register from "./components/Register";
 import AdminDashboard from "./components/dashboards/AdminDashboard";
 import AdminViewUsers from "./components/admin/AdminViewUsers";
 import AdminFoodItemRequests from "./components/admin/AdminFoodItemRequests";
+
 import CustomerDashboard from "./components/dashboards/CustomerDashboard";
 import MessOwnerDashboard from "./components/dashboards/MessOwnerDashboard";
+
 import ProtectedRoute from "./components/ProtectedRoute";
 import MessOwnerFoodRequestForm from "./components/messowner/MessOwnerFoodRequestForm";
+
+// ✅ ADD THIS IMPORT
+import ProfileAndMessInfo from "./components/messowner/ProfileAndMessInfo";
 
 function App() {
   return (
@@ -18,6 +23,7 @@ function App() {
       <AppHomeNavbar />
 
       <Routes>
+        {/* PUBLIC */}
         <Route path="/" element={<AppHome />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -54,9 +60,15 @@ function App() {
             </ProtectedRoute>
           }
         >
-          <Route path="request-item" element={<MessOwnerFoodRequestForm />} />
-          </Route>
+          {/* ✅ DEFAULT PAGE */}
+          <Route index element={<ProfileAndMessInfo />} />
 
+          {/* ✅ PROFILE & MESS INFO */}
+          <Route path="profile" element={<ProfileAndMessInfo />} />
+
+          {/* ✅ REQUEST NEW FOOD ITEM */}
+          <Route path="request-item" element={<MessOwnerFoodRequestForm />} />
+        </Route>
       </Routes>
     </>
   );
