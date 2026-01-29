@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const BASE_URL = "http://localhost:2025/api/admin";
+const BASE_URL = "http://localhost:2027/api/admin";
 
 /* ================= FETCH ================= */
 export const fetchFoodRequests = createAsyncThunk(

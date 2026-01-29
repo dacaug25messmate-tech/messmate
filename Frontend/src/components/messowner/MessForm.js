@@ -39,7 +39,7 @@ export default function MessForm({ userId, mode = "add", messData, onSaved, onCa
 
   // Load cities
   useEffect(() => {
-    fetch("http://localhost:2025/api/cities")
+    fetch("http://localhost:2028/api/cities")
       .then(res => res.json())
       .then(setCities)
       .catch(err => console.error("Failed to load cities:", err));
@@ -52,7 +52,7 @@ export default function MessForm({ userId, mode = "add", messData, onSaved, onCa
       setForm(prev => ({ ...prev, areaId: "" }));
       return;
     }
-    fetch(`http://localhost:2025/api/areas/${selectedCity}`)
+    fetch(`http://localhost:2028/api/areas/${selectedCity}`)
       .then(res => res.json())
       .then(setAreas)
       .catch(err => console.error("Failed to load areas:", err));
@@ -76,7 +76,7 @@ export default function MessForm({ userId, mode = "add", messData, onSaved, onCa
     };
 
     try {
-      const url = "http://localhost:2025/api/messowner/mess";
+      const url = "http://localhost:2028/api/messowner/mess";
       const method = mode === "edit" ? "PUT" : "POST";
       const res = await fetch(url, {
         method,

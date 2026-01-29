@@ -6,7 +6,7 @@ export default function CategoryTable({ onSelectCategory }) {
   const [selectedId, setSelectedId] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:2025/api/admin/categories")
+    fetch("http://localhost:2027/api/admin/categories")
       .then((res) => res.json())
       .then(setCategories);
   }, []);

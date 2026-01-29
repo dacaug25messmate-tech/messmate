@@ -24,6 +24,7 @@ import ManageDailyMenu from "./components/messowner/ManageDailyMenu";
 import ViewRegisteredCustomers from "./components/messowner/ViewRegisteredCustomers";
 import AdminViewFeedback from "./components/admin/AdminViewFeedback";
 import MessOwnerRatings from "./components/messowner/MessOwnerRatings";
+import ManageOrders from "./components/messowner/ManageOrders";
 
 function App() {
   return (
@@ -74,6 +75,9 @@ function App() {
             </ProtectedRoute>
           }
         >
+           {/* Manage Orders */}
+          <Route path="orders" element={<ManageOrders />} />
+
           {/* DEFAULT PAGE */}
           <Route index element={<ProfileAndMessInfo />} />
 

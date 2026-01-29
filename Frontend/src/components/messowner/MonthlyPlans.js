@@ -7,7 +7,7 @@ export default function MonthlyPlans({ messId }) {
   const [showForm, setShowForm] = useState(false);
   const [editPlan, setEditPlan] = useState(null);
 
-  const backendUrl = "http://localhost:2025/api/monthlyplans"; // your backend
+  const backendUrl = "http://localhost:2028/api/monthlyplans"; 
 
   // Fetch plans from backend
   useEffect(() => {

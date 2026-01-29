@@ -18,11 +18,11 @@ export default function Register() {
   const selectedCity = watch("cityId");
 
   useEffect(() => {
-    fetch("http://localhost:2025/api/cities")
+    fetch("http://localhost:2026/api/cities")
       .then(res => res.json())
       .then(setCities);
 
-    fetch("http://localhost:2025/api/security-questions")
+    fetch("http://localhost:2026/api/security-questions")
       .then(res => res.json())
       .then(setQuestions);
   }, []);
@@ -30,7 +30,7 @@ export default function Register() {
   useEffect(() => {
     if (!selectedCity) return;
 
-    fetch(`http://localhost:2025/api/areas/${selectedCity}`)
+    fetch(`http://localhost:2026/api/areas/${selectedCity}`)
       .then(res => res.json())
       .then(setAreas);
   }, [selectedCity]);
@@ -42,7 +42,7 @@ export default function Register() {
     };
 
     try {
-      const response = await fetch("http://localhost:2025/user/register", {
+      const response = await fetch("http://localhost:2026/user/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)

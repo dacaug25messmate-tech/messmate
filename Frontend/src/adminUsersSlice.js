@@ -5,7 +5,7 @@ export const fetchAllUsers = createAsyncThunk(
   "adminUsers/fetchAllUsers",
   async (_, thunkAPI) => {
     try {
-      const response = await fetch("http://localhost:2025/api/admin/viewusers");
+      const response = await fetch("http://localhost:2027/api/admin/viewusers");
 
       if (!response.ok) {
         throw new Error("Failed to fetch users");

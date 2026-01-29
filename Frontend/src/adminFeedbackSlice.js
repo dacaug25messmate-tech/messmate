@@ -4,7 +4,7 @@ export const fetchAllFeedback = createAsyncThunk(
   "adminFeedback/fetchAll",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch("http://localhost:2025/admin/feedback");
+      const response = await fetch("http://localhost:2027/admin/feedback");
 
       if (!response.ok) {
         throw new Error("Failed to fetch feedback");

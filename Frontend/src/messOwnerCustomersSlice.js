@@ -1,8 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-/* ============================
-   SLICE
-============================ */
 const messOwnerCustomersSlice = createSlice({
   name: "messOwnerCustomers",
   initialState: {
@@ -51,15 +48,13 @@ const messOwnerCustomersSlice = createSlice({
   },
 });
 
-/* ============================
-   ASYNC ACTIONS
-============================ */
+//ASYNC ACTIONS
 
 // Fetch messes for the logged-in owner
 export const fetchOwnerMesses = (userId) => async (dispatch) => {
   try {
     dispatch(fetchMessesStart());
-    const res = await fetch(`http://localhost:2025/api/messowner/messes/${userId}`);
+    const res = await fetch(`http://localhost:2028/api/messowner/messes/${userId}`);
     if (!res.ok) throw new Error("Failed to fetch messes");
     const data = await res.json();
     dispatch(fetchMessesSuccess(data));
@@ -73,7 +68,7 @@ export const fetchRegisteredCustomers = (messId) => async (dispatch) => {
   if (!messId) return;
   try {
     dispatch(fetchCustomersStart());
-    const res = await fetch(`http://localhost:2025/api/messowner/customers/${messId}`);
+    const res = await fetch(`http://localhost:2028/api/messowner/customers/${messId}`);
     if (!res.ok) throw new Error("Failed to fetch customers");
     const data = await res.json();
     dispatch(fetchCustomersSuccess(data));
@@ -82,9 +77,8 @@ export const fetchRegisteredCustomers = (messId) => async (dispatch) => {
   }
 };
 
-/* ============================
-   EXPORTS
-============================ */
+
+  // EXPORTS
 export const {
   fetchMessesStart,
   fetchMessesSuccess,

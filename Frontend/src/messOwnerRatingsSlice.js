@@ -6,7 +6,7 @@ export const fetchMessOwnerRatings = createAsyncThunk(
   async (messOwnerId, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        `http://localhost:2025/api/messowner/messes/ratings/${messOwnerId}`,
+        `http://localhost:2028/api/messowner/messes/ratings/${messOwnerId}`,
         {
           credentials: "include"
         }

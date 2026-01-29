@@ -6,7 +6,7 @@ export const submitFoodRequest = createAsyncThunk(
     try {
       console.log(requestData);
       const res = await fetch(
-        "http://localhost:2025/api/messowner/food-requests",
+        "http://localhost:2028/api/messowner/food-requests",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

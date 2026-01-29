@@ -4,7 +4,7 @@ export const fetchRatings = createAsyncThunk(
   "ratings/fetchRatings",
   async (userId) => {
     const response = await fetch(
-      `http://localhost:2025/mess-owner/ratings/${userId}`
+      `http://localhost:2028/mess-owner/ratings/${userId}`
     );
 
     if (!response.ok) {

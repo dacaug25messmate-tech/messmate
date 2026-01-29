@@ -5,7 +5,7 @@ export const fetchSubCategories = createAsyncThunk(
   "subCategories/fetch",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await fetch("http://localhost:2025/api/subcategories");
+      const res = await fetch("http://localhost:2028/api/subcategories");
       if (!res.ok) throw new Error("Failed to fetch subcategories");
       return await res.json();
     } catch (err) {

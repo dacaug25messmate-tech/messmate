@@ -43,7 +43,7 @@ export default function ManageDailyMenu() {
   useEffect(() => {
     if (!ownerId) return;
 
-    fetch(`http://localhost:2025/api/messowner/messes/${ownerId}`)
+    fetch(`http://localhost:2028/api/messowner/messes/${ownerId}`)
       .then(res => res.json())
       .then(setMesses)
       .catch(() => showToast("Failed to load messes", "danger"));
@@ -51,7 +51,7 @@ export default function ManageDailyMenu() {
 
   /* ---------- LOAD CATEGORIES ---------- */
   useEffect(() => {
-    fetch("http://localhost:2025/api/admin/categories")
+    fetch("http://localhost:2027/api/admin/categories")
       .then(res => res.json())
       .then(setCategories);
   }, []);
@@ -59,7 +59,7 @@ export default function ManageDailyMenu() {
   /* ---------- LOAD SUBCATEGORIES ---------- */
   useEffect(() => {
     if (!categoryId) return setSubCategories([]);
-    fetch(`http://localhost:2025/api/admin/subcategories/${categoryId}`)
+    fetch(`http://localhost:2028/api/admin/subcategories/${categoryId}`)
       .then(res => res.json())
       .then(setSubCategories);
   }, [categoryId]);
@@ -67,7 +67,7 @@ export default function ManageDailyMenu() {
   /* ---------- LOAD FOOD ITEMS ---------- */
   useEffect(() => {
     if (!subCategoryId) return setFoodItems([]);
-    fetch(`http://localhost:2025/api/admin/fooditems/${subCategoryId}`)
+    fetch(`http://localhost:2028/api/admin/fooditems/${subCategoryId}`)
       .then(res => res.json())
       .then(setFoodItems);
   }, [subCategoryId]);
@@ -77,7 +77,7 @@ export default function ManageDailyMenu() {
     if (!selectedMessId) return;
 
     fetch(
-      `http://localhost:2025/api/messowner/fetch?messId=${selectedMessId}&date=${menuDate}`
+      `http://localhost:2028/api/messowner/fetch?messId=${selectedMessId}&date=${menuDate}`
     )
       .then(res => res.json())
       .then(data => {
@@ -118,7 +118,7 @@ export default function ManageDailyMenu() {
     if (!selectedMessId) return showToast("Select a mess first", "warning");
 
     try {
-      const res = await fetch("http://localhost:2025/api/messowner/add", {
+      const res = await fetch("http://localhost:2028/api/messowner/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -147,7 +147,7 @@ export default function ManageDailyMenu() {
     if (!selectedMessId) return showToast("Select a mess first", "warning");
 
     fetch(
-      `http://localhost:2025/api/messowner/fetch?messId=${selectedMessId}&date=${menuDate}`
+      `http://localhost:2028/api/messowner/fetch?messId=${selectedMessId}&date=${menuDate}`
     )
       .then(res => res.json())
       .then(data => {

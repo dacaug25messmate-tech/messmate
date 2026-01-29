@@ -16,11 +16,11 @@ export default function ProfileAndMessInfo() {
   const loadProfile = async () => {
     try {
       setLoading(true);
-      const profileRes = await fetch(`http://localhost:2025/api/messowner/profile/${userId}`);
+      const profileRes = await fetch(`http://localhost:2028/api/messowner/profile/${userId}`);
       const profileData = await profileRes.json();
       setProfile(profileData);
 
-      const messRes = await fetch(`http://localhost:2025/api/messowner/messes/${userId}`);
+      const messRes = await fetch(`http://localhost:2028/api/messowner/messes/${userId}`);
       const messData = await messRes.json();
       setMyMesses(Array.isArray(messData) ? messData : []);
     } catch (err) {
@@ -47,7 +47,7 @@ export default function ProfileAndMessInfo() {
   const handleDeleteMess = async (messId) => {
     if (!window.confirm("Are you sure you want to delete this mess?")) return;
     try {
-      const res = await fetch(`http://localhost:2025/api/messowner/mess/${messId}`, { method: "DELETE" });
+      const res = await fetch(`http://localhost:2028/api/messowner/mess/${messId}`, { method: "DELETE" });
       if (!res.ok) throw new Error();
       alert("Mess deleted successfully");
       loadProfile();
@@ -60,7 +60,7 @@ export default function ProfileAndMessInfo() {
   // Edit mess
   const handleEditFromRow = async (messId) => {
     try {
-      const res = await fetch(`http://localhost:2025/api/messowner/mess/details/${messId}`);
+      const res = await fetch(`http://localhost:2028/api/messowner/mess/details/${messId}`);
       if (!res.ok) throw new Error();
       const data = await res.json();
       setSelectedMess(data);
@@ -73,7 +73,7 @@ export default function ProfileAndMessInfo() {
   // View mess
   const handleViewMess = async (messId) => {
     try {
-      const res = await fetch(`http://localhost:2025/api/messowner/mess/details/${messId}`);
+      const res = await fetch(`http://localhost:2028/api/messowner/mess/details/${messId}`);
       if (!res.ok) throw new Error();
       const data = await res.json();
       setSelectedMess(data);

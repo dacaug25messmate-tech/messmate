@@ -18,7 +18,7 @@ export default function FoodItemTable({ subCategory }) {
     if (!subCategory?.subCategoryId) return;
 
     fetch(
-      `http://localhost:2025/api/admin/fooditems/${subCategory.subCategoryId}`
+      `http://localhost:2027/api/admin/fooditems/${subCategory.subCategoryId}`
     )
       .then((res) => res.json())
       .then((data) => setItems(Array.isArray(data) ? data : []));
@@ -29,7 +29,7 @@ export default function FoodItemTable({ subCategory }) {
     if (!newName.trim()) return;
 
     fetch(
-      `http://localhost:2025/api/admin/fooditem/${subCategory.subCategoryId}`,
+      `http://localhost:2027/api/admin/fooditem/${subCategory.subCategoryId}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -50,7 +50,7 @@ export default function FoodItemTable({ subCategory }) {
 
   //  DELETE FOOD ITEM
   const deleteFoodItem = (id) => {
-    fetch(`http://localhost:2025/api/admin/fooditem/${id}`, {
+    fetch(`http://localhost:2027/api/admin/fooditem/${id}`, {
       method: "DELETE"
     }).then(() =>
       setItems(items.filter((i) => i.foodItemId !== id))
@@ -74,7 +74,7 @@ export default function FoodItemTable({ subCategory }) {
   const saveEdit = (id) => {
     if (!editName.trim()) return;
 
-    fetch(`http://localhost:2025/api/admin/fooditem/${id}`, {
+    fetch(`http://localhost:2027/api/admin/fooditem/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
