@@ -11,11 +11,12 @@ export const submitFoodRequest = createAsyncThunk(
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            foodName: requestData.itemName, 
-            description: requestData.description,
-            subCategoryId: requestData.subCategoryId,
-            messId: requestData.messId,
-          }),
+  foodName: requestData.itemName, 
+  description: requestData.description,
+  subCategoryId: Number(requestData.subCategoryId), 
+  userId: Number(requestData.userId), 
+}),
+
         }
       );
 

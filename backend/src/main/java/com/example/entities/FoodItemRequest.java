@@ -29,8 +29,8 @@ public class FoodItemRequest {
     private String status; // PENDING, APPROVED, REJECTED
 
     @ManyToOne
-    @JoinColumn(name = "mess_id")
-    private Mess messId;
+    @JoinColumn(name = "user_id")
+    private User userId;
 
     @ManyToOne
     @JoinColumn(name="sub_category_id")

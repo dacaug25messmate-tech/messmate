@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.dto.MessOwnerRatingDTO;
 import com.example.entities.Rating;
 import com.example.repository.RatingRepository;
 
@@ -17,5 +18,9 @@ public class RatingService {
 
     public List<Rating> getRatingsByMess(int messId) {
         return ratingRepository.findByMess_MessId(messId);
+    }
+    
+    public List<MessOwnerRatingDTO> findAllRatingsByMessOwner(int userId) {
+        return ratingRepository.findAllRatingsByMessOwner(userId);
     }
 }

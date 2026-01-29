@@ -14,5 +14,5 @@ public class FoodItemRequestDTO {
 	private String foodName;
     private String description;
     private Integer subCategoryId; 
-    private Integer messId;
+    private Integer userId;
 }

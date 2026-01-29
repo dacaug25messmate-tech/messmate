@@ -29,6 +29,16 @@ export default function ManageDailyMenu() {
     setTimeout(() => setToast({ show: false, msg: "", type: "" }), 3000);
   };
 
+  /* ---------- DATE HANDLER (TODAY ONLY) ---------- */
+  const handleTodayDateChange = (e) => {
+    const selectedDate = e.target.value;
+    if (selectedDate !== today) {
+      showToast("Only today's date is allowed", "warning");
+      return;
+    }
+    setMenuDate(selectedDate);
+  };
+
   /* ---------- LOAD MESSES ---------- */
   useEffect(() => {
     if (!ownerId) return;
@@ -49,7 +59,6 @@ export default function ManageDailyMenu() {
   /* ---------- LOAD SUBCATEGORIES ---------- */
   useEffect(() => {
     if (!categoryId) return setSubCategories([]);
-
     fetch(`http://localhost:2025/api/admin/subcategories/${categoryId}`)
       .then(res => res.json())
       .then(setSubCategories);
@@ -58,7 +67,6 @@ export default function ManageDailyMenu() {
   /* ---------- LOAD FOOD ITEMS ---------- */
   useEffect(() => {
     if (!subCategoryId) return setFoodItems([]);
-
     fetch(`http://localhost:2025/api/admin/fooditems/${subCategoryId}`)
       .then(res => res.json())
       .then(setFoodItems);
@@ -105,7 +113,7 @@ export default function ManageDailyMenu() {
     setSelectedItems(selectedItems.filter(i => i.foodItemId !== id));
   };
 
-  /* ---------- SAVE MENU SLOT ---------- */
+  /* ---------- SAVE MENU ---------- */
   const saveMenu = async () => {
     if (!selectedMessId) return showToast("Select a mess first", "warning");
 
@@ -124,11 +132,10 @@ export default function ManageDailyMenu() {
       if (!res.ok) throw new Error();
 
       showToast(`${menuType} menu saved successfully`);
-
+      setSelectedItems([]);
       setCategoryId("");
       setSubCategoryId("");
       setFoodItemId("");
-      setSelectedItems([]);
 
     } catch {
       showToast("Failed to save menu", "danger");
@@ -146,8 +153,7 @@ export default function ManageDailyMenu() {
       .then(data => {
         const grouped = { LUNCH: [], DINNER: [] };
         (data || []).forEach(m => {
-          grouped[m.menuType] =
-            (m.foodItems || []).map(fi => fi.foodItem);
+          grouped[m.menuType] = (m.foodItems || []).map(fi => fi.foodItem);
         });
         setViewMenuData(grouped);
       });
@@ -155,7 +161,6 @@ export default function ManageDailyMenu() {
 
   return (
     <div className="container mt-4">
-
       {toast.show && (
         <div className={`alert alert-${toast.type}`}>{toast.msg}</div>
       )}
@@ -167,7 +172,10 @@ export default function ManageDailyMenu() {
           <li className="nav-item">
             <button
               className={`nav-link ${activeTab === "TODAY" ? "active" : ""}`}
-              onClick={() => setActiveTab("TODAY")}
+              onClick={() => {
+                setActiveTab("TODAY");
+                setMenuDate(today);
+              }}
             >
               Today Menu
             </button>
@@ -182,18 +190,15 @@ export default function ManageDailyMenu() {
           </li>
         </ul>
 
-        {/* TODAY */}
+        {/* TODAY TAB */}
         {activeTab === "TODAY" && (
           <>
-            <select
-              className="form-control mb-2"
-              value={selectedMessId}
-              onChange={e => setSelectedMessId(e.target.value)}
-            >
+            <select className="form-control mb-2" value={selectedMessId}
+              onChange={e => setSelectedMessId(e.target.value)}>
               <option value="">Select Mess</option>
               {messes.map(m => (
                 <option key={m.messId} value={m.messId}>
-                  {m.messName} ({m.messType})
+                  {m.messName}
                 </option>
               ))}
             </select>
@@ -202,23 +207,21 @@ export default function ManageDailyMenu() {
               type="date"
               className="form-control mb-2"
               value={menuDate}
-              onChange={e => setMenuDate(e.target.value)}
+              min={today}
+              max={today}
+              onChange={handleTodayDateChange}
             />
 
-            <select
-              className="form-control mb-2"
+            <select className="form-control mb-2"
               value={menuType}
-              onChange={e => setMenuType(e.target.value)}
-            >
+              onChange={e => setMenuType(e.target.value)}>
               <option value="LUNCH">Lunch</option>
               <option value="DINNER">Dinner</option>
             </select>
 
-            <select
-              className="form-control mb-2"
+            <select className="form-control mb-2"
               value={categoryId}
-              onChange={e => setCategoryId(e.target.value)}
-            >
+              onChange={e => setCategoryId(e.target.value)}>
               <option value="">Select Category</option>
               {categories.map(c => (
                 <option key={c.categoryId} value={c.categoryId}>
@@ -227,11 +230,9 @@ export default function ManageDailyMenu() {
               ))}
             </select>
 
-            <select
-              className="form-control mb-2"
+            <select className="form-control mb-2"
               value={subCategoryId}
-              onChange={e => setSubCategoryId(e.target.value)}
-            >
+              onChange={e => setSubCategoryId(e.target.value)}>
               <option value="">Select Subcategory</option>
               {subCategories.map(sc => (
                 <option key={sc.subCategoryId} value={sc.subCategoryId}>
@@ -240,11 +241,9 @@ export default function ManageDailyMenu() {
               ))}
             </select>
 
-            <select
-              className="form-control mb-2"
+            <select className="form-control mb-2"
               value={foodItemId}
-              onChange={e => setFoodItemId(e.target.value)}
-            >
+              onChange={e => setFoodItemId(e.target.value)}>
               <option value="">Select Food</option>
               {foodItems.map(f => (
                 <option key={f.foodItemId} value={f.foodItemId}>
@@ -259,15 +258,11 @@ export default function ManageDailyMenu() {
 
             <ul className="list-group mb-3">
               {selectedItems.map(item => (
-                <li
-                  key={item.foodItemId}
-                  className="list-group-item d-flex justify-content-between"
-                >
+                <li key={item.foodItemId}
+                  className="list-group-item d-flex justify-content-between">
                   {item.foodName}
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => deleteFood(item.foodItemId)}
-                  >
+                  <button className="btn btn-danger btn-sm"
+                    onClick={() => deleteFood(item.foodItemId)}>
                     Delete
                   </button>
                 </li>
@@ -280,18 +275,16 @@ export default function ManageDailyMenu() {
           </>
         )}
 
-        {/* VIEW */}
+        {/* VIEW TAB */}
         {activeTab === "VIEW" && (
           <>
-            <select
-              className="form-control mb-2"
+            <select className="form-control mb-2"
               value={selectedMessId}
-              onChange={e => setSelectedMessId(e.target.value)}
-            >
+              onChange={e => setSelectedMessId(e.target.value)}>
               <option value="">Select Mess</option>
               {messes.map(m => (
                 <option key={m.messId} value={m.messId}>
-                  {m.messName} ({m.messType})
+                  {m.messName}
                 </option>
               ))}
             </select>

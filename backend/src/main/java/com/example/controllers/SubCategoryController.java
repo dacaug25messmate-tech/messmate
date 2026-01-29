@@ -10,7 +10,6 @@ import com.example.repository.SubCategoryRepository;
 
 @RestController
 @RequestMapping("/api/subcategories")
-@CrossOrigin(origins = "http://localhost:3000")
 public class SubCategoryController {
 
     @Autowired

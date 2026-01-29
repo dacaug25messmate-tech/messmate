@@ -1,60 +1,83 @@
+import "../../styles/dashboard.css";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchRatings } from "../../ratingSlice";
-import "../../styles/table.css";
+import { fetchMessOwnerRatings } from "../../messOwnerRatingsSlice";
+
+function StarRating({ rating }) {
+  return (
+    <span style={{ color: "#ffc107", fontSize: "18px" }}>
+      {"★".repeat(rating)}
+      {"☆".repeat(5 - rating)}
+    </span>
+  );
+}
 
 export default function MessOwnerRatings() {
   const dispatch = useDispatch();
+  const { userid } = useSelector((state) => state.logged);
 
-  
-  const userId = useSelector(
-    (state) => state.logged.user?.userid
-  );
-
-  const { ratings, status, error } = useSelector(
-    (state) => state.ratings
+  const { messes, loading, error } = useSelector(
+    (state) => state.messOwnerRatings
   );
 
   useEffect(() => {
-    if (userId) {
-      dispatch(fetchRatings(userId));
+    if (userid) {
+      dispatch(fetchMessOwnerRatings(userid));
     }
-  }, [dispatch, userId]);
+  }, [userid, dispatch]);
 
-  if (status === "loading") return <p>Loading ratings...</p>;
-  if (status === "failed") return <p>Error: {error}</p>;
+  if (loading) {
+    return <p className="text-center mt-4">Loading ratings...</p>;
+  }
+
+  if (error) {
+    return <p className="text-danger text-center mt-4">{error}</p>;
+  }
 
   return (
-    <div className="table-container">
-      <h2>Mess Ratings</h2>
+    <div>
+      <h2 className="mb-4">Mess Ratings</h2>
 
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Mess Name</th>
-            <th>Customer Name</th>
-            <th>Rating</th>
-            <th>Comment</th>
-          </tr>
-        </thead>
+      {messes.length === 0 && (
+        <p className="text-center">No ratings available</p>
+      )}
 
-        <tbody>
-          {ratings.length === 0 ? (
-            <tr>
-              <td colSpan="4">No Ratings Available</td>
-            </tr>
-          ) : (
-            ratings.map((r) => (
-              <tr key={r.ratingId}>
-                <td>{r.mess?.messName}</td>
-                <td>{r.user?.fullName}</td>
-                <td>{"⭐".repeat(r.rating)}</td>
-                <td>{r.comments}</td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+      {messes.map((mess) => (
+        <div key={mess.messId} className="card mb-4 shadow-sm">
+          <div className="card-header bg-primary text-white">
+            <h5 className="mb-0">{mess.messName}</h5>
+          </div>
+
+          <div className="card-body">
+            {mess.ratings.length === 0 ? (
+              <p className="text-muted">No ratings for this mess</p>
+            ) : (
+              <table className="table table-bordered table-striped">
+                <thead className="table-dark">
+                  <tr>
+                    <th>#</th>
+                    <th>User</th>
+                    <th>Rating</th>
+                    <th>Comments</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {mess.ratings.map((r, index) => (
+                    <tr key={r.ratingId}>
+                      <td>{index + 1}</td>
+                      <td>{r.userName}</td>
+                      <td>
+                        <StarRating rating={r.rating} />
+                      </td>
+                      <td>{r.comments || "—"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

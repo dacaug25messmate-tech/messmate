@@ -84,13 +84,13 @@ public class AdminService {
 	    // ================= FOOD ITEM MANAGEMENT =================
 
 	    public List<FoodItem> getFoodItemsBySubCategory(int subCategoryId) {
-	        return foodItemRepository.findBySubCategoryId_SubCategoryId(subCategoryId);
+	        return foodItemRepository.findBySubCategory_SubCategoryId(subCategoryId);
 	    }
 
 	    public FoodItem addFoodItem(int subCategoryId, FoodItem item) {
 	        SubCategory subCategory = subCategoryRepository.findById(subCategoryId)
 	                .orElseThrow(() -> new RuntimeException("SubCategory not found"));
-	        item.setSubCategoryId(subCategory);
+	        item.setSubCategory(subCategory);
 	        return foodItemRepository.save(item);
 	    }
 

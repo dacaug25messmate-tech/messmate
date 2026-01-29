@@ -19,7 +19,7 @@ public class MealMenu {
     @Column(name = "menu_id")
     private Integer menuId;
 
-    // 
+     
     @ManyToOne
     @JoinColumn(name = "mess_id", nullable = false)
     private Mess mess;

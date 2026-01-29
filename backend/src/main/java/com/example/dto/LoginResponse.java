@@ -14,6 +14,5 @@ public class LoginResponse {
 	private Integer uid;
 	private String uname;
     private String role;
-    private Integer messId;
     
 }

@@ -15,7 +15,6 @@ import com.example.services.AdminFeedbackService;
 
 @RestController
 @RequestMapping("/admin")
-@CrossOrigin(origins = "http://localhost:3000")
 public class AdminFeedbackController {
 
     @Autowired

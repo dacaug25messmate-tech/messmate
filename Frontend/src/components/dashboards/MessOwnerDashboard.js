@@ -17,7 +17,6 @@ export default function MessOwnerDashboard() {
     { label: "Manage Daily Menu / Plans", icon: <FaUtensils />, path: "dailymenu" },
     { label: "Manage Monthly Plans", icon: <FaCalendarAlt />, path: "monthlyplans" },
     { label: "Manage Orders", icon: <FaClipboardList />, path: "orders" },
-    { label: "Mark Attendance", icon: <FaUserCheck />, path: "attendance" },
     { label: "View Registered Customers", icon: <FaUsers />, path: "customers" },
     { label: "View Ratings", icon: <FaStar />, path: "ratings" },
     { label: "Request New Menu Item", icon: <FaPlusSquare />, path: "request-item" },

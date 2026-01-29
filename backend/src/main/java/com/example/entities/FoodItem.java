@@ -27,6 +27,6 @@ public class FoodItem {
 
     @ManyToOne
     @JoinColumn(name = "sub_category_id")
-    private SubCategory subCategoryId;
+    private SubCategory subCategory;
 
 }

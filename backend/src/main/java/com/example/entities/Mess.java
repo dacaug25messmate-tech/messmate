@@ -20,9 +20,10 @@ public class Mess {
     @Column(name = "mess_id")
     private Integer messId;
 
-    // FK to user table (owner)
-    @Column(name = "user_id")
-    private Integer userId;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User userId;
 
     @Column(name = "mess_name", nullable = false)
     private String messName;
@@ -45,8 +46,9 @@ public class Mess {
     @Column(name = "dinner_close_time")
     private LocalTime dinnerCloseTime;
 
-    @Column(name = "area_id")
-    private Integer areaId;
+    @ManyToOne
+    @JoinColumn(name = "area_id")
+    private Area areaId;
 
     @JsonIgnore
     @OneToMany(mappedBy = "mess", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

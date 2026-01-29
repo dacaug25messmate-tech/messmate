@@ -7,19 +7,17 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class MessRequestDTO {
-
-    private Integer userId;
+@AllArgsConstructor
+public class MessResponseDTO {
+    private Integer messId;
     private String messName;
     private String messAddress;
     private String messType;
-    private Integer messId;
     private String lunchOpenTime;
     private String lunchCloseTime;
-
     private String dinnerOpenTime;
     private String dinnerCloseTime;
-    private Integer areaId;
+    private String areaName; // Instead of full Area object
+    private String cityName; // Optional
 }

@@ -12,7 +12,6 @@ import com.example.services.LoginService;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = "http://localhost:3000") 
 public class LoginController {
 
     @Autowired

@@ -3,6 +3,7 @@ package com.example.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,46 +16,44 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.entities.Category;
 import com.example.entities.FoodItem;
+import com.example.entities.FoodItemRequest;
 import com.example.entities.SubCategory;
 import com.example.entities.User;
 import com.example.services.AdminService;
+import com.example.services.FoodItemRequestService;
 
 @RestController
 @RequestMapping("/api/admin")
-@CrossOrigin(origins = "http://localhost:3000")
 public class AdminController {
 
     @Autowired
     private AdminService adminService;
 
-    // Get pending registration requests
-    //GET    http://localhost:2025/api/admin/pendingusers
-    @GetMapping("/pendingusers")    
+    @Autowired
+    private FoodItemRequestService foodItemRequestService;
+
+    // ================= USER MANAGEMENT =================
+
+    @GetMapping("/pendingusers")
     public List<User> getPendingUsers() {
         return adminService.getPendingUsers();
     }
 
-    // Approve user
-  //PUT    http://localhost:2025/api/admin/approve/5
-    @PutMapping("/approve/{id}")         
+    @PutMapping("/approve/{id}")
     public User approveUser(@PathVariable int id) {
         return adminService.approveUser(id);
     }
 
-    // Reject user
-  //PUT    http://localhost:2025/api/admin/reject/5
     @PutMapping("/reject/{id}")
     public User rejectUser(@PathVariable int id) {
         return adminService.rejectUser(id);
     }
-    
- // View all users
-  //GET   http://localhost:2025/api/admin/viewusers
+
     @GetMapping("/viewusers")
     public List<User> getAllUsers() {
         return adminService.getAllUsers();
     }
-    
+
     // ================= CATEGORY MANAGEMENT =================
 
     @GetMapping("/categories")
@@ -75,7 +74,10 @@ public class AdminController {
     }
 
     @PostMapping("/subcategory/{categoryId}")
-    public SubCategory addSubCategory(@PathVariable int categoryId, @RequestBody SubCategory subCategory) {
+    public SubCategory addSubCategory(
+            @PathVariable int categoryId,
+            @RequestBody SubCategory subCategory) {
+
         return adminService.addSubCategory(categoryId, subCategory);
     }
 
@@ -87,12 +89,18 @@ public class AdminController {
     }
 
     @PostMapping("/fooditem/{subCategoryId}")
-    public FoodItem addFoodItem(@PathVariable int subCategoryId, @RequestBody FoodItem item) {
+    public FoodItem addFoodItem(
+            @PathVariable int subCategoryId,
+            @RequestBody FoodItem item) {
+
         return adminService.addFoodItem(subCategoryId, item);
     }
 
     @PutMapping("/fooditem/{id}")
-    public FoodItem updateFoodItem(@PathVariable int id, @RequestBody FoodItem item) {
+    public FoodItem updateFoodItem(
+            @PathVariable int id,
+            @RequestBody FoodItem item) {
+
         return adminService.updateFoodItem(id, item);
     }
 
@@ -101,4 +109,32 @@ public class AdminController {
         adminService.deleteFoodItem(id);
     }
 
+    // ================= FOOD ITEM REQUESTS (MERGED) =================
+
+    // Admin: View pending food item requests
+    // GET http://localhost:2025/api/admin/food-requests
+    @GetMapping("/food-requests")
+    public List<FoodItemRequest> getPendingFoodRequests() {
+        return foodItemRequestService.getPendingRequests();
+    }
+
+    // Admin: Approve food item request
+    // PUT http://localhost:2025/api/admin/food-requests/approve/{id}
+    @PutMapping("/food-requests/approve/{requestId}")
+    public ResponseEntity<?> approveFoodRequest(
+            @PathVariable Integer requestId) {
+
+        foodItemRequestService.approveRequest(requestId);
+        return ResponseEntity.ok("Food item approved");
+    }
+
+    // Admin: Reject food item request
+    // PUT http://localhost:2025/api/admin/food-requests/reject/{id}
+    @PutMapping("/food-requests/reject/{requestId}")
+    public ResponseEntity<?> rejectFoodRequest(
+            @PathVariable Integer requestId) {
+
+        foodItemRequestService.rejectRequest(requestId);
+        return ResponseEntity.ok("Food item rejected");
+    }
 }
