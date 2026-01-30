@@ -239,15 +239,28 @@ public class MessOwnerService {
                     ))
                     .toList();
 
+            // ⭐ AVERAGE RATING CALCULATION
+            double averageRating = ratings.isEmpty()
+                    ? 0.0
+                    : ratings.stream()
+                             .mapToInt(Rating::getRating)
+                             .average()
+                             .orElse(0.0);
+
+            // round to 1 decimal
+            averageRating = Math.round(averageRating * 10.0) / 10.0;
+
             response.add(new MessWithRatingsDTO(
                     mess.getMessId(),
                     mess.getMessName(),
+                    averageRating,   // ⭐ NEW FIELD
                     ratingDTOs
             ));
         }
 
         return response;
     }
+
     
     
     public List<CustomerOrderDTO> getRegisteredCustomers(

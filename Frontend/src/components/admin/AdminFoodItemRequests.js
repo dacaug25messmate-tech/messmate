@@ -1,3 +1,83 @@
+// import { useEffect } from "react";
+// import { useDispatch, useSelector } from "react-redux";
+// import {
+//   fetchFoodRequests,
+//   approveFoodRequest,
+//   rejectFoodRequest
+// } from "../../foodItemRequestsSlice";
+
+// export default function AdminFoodItemRequests() {
+//   const dispatch = useDispatch();
+
+//   const { requests, loading } = useSelector(
+//     (state) => state.foodRequests
+//   );
+
+//   useEffect(() => {
+//     dispatch(fetchFoodRequests());
+//   }, [dispatch]);
+
+//   if (loading) return <p>Loading food item requests...</p>;
+
+//   return (
+//     <div>
+//       <h2>Review Food Item Requests</h2>
+
+//       <table className="table table-bordered table-striped">
+//         <thead className="table-dark">
+//           <tr>
+//             <th>ID</th>
+//             <th>Item</th>
+//             <th>Description</th>
+//             <th>Mess</th>
+//             <th>Sub Category</th>
+//             <th>Actions</th>
+//           </tr>
+//         </thead>
+
+//         <tbody>
+//           {requests.length === 0 ? (
+//             <tr>
+//               <td colSpan="6" className="text-center">
+//                 No pending requests
+//               </td>
+//             </tr>
+//           ) : (
+//             requests.map((r) => (
+//               <tr key={r.requestId}>
+//                 <td>{r.requestId}</td>
+//                 <td>{r.itemName}</td>
+//                 <td>{r.description}</td>
+//                 <td>{r.messId?.messName}</td>
+//                 <td>{r.subCategoryId?.subCategoryName}</td>
+//                 <td>
+//                   <button
+//                     className="btn btn-success btn-sm me-2"
+//                     onClick={() =>
+//                       dispatch(approveFoodRequest(r.requestId))
+//                     }
+//                   >
+//                     Approve
+//                   </button>
+//                   <button
+//                     className="btn btn-danger btn-sm"
+//                     onClick={() =>
+//                       dispatch(rejectFoodRequest(r.requestId))
+//                     }
+//                   >
+//                     Reject
+//                   </button>
+//                 </td>
+//               </tr>
+//             ))
+//           )}
+//         </tbody>
+//       </table>
+//     </div>
+//   );
+// }
+
+
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -20,59 +100,101 @@ export default function AdminFoodItemRequests() {
   if (loading) return <p>Loading food item requests...</p>;
 
   return (
-    <div>
-      <h2>Review Food Item Requests</h2>
+    <div style={{ padding: "20px" }}>
+      <h2 style={{ marginBottom: "20px" }}>
+        Review Food Item Requests
+      </h2>
 
-      <table className="table table-bordered table-striped">
-        <thead className="table-dark">
-          <tr>
-            <th>ID</th>
-            <th>Item</th>
-            <th>Description</th>
-            <th>Mess</th>
-            <th>Sub Category</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {requests.length === 0 ? (
+      <div style={{ overflowX: "auto" }}>
+        <table
+          className="table table-bordered table-striped"
+          style={{
+            tableLayout: "fixed",
+            width: "100%"
+          }}
+        >
+          <thead className="table-dark">
             <tr>
-              <td colSpan="6" className="text-center">
-                No pending requests
-              </td>
+              <th style={{ width: "5%" }}>ID</th>
+              <th style={{ width: "15%" }}>Item</th>
+              <th style={{ width: "40%" }}>Description</th>
+              <th style={{ width: "10%" }}>Mess Owner</th>
+              <th style={{ width: "15%" }}>Sub Category</th>
+              <th style={{ width: "15%" }}>Actions</th>
             </tr>
-          ) : (
-            requests.map((r) => (
-              <tr key={r.requestId}>
-                <td>{r.requestId}</td>
-                <td>{r.itemName}</td>
-                <td>{r.description}</td>
-                <td>{r.messId?.messName}</td>
-                <td>{r.subCategoryId?.subCategoryName}</td>
-                <td>
-                  <button
-                    className="btn btn-success btn-sm me-2"
-                    onClick={() =>
-                      dispatch(approveFoodRequest(r.requestId))
-                    }
-                  >
-                    Approve
-                  </button>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() =>
-                      dispatch(rejectFoodRequest(r.requestId))
-                    }
-                  >
-                    Reject
-                  </button>
+          </thead>
+
+          <tbody>
+            {requests.length === 0 ? (
+              <tr>
+                <td colSpan="6" className="text-center">
+                  No pending requests
                 </td>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+            ) : (
+              requests.map((r) => (
+                <tr key={r.requestId}>
+                  <td>{r.requestId}</td>
+
+                  <td style={{ fontWeight: "600" }}>
+                    {r.itemName}
+                  </td>
+
+                  <td
+                    style={{
+                      whiteSpace: "normal",
+                      wordBreak: "break-word",
+                      lineHeight: "1.6"
+                    }}
+                  >
+                    {r.description}
+                  </td>
+
+                  <td>
+                    {r.messId?.ownerName || "-"}
+                  </td>
+
+                  <td>
+                    {r.subCategoryId?.subCategoryName || "-"}
+                  </td>
+
+                  <td>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "8px"
+                      }}
+                    >
+                      <button
+                        className="btn btn-success btn-sm"
+                        onClick={() =>
+                          dispatch(
+                            approveFoodRequest(r.requestId)
+                          )
+                        }
+                      >
+                        Approve
+                      </button>
+
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() =>
+                          dispatch(
+                            rejectFoodRequest(r.requestId)
+                          )
+                        }
+                      >
+                        Reject
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

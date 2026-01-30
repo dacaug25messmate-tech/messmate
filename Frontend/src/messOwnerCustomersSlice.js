@@ -10,7 +10,6 @@ const messOwnerCustomersSlice = createSlice({
     error: null,
   },
   reducers: {
-    // MESS FETCH
     fetchMessesStart: (state) => {
       state.loading = true;
       state.error = null;
@@ -18,14 +17,14 @@ const messOwnerCustomersSlice = createSlice({
     fetchMessesSuccess: (state, action) => {
       state.loading = false;
       state.messes = action.payload;
-      state.activeMessId = action.payload.length > 0 ? action.payload[0].messId : null;
+      state.activeMessId =
+        action.payload.length > 0 ? action.payload[0].messId : null;
     },
     fetchMessesFailure: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },
 
-    // CUSTOMERS FETCH
     fetchCustomersStart: (state) => {
       state.loading = true;
       state.error = null;
@@ -40,7 +39,6 @@ const messOwnerCustomersSlice = createSlice({
       state.error = action.payload;
     },
 
-    // SET ACTIVE MESS
     setActiveMess: (state, action) => {
       state.activeMessId = action.payload;
       state.customers = [];
@@ -48,13 +46,14 @@ const messOwnerCustomersSlice = createSlice({
   },
 });
 
-//ASYNC ACTIONS
+// ASYNC ACTIONS
 
-// Fetch messes for the logged-in owner
 export const fetchOwnerMesses = (userId) => async (dispatch) => {
   try {
     dispatch(fetchMessesStart());
-    const res = await fetch(`http://localhost:2028/api/messowner/messes/${userId}`);
+    const res = await fetch(
+      `http://localhost:2028/api/messowner/messes/${userId}`
+    );
     if (!res.ok) throw new Error("Failed to fetch messes");
     const data = await res.json();
     dispatch(fetchMessesSuccess(data));
@@ -63,22 +62,26 @@ export const fetchOwnerMesses = (userId) => async (dispatch) => {
   }
 };
 
-// Fetch customers for a specific mess
-export const fetchRegisteredCustomers = (messId) => async (dispatch) => {
-  if (!messId) return;
-  try {
-    dispatch(fetchCustomersStart());
-    const res = await fetch(`http://localhost:2028/api/messowner/customers/${messId}`);
-    if (!res.ok) throw new Error("Failed to fetch customers");
-    const data = await res.json();
-    dispatch(fetchCustomersSuccess(data));
-  } catch (err) {
-    dispatch(fetchCustomersFailure(err.message));
-  }
-};
+export const fetchRegisteredCustomers =
+  (messId, date, mealType) => async (dispatch) => {
+    if (!messId || !date || !mealType) return;
 
+    try {
+      dispatch(fetchCustomersStart());
 
-  // EXPORTS
+      const res = await fetch(
+        `http://localhost:2028/api/messowner/customers/${messId}?date=${date}&mealType=${mealType}`
+      );
+
+      if (!res.ok) throw new Error("Failed to fetch customers");
+
+      const data = await res.json();
+      dispatch(fetchCustomersSuccess(data));
+    } catch (err) {
+      dispatch(fetchCustomersFailure(err.message));
+    }
+  };
+
 export const {
   fetchMessesStart,
   fetchMessesSuccess,

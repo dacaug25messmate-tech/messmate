@@ -81,7 +81,7 @@ public class MessOwnerController {
     
     
 
-    //GET http://localhost:2025/api/messowner/customers/{messId}
+    //GET http://localhost:2028/api/messowner/customers/{messId}
     @GetMapping("/customers/{messId}")
     public ResponseEntity<?> getRegisteredCustomers(
             @PathVariable int messId,
