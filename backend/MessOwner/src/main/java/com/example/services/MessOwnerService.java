@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.dto.CustomerOrderDTO;
 import com.example.dto.MealMenuRequest;
 import com.example.dto.MessOwnerProfileDTO;
+import com.example.dto.MessOwnerProfileUpdateDTO;
 import com.example.dto.MessRatingDTO;
 import com.example.dto.MessRequestDTO;
 import com.example.dto.MessWithRatingsDTO;
@@ -20,6 +21,7 @@ import com.example.entities.FoodItem;
 import com.example.entities.MealMenu;
 import com.example.entities.MealMenuFoodItem;
 import com.example.entities.Mess;
+import com.example.entities.MessPhoto;
 import com.example.entities.Rating;
 import com.example.entities.Subscription;
 import com.example.entities.User;
@@ -29,6 +31,7 @@ import com.example.repository.CustomerVisitLogRepository;
 import com.example.repository.FoodItemRepository;
 import com.example.repository.MealMenuFoodItemRepository;
 import com.example.repository.MealMenuRepository;
+import com.example.repository.MessPhotoRepository;
 import com.example.repository.MessRepository;
 import com.example.repository.RatingRepository;
 import com.example.repository.SubscriptionRepository;
@@ -66,6 +69,10 @@ public class MessOwnerService {
     private FoodItemRepository foodItemRepository;
     
     @Autowired
+	private MessPhotoRepository messPhotoRepository;
+
+    
+    @Autowired
     private RatingRepository ratingRepository;
 
     public CustomerVisitLog markCustomerVisit(int subscriptionId, LocalDate date, String mealType, boolean visited) {
@@ -91,94 +98,94 @@ public class MessOwnerService {
 
    
     // Mess Owner Profile
-   public MessOwnerProfileDTO getMessOwnerProfile(int userId) {
-        User user = userRepo.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public MessOwnerProfileDTO getMessOwnerProfile(int userId) {
+         User user = userRepo.findById(userId)
+                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        List<Mess> messList = messRepo.findByUserId(user);
+         List<Mess> messList = messRepo.findByUserId(user);
 
-        MessOwnerProfileDTO dto = new MessOwnerProfileDTO();
-        dto.setFullName(user.getFullName());
-        dto.setUsername(user.getUserName());
-        dto.setEmail(user.getEmail());
-        dto.setPhone(user.getPhone());
-        dto.setAddress(user.getAddress());
+         MessOwnerProfileDTO dto = new MessOwnerProfileDTO();
+         dto.setFullName(user.getFullName());
+         dto.setUsername(user.getUserName());
+         dto.setEmail(user.getEmail());
+         dto.setPhone(user.getPhone());
+         dto.setAddress(user.getAddress());
 
-        if (!messList.isEmpty()) {
-            Mess mess = messList.get(0);
-            dto.setMessName(mess.getMessName());
-            dto.setMessAddress(mess.getMessAddress());
-            dto.setMessType(mess.getMessType());
-            dto.setLunchTime(mess.getLunchOpenTime() + " - " + mess.getLunchCloseTime());
-            dto.setDinnerTime(mess.getDinnerOpenTime() + " - " + mess.getDinnerCloseTime());
-            if (mess.getAreaId() != null) {
-                dto.setAreaName(mess.getAreaId().getArea_name());
-            }
-        }
+         if (!messList.isEmpty()) {
+             Mess mess = messList.get(0);
+             dto.setMessName(mess.getMessName());
+             dto.setMessAddress(mess.getMessAddress());
+             dto.setMessType(mess.getMessType());
+             dto.setLunchTime(mess.getLunchOpenTime() + " - " + mess.getLunchCloseTime());
+             dto.setDinnerTime(mess.getDinnerOpenTime() + " - " + mess.getDinnerCloseTime());
+             if (mess.getAreaId() != null) {
+                 dto.setAreaName(mess.getAreaId().getArea_name());
+             }
+         }
 
-        return dto;
-    }
+         return dto;
+     }
 
-  
-   		// Mess CRUD
-   		public Mess addMess(MessRequestDTO dto) {
-        User user = userRepo.findById(dto.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+		// Mess CRUD
+		public Mess addMess(MessRequestDTO dto) {
+    User user = userRepo.findById(dto.getUserId())
+            .orElseThrow(() -> new RuntimeException("User not found"));
 
+    Area area = areaRepo.findById(dto.getAreaId())
+            .orElseThrow(() -> new RuntimeException("Area not found"));
+
+    Mess mess = new Mess();
+    mess.setUserId(user);
+    mess.setAreaId(area);
+    mess.setMessName(dto.getMessName());
+    mess.setMessAddress(dto.getMessAddress());
+    mess.setMessType(dto.getMessType());
+    mess.setLunchOpenTime(LocalTime.parse(dto.getLunchOpenTime()));
+    mess.setLunchCloseTime(LocalTime.parse(dto.getLunchCloseTime()));
+    mess.setDinnerOpenTime(LocalTime.parse(dto.getDinnerOpenTime()));
+    mess.setDinnerCloseTime(LocalTime.parse(dto.getDinnerCloseTime()));
+
+    return messRepo.save(mess);
+}
+
+
+
+public Mess updateMess(MessRequestDTO dto) {
+    Mess mess = messRepo.findById(dto.getMessId())
+            .orElseThrow(() -> new RuntimeException("Mess not found"));
+
+    mess.setMessName(dto.getMessName());
+    mess.setMessAddress(dto.getMessAddress());
+    mess.setMessType(dto.getMessType());
+    mess.setLunchOpenTime(LocalTime.parse(dto.getLunchOpenTime()));
+    mess.setLunchCloseTime(LocalTime.parse(dto.getLunchCloseTime()));
+    mess.setDinnerOpenTime(LocalTime.parse(dto.getDinnerOpenTime()));
+    mess.setDinnerCloseTime(LocalTime.parse(dto.getDinnerCloseTime()));
+
+    if (dto.getAreaId() != null) {
         Area area = areaRepo.findById(dto.getAreaId())
                 .orElseThrow(() -> new RuntimeException("Area not found"));
-
-        Mess mess = new Mess();
-        mess.setUserId(user);
         mess.setAreaId(area);
-        mess.setMessName(dto.getMessName());
-        mess.setMessAddress(dto.getMessAddress());
-        mess.setMessType(dto.getMessType());
-        mess.setLunchOpenTime(LocalTime.parse(dto.getLunchOpenTime()));
-        mess.setLunchCloseTime(LocalTime.parse(dto.getLunchCloseTime()));
-        mess.setDinnerOpenTime(LocalTime.parse(dto.getDinnerOpenTime()));
-        mess.setDinnerCloseTime(LocalTime.parse(dto.getDinnerCloseTime()));
-
-        return messRepo.save(mess);
     }
 
-    
-    
-    public Mess updateMess(MessRequestDTO dto) {
-        Mess mess = messRepo.findById(dto.getMessId())
-                .orElseThrow(() -> new RuntimeException("Mess not found"));
+    return messRepo.save(mess);
+}
 
-        mess.setMessName(dto.getMessName());
-        mess.setMessAddress(dto.getMessAddress());
-        mess.setMessType(dto.getMessType());
-        mess.setLunchOpenTime(LocalTime.parse(dto.getLunchOpenTime()));
-        mess.setLunchCloseTime(LocalTime.parse(dto.getLunchCloseTime()));
-        mess.setDinnerOpenTime(LocalTime.parse(dto.getDinnerOpenTime()));
-        mess.setDinnerCloseTime(LocalTime.parse(dto.getDinnerCloseTime()));
 
-        if (dto.getAreaId() != null) {
-            Area area = areaRepo.findById(dto.getAreaId())
-                    .orElseThrow(() -> new RuntimeException("Area not found"));
-            mess.setAreaId(area);
-        }
 
-        return messRepo.save(mess);
-    }
+public void deleteMess(Integer messId) {
+    Mess mess = messRepo.findById(messId)
+            .orElseThrow(() -> new RuntimeException("Mess not found"));
+    messRepo.delete(mess);
+}
 
-    
-    
-    public void deleteMess(Integer messId) {
-        Mess mess = messRepo.findById(messId)
-                .orElseThrow(() -> new RuntimeException("Mess not found"));
-        messRepo.delete(mess);
-    }
-    
 
-    public List<Mess> getAllMessesByUser(Integer userId) {
-        User user = userRepo.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        return messRepo.findAllByUserId(user);
-    }
+public List<Mess> getAllMessesByUser(Integer userId) {
+    User user = userRepo.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+    return messRepo.findAllByUserId(user);
+}
+
 
     
     // Meal Menu
@@ -330,6 +337,46 @@ public class MessOwnerService {
     public Mess getMessById(Integer messId) {
         return messRepo.findById(messId)
                 .orElseThrow(() -> new RuntimeException("Mess not found"));
+    }
+
+    public MessOwnerProfileDTO updateMessOwnerProfile(
+            MessOwnerProfileUpdateDTO dto) {
+
+        User user = userRepo.findById(dto.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // update ONLY user fields
+        user.setFullName(dto.getFullName());
+        user.setEmail(dto.getEmail());
+        user.setPhone(dto.getPhone());
+        user.setAddress(dto.getAddress());
+
+        userRepo.save(user);
+
+        // return updated profile
+        return getMessOwnerProfile(user.getUserid());
+    }
+
+
+    // ================= PHOTO LOGIC =================
+
+    public MessPhoto addMessPhoto(Integer messId, String photoUrl) {
+        Mess mess = messRepo.findById(messId)
+                .orElseThrow(() -> new RuntimeException("Mess not found"));
+
+        MessPhoto photo = new MessPhoto();
+        photo.setMess(mess);
+        photo.setPhotoUrl(photoUrl);
+
+        return messPhotoRepository.save(photo);
+    }
+
+    public List<MessPhoto> getMessPhotos(Integer messId) {
+        return messPhotoRepository.findByMess_MessId(messId);
+    }
+
+    public void deleteMessPhoto(Integer photoId) {
+        messPhotoRepository.deleteById(photoId);
     }
 
    

@@ -1,117 +1,161 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { MonthlyPlanForm } from "./MonthlyPlanForm";
+import AddMonthlyPlanModal from "./AddMonthlyPlanModal";
+import "../../styles/monthlyPlans.css";
 
-export default function MonthlyPlans({ messId }) {
+export default function MonthlyPlans() {
+  const userId = localStorage.getItem("userid");
+
+  const [messes, setMesses] = useState([]);
+  const [selectedMess, setSelectedMess] = useState(null);
   const [plans, setPlans] = useState([]);
-  const [showForm, setShowForm] = useState(false);
-  const [editPlan, setEditPlan] = useState(null);
+  const [showModal, setShowModal] = useState({ visible: false, plan: null });
 
-  const backendUrl = "http://localhost:2028/api/monthlyplans"; 
-
-  // Fetch plans from backend
+  // Load messes on page load
   useEffect(() => {
-    axios.get(`${backendUrl}/mess/${messId}`)
-      .then(res => setPlans(res.data))
-      .catch(err => console.error("Error fetching plans:", err));
-  }, [messId]);
+    fetchMesses();
+  }, []);
 
-  const handleDelete = (id) => {
+  const fetchMesses = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:2028/api/messowner/messes/${userId}`
+      );
+      if (!res.ok) throw new Error("Failed to load messes");
+
+      const data = await res.json();
+      if (!Array.isArray(data) || data.length === 0) return;
+
+      setMesses(data);
+      setSelectedMess(data[0]);
+      fetchPlans(data[0].messId);
+    } catch (err) {
+      console.error("Error loading messes", err);
+      setMesses([]);
+      setSelectedMess(null);
+    }
+  };
+
+  const fetchPlans = async (messId) => {
+    try {
+      const res = await fetch(
+        `http://localhost:2028/api/messowner/monthly-plans/${messId}`
+      );
+      if (!res.ok) throw new Error("Failed to load plans");
+
+      const data = await res.json();
+      setPlans(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error("Error loading plans", err);
+      setPlans([]);
+    }
+  };
+
+  const deletePlan = async (planId) => {
     if (!window.confirm("Delete this plan?")) return;
 
-    // frontend delete only (temporary)
-    setPlans(plans.filter(p => p.planId !== id));
-
-    // optional backend delete
-    axios.delete(`${backendUrl}/${id}`)
-      .then(res => console.log("Deleted", res.data))
-      .catch(err => console.error("Error deleting plan:", err));
-  };
-
-  const handleSave = (plan) => {
-    if (editPlan) {
-      // frontend update
-      setPlans(plans.map(p => p.planId === editPlan.planId ? { ...editPlan, ...plan } : p));
-
-      // backend update
-      axios.put(`${backendUrl}/${editPlan.planId}`, plan)
-        .then(res => console.log("Updated", res.data))
-        .catch(err => console.error("Error updating plan:", err));
-    } else {
-      const newPlan = { ...plan, planId: Date.now() }; // temp id
-      setPlans([...plans, newPlan]);
-
-      // backend add
-      axios.post(`${backendUrl}`, { ...plan, messId })
-        .then(res => console.log("Added", res.data))
-        .catch(err => console.error("Error adding plan:", err));
+    try {
+      await fetch(
+        `http://localhost:2028/api/messowner/monthly-plans/${planId}`,
+        { method: "DELETE" }
+      );
+      fetchPlans(selectedMess.messId);
+    } catch (err) {
+      console.error("Error deleting plan", err);
+      alert("Failed to delete plan");
     }
-    setShowForm(false);
   };
+
+  if (!selectedMess) return <p>No mess found</p>;
 
   return (
-    <div className="dashboard-card">
-      <div className="card-header">
+    <div className="monthly-plans-container">
+      {/* Mess Selector */}
+      <div style={{ marginBottom: "20px" }}>
+        <label style={{ marginRight: "10px" }}>Select Mess:</label>
+        <select
+          value={selectedMess.messId}
+          onChange={(e) => {
+            const mess = messes.find(
+              (m) => m.messId === parseInt(e.target.value)
+            );
+            setSelectedMess(mess);
+            fetchPlans(mess.messId);
+          }}
+        >
+          {messes.map((m) => (
+            <option key={m.messId} value={m.messId}>
+              {m.messName}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <h2 className="mess-name">{selectedMess.messName}</h2>
+
+      <div className="monthly-plans-header">
         <h3>Monthly Plans</h3>
-        <button className="btn-primary" onClick={() => {
-          setEditPlan(null);
-          setShowForm(true);
-        }}>
+        <button
+          className="add-plan-btn"
+          onClick={() => setShowModal({ visible: true, plan: null })}
+        >
           + Add Plan
         </button>
       </div>
 
-      <table className="profile-table">
+      <table className="plans-table">
         <thead>
           <tr>
             <th>Plan Name</th>
-            <th>Price (₹)</th>
+            <th>Price</th>
             <th>Meals</th>
-            <th>Validity (Days)</th>
+            <th>Validity</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          {plans.length === 0 && (
+          {plans.length === 0 ? (
             <tr>
-              <td colSpan="5" align="center">No plans added</td>
-            </tr>
-          )}
-
-          {plans.map(plan => (
-            <tr key={plan.planId}>
-              <td>{plan.planName}</td>
-              <td>{plan.monthlyPrice}</td>
-              <td>{plan.mealInclusion}</td>
-              <td>{plan.validityPeriod}</td>
-              <td>
-                <button
-                  className="btn-edit"
-                  onClick={() => {
-                    setEditPlan(plan);
-                    setShowForm(true);
-                  }}
-                >
-                  Edit
-                </button>
-
-                <button
-                  className="btn-delete"
-                  onClick={() => handleDelete(plan.planId)}
-                >
-                  Delete
-                </button>
+              <td colSpan="5" className="no-data">
+                No plans added yet
               </td>
             </tr>
-          ))}
+          ) : (
+            plans.map((plan) => (
+              <tr key={plan.planId}>
+                <td>{plan.planName}</td>
+                <td>{plan.monthlyPrice}</td>
+                <td>{plan.mealInclusion}</td>
+                <td>{plan.validityPeriod}</td>
+                <td>
+                  <button
+                    onClick={() => setShowModal({ visible: true, plan })}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="delete-btn"
+                    onClick={() => deletePlan(plan.planId)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
 
-      {showForm && (
-        <MonthlyPlanForm
-          editPlan={editPlan}
-          onClose={() => setShowForm(false)}
-          onSave={handleSave}
+      {/* Modal */}
+      {showModal.visible && (
+        <AddMonthlyPlanModal
+          messes={messes}
+          selectedMess={selectedMess}
+          plan={showModal.plan}
+          onClose={() => setShowModal({ visible: false, plan: null })}
+          onSaved={() => {
+            setShowModal({ visible: false, plan: null });
+            fetchPlans(selectedMess.messId);
+          }}
         />
       )}
     </div>

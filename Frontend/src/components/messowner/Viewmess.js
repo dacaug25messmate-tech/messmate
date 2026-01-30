@@ -5,7 +5,7 @@ export default function ViewMesses({ userId }) {
   const [messes, setMesses] = useState([]);
   const [selectedMess, setSelectedMess] = useState(null);
 
-  // Load all messes of owner
+  // 🔹 Load all messes of owner
   useEffect(() => {
     fetch(`http://localhost:2028/api/messowner/messes/${userId}`)
       .then(res => res.json())
@@ -13,7 +13,7 @@ export default function ViewMesses({ userId }) {
       .catch(() => setMesses([]));
   }, [userId]);
 
-  // View single mess details
+  // 🔹 View single mess details
   const viewMess = (messId) => {
     fetch(`http://localhost:2028/api/messowner/mess/details/${messId}`)
       .then(res => res.json())
@@ -25,7 +25,7 @@ export default function ViewMesses({ userId }) {
 
       {/* <h3>My Messes</h3> */}
 
-      {/* MESS LIST TABLE */}
+      {/* 🔹 MESS LIST TABLE */}
       <table className="profile-table">
         <thead>
           <tr>
@@ -47,7 +47,7 @@ export default function ViewMesses({ userId }) {
         </tbody>
       </table>
 
-      {/* SELECTED MESS DETAILS */}
+      {/* 🔹 SELECTED MESS DETAILS */}
       {selectedMess && (
         <>
           <h3>Mess Details</h3>
