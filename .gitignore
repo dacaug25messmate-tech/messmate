@@ -15,6 +15,19 @@ target/
 .metadata/
 bin/
 
+
+# =========================
+# ASP.NET Core / .NET
+# =========================
+.vs/
+bin/
+obj/
+*.user
+*.suo
+
+# App settings (do not commit secrets)
+
+
 # ===== Node / React =====
 node_modules/
 build/

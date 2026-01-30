@@ -18,6 +18,10 @@ import AdminDisableUser from "./components/admin/AdminDisableUser";
 
 /* CUSTOMER */
 import CustomerDashboard from "./components/dashboards/CustomerDashboard";
+import SearchMess from "./components/customer/SearchMess";
+import MessDetails from "./components/customer/MessDetails";
+import CustomerProfile from "./components/customer/CustomerProfile";
+import MySubscriptions from "./components/customer/MySubscriptions";
 
 /* MESS OWNER */
 import MessOwnerDashboard from "./components/dashboards/MessOwnerDashboard";
@@ -39,12 +43,16 @@ function App() {
       <ToastContainer position="top-right" autoClose={3000} />
 
       <Routes>
-        {/* PUBLIC */}
+        {/* PUBLIC ROUTES */}
         <Route path="/" element={<AppHome />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* ADMIN */}
+        {/* PUBLIC CUSTOMER ROUTES */}
+        <Route path="/search-mess" element={<SearchMess />} />
+        <Route path="/mess/:id" element={<MessDetails />} />
+
+        {/* ADMIN ROUTES */}
         <Route
           path="/admin"
           element={
@@ -56,12 +64,12 @@ function App() {
           <Route path="pendingusers" element={<AdminPendingUsers />} />
           <Route path="viewusers" element={<AdminViewUsers />} />
           <Route path="menu" element={<AdminMenuManagement />} />
-          <Route path="disable-user" element={<AdminDisableUser />} />
           <Route path="food-requests" element={<AdminFoodItemRequests />} />
           <Route path="feedback" element={<AdminViewFeedback />} />
+          <Route path="disable-user" element={<AdminDisableUser />} />
         </Route>
 
-        {/* CUSTOMER */}
+        {/* CUSTOMER DASHBOARD */}
         <Route
           path="/customer"
           element={
@@ -69,9 +77,15 @@ function App() {
               <CustomerDashboard />
             </ProtectedRoute>
           }
-        />
+        >
+          <Route index element={<SearchMess />} />
+          <Route path="profile" element={<CustomerProfile />} />
+          <Route path="search-mess" element={<SearchMess />} />
+          <Route path="mess/:id" element={<MessDetails />} />
+          <Route path="my-subscriptions" element={<MySubscriptions />} />
+        </Route>
 
-        {/* MESS OWNER */}
+        {/* MESS OWNER ROUTES */}
         <Route
           path="/messowner"
           element={
@@ -80,9 +94,7 @@ function App() {
             </ProtectedRoute>
           }
         >
-          {/* Default page */}
           <Route index element={<ProfileAndMessInfo />} />
-
           <Route path="profile" element={<ProfileAndMessInfo />} />
           <Route path="orders" element={<ManageOrders />} />
           <Route path="dailymenu" element={<ManageDailyMenu />} />
@@ -91,7 +103,6 @@ function App() {
           <Route path="request-item" element={<MessOwnerFoodRequestForm />} />
           <Route path="ratings" element={<MessOwnerRatings />} />
 
-          {/* Fallback inside messowner */}
           <Route
             path="*"
             element={<div>Select an option from the sidebar</div>}
