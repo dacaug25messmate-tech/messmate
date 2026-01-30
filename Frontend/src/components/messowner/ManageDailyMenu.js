@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import Select from "react-select";
 
 export default function ManageDailyMenu() {
   const today = new Date().toISOString().split("T")[0];
@@ -14,6 +15,7 @@ export default function ManageDailyMenu() {
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
   const [foodItems, setFoodItems] = useState([]);
+
 
   const [categoryId, setCategoryId] = useState("");
   const [subCategoryId, setSubCategoryId] = useState("");
@@ -59,7 +61,7 @@ export default function ManageDailyMenu() {
   /* ---------- LOAD SUBCATEGORIES ---------- */
   useEffect(() => {
     if (!categoryId) return setSubCategories([]);
-    fetch(`http://localhost:2028/api/admin/subcategories/${categoryId}`)
+    fetch(`http://localhost:2027/api/admin/subcategories/${categoryId}`)
       .then(res => res.json())
       .then(setSubCategories);
   }, [categoryId]);
@@ -67,7 +69,7 @@ export default function ManageDailyMenu() {
   /* ---------- LOAD FOOD ITEMS ---------- */
   useEffect(() => {
     if (!subCategoryId) return setFoodItems([]);
-    fetch(`http://localhost:2028/api/admin/fooditems/${subCategoryId}`)
+    fetch(`http://localhost:2027/api/admin/fooditems/${subCategoryId}`)
       .then(res => res.json())
       .then(setFoodItems);
   }, [subCategoryId]);
@@ -160,172 +162,242 @@ export default function ManageDailyMenu() {
   };
 
   return (
-    <div className="container mt-4">
-      {toast.show && (
-        <div className={`alert alert-${toast.type}`}>{toast.msg}</div>
-      )}
+  <div className="container my-4">
+    {toast.show && (
+      <div className={`alert alert-${toast.type} shadow-sm`}>
+        {toast.msg}
+      </div>
+    )}
 
-      <div className="card p-3">
-        <h5>Manage Daily Menu</h5>
+    <div className="card shadow-lg border-0 rounded-4">
+      <div className="card-body p-4">
 
-        <ul className="nav nav-tabs mb-3">
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <h4 className="fw-bold mb-0">🍽️ Manage Daily Menu</h4>
+          <span className="badge bg-warning text-dark px-3 py-2">
+            {menuDate}
+          </span>
+        </div>
+
+        {/* TABS */}
+        <ul className="nav nav-pills mb-4 gap-2">
           <li className="nav-item">
             <button
-              className={`nav-link ${activeTab === "TODAY" ? "active" : ""}`}
+              className={`nav-link px-4 ${
+                activeTab === "TODAY" ? "active" : "text-dark"
+              }`}
               onClick={() => {
                 setActiveTab("TODAY");
                 setMenuDate(today);
               }}
             >
-              Today Menu
+              Today
             </button>
           </li>
           <li className="nav-item">
             <button
-              className={`nav-link ${activeTab === "VIEW" ? "active" : ""}`}
+              className={`nav-link px-4 ${
+                activeTab === "VIEW" ? "active" : "text-dark"
+              }`}
               onClick={() => setActiveTab("VIEW")}
             >
-              View By Date
+              View Menu
             </button>
           </li>
         </ul>
 
         {/* TODAY TAB */}
         {activeTab === "TODAY" && (
-          <>
-            <select className="form-control mb-2" value={selectedMessId}
-              onChange={e => setSelectedMessId(e.target.value)}>
-              <option value="">Select Mess</option>
-              {messes.map(m => (
-                <option key={m.messId} value={m.messId}>
-                  {m.messName}
-                </option>
-              ))}
-            </select>
+          <div className="row g-4">
 
-            <input
-              type="date"
-              className="form-control mb-2"
-              value={menuDate}
-              min={today}
-              max={today}
-              onChange={handleTodayDateChange}
-            />
+            {/* LEFT PANEL */}
+            <div className="col-md-5">
+              <div className="card shadow-sm rounded-4">
+                <div className="card-body">
 
-            <select className="form-control mb-2"
-              value={menuType}
-              onChange={e => setMenuType(e.target.value)}>
-              <option value="LUNCH">Lunch</option>
-              <option value="DINNER">Dinner</option>
-            </select>
+                  <h6 className="fw-bold mb-3">Menu Details</h6>
 
-            <select className="form-control mb-2"
-              value={categoryId}
-              onChange={e => setCategoryId(e.target.value)}>
-              <option value="">Select Category</option>
-              {categories.map(c => (
-                <option key={c.categoryId} value={c.categoryId}>
-                  {c.categoryName}
-                </option>
-              ))}
-            </select>
+                  <select className="form-select mb-2"
+                    value={selectedMessId}
+                    onChange={e => setSelectedMessId(e.target.value)}>
+                    <option value="">Select Mess</option>
+                    {messes.map(m => (
+                      <option key={m.messId} value={m.messId}>
+                        {m.messName}
+                      </option>
+                    ))}
+                  </select>
 
-            <select className="form-control mb-2"
-              value={subCategoryId}
-              onChange={e => setSubCategoryId(e.target.value)}>
-              <option value="">Select Subcategory</option>
-              {subCategories.map(sc => (
-                <option key={sc.subCategoryId} value={sc.subCategoryId}>
-                  {sc.subCategoryName}
-                </option>
-              ))}
-            </select>
+                  <input
+                    type="date"
+                    className="form-control mb-2"
+                    value={menuDate}
+                    min={today}
+                    max={today}
+                    onChange={handleTodayDateChange}
+                  />
 
-            <select className="form-control mb-2"
-              value={foodItemId}
-              onChange={e => setFoodItemId(e.target.value)}>
-              <option value="">Select Food</option>
-              {foodItems.map(f => (
-                <option key={f.foodItemId} value={f.foodItemId}>
-                  {f.foodName}
-                </option>
-              ))}
-            </select>
+                  <select className="form-select mb-3"
+                    value={menuType}
+                    onChange={e => setMenuType(e.target.value)}>
+                    <option value="LUNCH">Lunch</option>
+                    <option value="DINNER">Dinner</option>
+                  </select>
 
-            <button className="btn btn-primary mb-3" onClick={addFood}>
-              Add Food
-            </button>
+                  <h6 className="fw-bold mt-4 mb-2">Add Food</h6>
 
-            <ul className="list-group mb-3">
-              {selectedItems.map(item => (
-                <li key={item.foodItemId}
-                  className="list-group-item d-flex justify-content-between">
-                  {item.foodName}
-                  <button className="btn btn-danger btn-sm"
-                    onClick={() => deleteFood(item.foodItemId)}>
-                    Delete
+                  <select className="form-select mb-2"
+                    value={categoryId}
+                    onChange={e => setCategoryId(e.target.value)}>
+                    <option value="">Category</option>
+                    {categories.map(c => (
+                      <option key={c.categoryId} value={c.categoryId}>
+                        {c.categoryName}
+                      </option>
+                    ))}
+                  </select>
+
+                  <select className="form-select mb-2"
+                  value={subCategoryId}
+                  onChange={e => setSubCategoryId(e.target.value)}>
+                  <option value="">Subcategory</option>
+                  {subCategories.map(sc => (
+                   <option key={sc.subCategoryId} value={sc.subCategoryId}>
+                   {sc.subCategoryName}
+                  </option>
+                    ))}
+                  </select>
+
+                 <Select
+                options={foodItems.map(f => ({ value: f.foodItemId, label: f.foodName }))}
+                value={foodItemId ? { value: foodItemId, label: foodItems.find(f => f.foodItemId === foodItemId)?.foodName } : null}
+                 onChange={opt => setFoodItemId(opt ? opt.value : "")}
+                 placeholder="Search or select food item..."
+               isClearable
+                  />
+
+                  <button
+                    className="btn btn-primary w-100"
+                    onClick={addFood}
+                  >
+                    ➕ Add Food
                   </button>
-                </li>
-              ))}
-            </ul>
 
-            <button className="btn btn-success" onClick={saveMenu}>
-              Save {menuType} Menu
-            </button>
-          </>
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT PANEL */}
+            <div className="col-md-7">
+              <div className="card shadow-sm rounded-4 h-100">
+                <div className="card-body d-flex flex-column">
+
+                  <h6 className="fw-bold mb-3">
+                    Selected Items ({selectedItems.length})
+                  </h6>
+
+                  <div className="flex-grow-1">
+                    {selectedItems.length === 0 && (
+                      <p className="text-muted">No items added yet</p>
+                    )}
+
+                    {selectedItems.map(item => (
+                      <div
+                        key={item.foodItemId}
+                        className="d-flex justify-content-between align-items-center border rounded-3 p-2 mb-2"
+                      >
+                        <span className="fw-medium">{item.foodName}</span>
+                        <button
+                          className="btn btn-outline-danger btn-sm"
+                          onClick={() => deleteFood(item.foodItemId)}
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+
+                  <button
+                    className="btn btn-success mt-3"
+                    onClick={saveMenu}
+                  >
+                    💾 Save {menuType} Menu
+                  </button>
+
+                </div>
+              </div>
+            </div>
+          </div>
         )}
 
         {/* VIEW TAB */}
         {activeTab === "VIEW" && (
           <>
-            <select className="form-control mb-2"
-              value={selectedMessId}
-              onChange={e => setSelectedMessId(e.target.value)}>
-              <option value="">Select Mess</option>
-              {messes.map(m => (
-                <option key={m.messId} value={m.messId}>
-                  {m.messName}
-                </option>
+            <div className="row g-3 mb-3">
+              <div className="col-md-4">
+                <select className="form-select"
+                  value={selectedMessId}
+                  onChange={e => setSelectedMessId(e.target.value)}>
+                  <option value="">Select Mess</option>
+                  {messes.map(m => (
+                    <option key={m.messId} value={m.messId}>
+                      {m.messName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="col-md-4">
+                <input
+                  type="date"
+                  className="form-control"
+                  value={menuDate}
+                  onChange={e => setMenuDate(e.target.value)}
+                />
+              </div>
+
+              <div className="col-md-4">
+                <button
+                  className="btn btn-info w-100"
+                  onClick={viewMenu}
+                >
+                  🔍 View Menu
+                </button>
+              </div>
+            </div>
+
+            <div className="row g-4">
+              {["LUNCH", "DINNER"].map(type => (
+                <div className="col-md-6" key={type}>
+                  <div className="card shadow-sm rounded-4">
+                    <div className="card-body">
+                      <h6 className="fw-bold mb-3">
+                        {type === "LUNCH" ? "🍱 Lunch" : "🍽️ Dinner"}
+                      </h6>
+
+                      {viewMenuData[type].length === 0 ? (
+                        <p className="text-muted">No items</p>
+                      ) : (
+                        viewMenuData[type].map(i => (
+                          <span
+                            key={i.foodItemId}
+                            className="badge bg-light text-dark border me-2 mb-2 p-2"
+                          >
+                            {i.foodName}
+                          </span>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                </div>
               ))}
-            </select>
-
-            <input
-              type="date"
-              className="form-control mb-2"
-              value={menuDate}
-              onChange={e => setMenuDate(e.target.value)}
-            />
-
-            <button className="btn btn-info mb-3" onClick={viewMenu}>
-              View Menu
-            </button>
-
-            <div className="row">
-              <div className="col-md-6">
-                <h6>Lunch</h6>
-                <ul className="list-group">
-                  {viewMenuData.LUNCH.map(i => (
-                    <li key={i.foodItemId} className="list-group-item">
-                      {i.foodName}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="col-md-6">
-                <h6>Dinner</h6>
-                <ul className="list-group">
-                  {viewMenuData.DINNER.map(i => (
-                    <li key={i.foodItemId} className="list-group-item">
-                      {i.foodName}
-                    </li>
-                  ))}
-                </ul>
-              </div>
             </div>
           </>
         )}
+
       </div>
     </div>
-  );
+  </div>
+);
+
 }

@@ -4,7 +4,6 @@ import {
   FaUtensils,
   FaCalendarAlt,
   FaClipboardList,
-  FaUserCheck,
   FaUsers,
   FaStar,
   FaPlusSquare,

@@ -25,6 +25,7 @@ import ViewRegisteredCustomers from "./components/messowner/ViewRegisteredCustom
 import AdminViewFeedback from "./components/admin/AdminViewFeedback";
 import MessOwnerRatings from "./components/messowner/MessOwnerRatings";
 import ManageOrders from "./components/messowner/ManageOrders";
+import AdminDisableUser from "./components/admin/AdminDisableUser";
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
           <Route path="pendingusers" element={<AdminPendingUsers />} />
           <Route path="viewusers" element={<AdminViewUsers />} />
           <Route path="menu" element={<AdminMenuManagement />} />
+          <Route path="disable-user" element={<AdminDisableUser />} />
           <Route path="food-requests" element={<AdminFoodItemRequests />} />
           <Route path="feedback" element={<AdminViewFeedback />} />
         </Route>
@@ -75,23 +77,12 @@ function App() {
             </ProtectedRoute>
           }
         >
-           {/* Manage Orders */}
           <Route path="orders" element={<ManageOrders />} />
-
-          {/* DEFAULT PAGE */}
           <Route index element={<ProfileAndMessInfo />} />
-
-          {/* PROFILE */}
           <Route path="profile" element={<ProfileAndMessInfo />} />
-
           <Route path="customers" element={<ViewRegisteredCustomers/>}/>
-
-          {/* Daily Menu */}
          <Route path="dailymenu" element={<ManageDailyMenu/>}/>
-
-          {/* REQUEST FOOD ITEM */}
           <Route path="request-item" element={<MessOwnerFoodRequestForm />} />
-
           <Route path="ratings" element={<MessOwnerRatings />} />
         </Route>
       </Routes>
