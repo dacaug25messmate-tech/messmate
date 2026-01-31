@@ -54,9 +54,9 @@ public class AdminService {
 	    
 	    // View all users
 	 // View only APPROVED users
-	    public List<User> getAllUsers() {
-	        return userRepository.findByStatus("APPROVED");
-	    }
+//	    public List<User> getAllUsers() {
+//	        return userRepository.findByStatus("APPROVED");
+//	    }
 	    
 	    // ================= CATEGORY MANAGEMENT =================
 
@@ -105,6 +105,30 @@ public class AdminService {
 	    public void deleteFoodItem(int id) {
 	        foodItemRepository.deleteById(id);
 	    }
+	    
+	    public List<User> getAllUsers() {
+	        return userRepository.findByStatusAndRoleId_RoleNameIn(
+	                "APPROVED",
+	                List.of("CUSTOMER", "MESSOWNER")
+	        );
+	    }
+
+	    public User disableUser(int userId) {
+	        User user = userRepository.findById(userId)
+	                .orElseThrow(() -> new RuntimeException("User not found"));
+
+	        user.setActiveStatus("INACTIVE");
+	        return userRepository.save(user);
+	    }
+
+	    public User enableUser(int userId) {
+	        User user = userRepository.findById(userId)
+	                .orElseThrow(() -> new RuntimeException("User not found"));
+
+	        user.setActiveStatus("ACTIVE");
+	        return userRepository.save(user);
+	    }
+
 
 
 }

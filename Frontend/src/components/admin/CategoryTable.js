@@ -18,46 +18,58 @@ export default function CategoryTable({ onSelectCategory }) {
 
   return (
     <>
-      <h5>Categories</h5>
+      <h5 className="fw-semibold mb-3">Categories</h5>
 
-      {/* Search */}
-      <input
-        className="form-control mb-2"
-        placeholder="Search category..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
+<input
+  className="form-control rounded-pill mb-3"
+  placeholder="🔍 Search category..."
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+/>
 
-      {/* Table */}
-      <div className="table-responsive">
-        <table className="table table-bordered table-hover table-striped">
-          <thead className="table-dark">
-            <tr>
-              <th>Category Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.length === 0 ? (
-              <tr>
-                <td className="text-center">No categories found</td>
-              </tr>
-            ) : (
-              filtered.map((cat) => (
-                <tr
-                  key={cat.categoryId}
-                  className={selectedId === cat.categoryId ? "table-active" : ""}
-                  onClick={() => {
-                    setSelectedId(cat.categoryId);
-                    onSelectCategory(cat);
-                  }}
-                >
-                  <td>{cat.categoryName}</td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
-    </>
+<div className="table-responsive">
+  <table className="table align-middle">
+    <thead
+      style={{
+        backgroundColor: "#f1f3f5",
+        color: "#343a40"
+      }}
+    >
+      <tr>
+        <th>Category Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {filtered.length === 0 ? (
+        <tr>
+          <td className="text-center text-muted py-4">
+            No categories found
+          </td>
+        </tr>
+      ) : (
+        filtered.map((cat) => (
+          <tr
+            key={cat.categoryId}
+            className={
+              selectedId === cat.categoryId
+                ? "table-active"
+                : ""
+            }
+            onClick={() => {
+              setSelectedId(cat.categoryId);
+              onSelectCategory(cat);
+            }}
+            style={{ cursor: "pointer" }}
+          >
+            <td className="fw-medium">
+              {cat.categoryName}
+            </td>
+          </tr>
+        ))
+      )}
+    </tbody>
+  </table>
+</div>
+</>
   );
 }

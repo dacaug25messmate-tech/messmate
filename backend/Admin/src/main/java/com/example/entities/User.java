@@ -62,5 +62,8 @@ public class User {
 	
 	@OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
 	private List<Mess> messes;
+	
+	@Column(name="active_status")
+	private String activeStatus;//Active/Inactive
 
 }

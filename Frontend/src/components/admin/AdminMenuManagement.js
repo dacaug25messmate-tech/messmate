@@ -1,72 +1,3 @@
-// import { useState } from "react";
-// import CategoryTable from "./CategoryTable";
-// import SubCategoryTable from "./SubCategoryTable";
-// import FoodItemTable from "./FoodItemTable";
-// import "../../styles/adminMenu.css";
-
-// export default function AdminMenuManagement() {
-//   const [activeTab, setActiveTab] = useState("CATEGORY");
-//   const [selectedCategory, setSelectedCategory] = useState(null);
-//   const [selectedSubCategory, setSelectedSubCategory] = useState(null);
-
-//   return (
-//     <div className="admin-card">
-//       <h4 className="mb-3">Manage Menu Structure</h4>
-
-//       <div className="menu-tabs">
-//         <button
-//           type="button"
-//           className={activeTab === "CATEGORY" ? "tab active" : "tab"}
-//           onClick={() => setActiveTab("CATEGORY")}
-//         >
-//           Categories
-//         </button>
-
-//         <button
-//           type="button"
-//           className={activeTab === "SUBCATEGORY" ? "tab active" : "tab"}
-//           disabled={!selectedCategory}
-//           onClick={() => setActiveTab("SUBCATEGORY")}
-//         >
-//           Subcategories
-//         </button>
-
-//         <button
-//           type="button"
-//           className={activeTab === "FOOD" ? "tab active" : "tab"}
-//           disabled={!selectedSubCategory}
-//           onClick={() => setActiveTab("FOOD")}
-//         >
-//           Food Items
-//         </button>
-//       </div>
-
-//       {activeTab === "CATEGORY" && (
-//         <CategoryTable
-//           onSelectCategory={(cat) => {
-//             setSelectedCategory(cat);
-//             setSelectedSubCategory(null);
-//             setActiveTab("SUBCATEGORY");
-//           }}
-//         />
-//       )}
-
-//       {activeTab === "SUBCATEGORY" && selectedCategory && (
-//         <SubCategoryTable
-//           category={selectedCategory}
-//           onSelectSubCategory={(sub) => {
-//             setSelectedSubCategory(sub);
-//             setActiveTab("FOOD");
-//           }}
-//         />
-//       )}
-
-//       {activeTab === "FOOD" && selectedSubCategory && (
-//         <FoodItemTable subCategory={selectedSubCategory} />
-//       )}
-//     </div>
-//   );
-// }
 
 
 import { useState } from "react";
@@ -81,59 +12,80 @@ export default function AdminMenuManagement() {
   const [selectedSubCategory, setSelectedSubCategory] = useState(null);
 
   return (
-    <div className="admin-menu-wrapper">
-      <h4 className="page-title">Manage Menu Structure</h4>
+    <div className="container-fluid px-3">
+  <div className="mb-4">
+    <h4 className="fw-bold mb-1">Manage Menu</h4>
+    <p className="text-muted small mb-0">
+      Organize categories, subcategories and food items
+    </p>
+  </div>
 
-      <div className="menu-tabs">
-        <button
-          className={activeTab === "CATEGORY" ? "tab active" : "tab"}
-          onClick={() => setActiveTab("CATEGORY")}
-        >
-          Categories
-        </button>
+  {/* Tabs */}
+  <div className="d-flex gap-2 mb-4">
+    <button
+      className={`btn btn-sm rounded-pill px-4 ${
+        activeTab === "CATEGORY"
+          ? "btn-primary"
+          : "btn-outline-secondary"
+      }`}
+      onClick={() => setActiveTab("CATEGORY")}
+    >
+      Categories
+    </button>
 
-        <button
-          className={activeTab === "SUBCATEGORY" ? "tab active" : "tab"}
-          disabled={!selectedCategory}
-          onClick={() => setActiveTab("SUBCATEGORY")}
-        >
-          Subcategories
-        </button>
+    <button
+      className={`btn btn-sm rounded-pill px-4 ${
+        activeTab === "SUBCATEGORY"
+          ? "btn-primary"
+          : "btn-outline-secondary"
+      }`}
+      disabled={!selectedCategory}
+      onClick={() => setActiveTab("SUBCATEGORY")}
+    >
+      Subcategories
+    </button>
 
-        <button
-          className={activeTab === "FOOD" ? "tab active" : "tab"}
-          disabled={!selectedSubCategory}
-          onClick={() => setActiveTab("FOOD")}
-        >
-          Food Items
-        </button>
-      </div>
+    <button
+      className={`btn btn-sm rounded-pill px-4 ${
+        activeTab === "FOOD"
+          ? "btn-primary"
+          : "btn-outline-secondary"
+      }`}
+      disabled={!selectedSubCategory}
+      onClick={() => setActiveTab("FOOD")}
+    >
+      Food Items
+    </button>
+  </div>
 
-      <div className="table-container">
-        {activeTab === "CATEGORY" && (
-          <CategoryTable
-            onSelectCategory={(cat) => {
-              setSelectedCategory(cat);
-              setSelectedSubCategory(null);
-              setActiveTab("SUBCATEGORY");
-            }}
-          />
-        )}
+  {/* Content Card */}
+  <div className="card border-0 shadow-sm rounded-4">
+    <div className="card-body p-4">
+      {activeTab === "CATEGORY" && (
+        <CategoryTable
+          onSelectCategory={(cat) => {
+            setSelectedCategory(cat);
+            setSelectedSubCategory(null);
+            setActiveTab("SUBCATEGORY");
+          }}
+        />
+      )}
 
-        {activeTab === "SUBCATEGORY" && selectedCategory && (
-          <SubCategoryTable
-            category={selectedCategory}
-            onSelectSubCategory={(sub) => {
-              setSelectedSubCategory(sub);
-              setActiveTab("FOOD");
-            }}
-          />
-        )}
+      {activeTab === "SUBCATEGORY" && selectedCategory && (
+        <SubCategoryTable
+          category={selectedCategory}
+          onSelectSubCategory={(sub) => {
+            setSelectedSubCategory(sub);
+            setActiveTab("FOOD");
+          }}
+        />
+      )}
 
-        {activeTab === "FOOD" && selectedSubCategory && (
-          <FoodItemTable subCategory={selectedSubCategory} />
-        )}
-      </div>
+      {activeTab === "FOOD" && selectedSubCategory && (
+        <FoodItemTable subCategory={selectedSubCategory} />
+      )}
     </div>
+  </div>
+</div>
   );
 }

@@ -15,57 +15,109 @@ export default function AdminViewUsers() {
   }, [dispatch]);
 
   if (loading) {
-    return <p className="text-center mt-4">Loading users...</p>;
+    return (
+      <div className="text-center py-5 text-muted">
+        Loading users…
+      </div>
+    );
   }
 
   if (error) {
-    return <p className="text-danger text-center mt-4">{error}</p>;
+    return (
+      <p className="text-danger text-center mt-4">
+        {error}
+      </p>
+    );
   }
 
   return (
-    <div>
-      <h2 className="mb-4">All Users</h2>
+    <div className="container-fluid px-3">
 
-      <div className="table-responsive">
-        <table className="table table-bordered table-hover table-striped">
-          <thead className="table-dark">
-            <tr>
-              <th>ID</th>
-              <th>User Name</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Status</th>
-              <th>Role</th>
-            </tr>
-          </thead>
+      {/* Header */}
+      <div className="mb-4">
+        <h4 className="fw-bold mb-1">All Users</h4>
+        <p className="text-muted small mb-0">
+          Complete list of registered users
+        </p>
+      </div>
 
-          <tbody>
-            {users.length === 0 ? (
-              <tr>
-                <td colSpan="6" className="text-center">
-                  No users found
-                </td>
-              </tr>
-            ) : (
-              users.map((u) => (
-                <tr key={u.userid}>
-                  <td>{u.userid}</td>
-                  <td>{u.userName}</td>
-                  <td>{u.email}</td>
-                  <td>{u.phone}</td>
-                  <td>
-                    <span className={`badge ${
-                      u.status === "APPROVED" ? "bg-success" : "bg-warning"
-                    }`}>
-                      {u.status}
-                    </span>
-                  </td>
-                  <td>{u.roleId?.roleName}</td>
+      {/* Card */}
+      <div className="card shadow-sm border-0 rounded-4">
+        <div className="card-body p-4">
+
+          <div className="table-responsive">
+            <table className="table align-middle">
+
+              {/* Light header */}
+              <thead className="table-light">
+                <tr>
+                  <th>ID</th>
+                  <th>User</th>
+                  <th>Contact</th>
+                  <th>Status</th>
+                  <th>Role</th>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              </thead>
+
+              <tbody>
+                {users.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan="5"
+                      className="text-center text-muted py-4"
+                    >
+                      No users found 😶
+                    </td>
+                  </tr>
+                ) : (
+                  users.map((u) => (
+                    <tr key={u.userid}>
+
+                      <td className="text-muted">
+                        {u.userid}
+                      </td>
+
+                      <td>
+                        <div className="fw-semibold">
+                          {u.userName}
+                        </div>
+                      </td>
+
+                      <td>
+                        <div className="small">
+                          {u.email}
+                        </div>
+                        <div className="text-muted small">
+                          {u.phone}
+                        </div>
+                      </td>
+
+                      <td>
+                        {u.status === "APPROVED" ? (
+                          <span className="badge bg-success-subtle text-success px-3 py-2 rounded-pill">
+                            APPROVED
+                          </span>
+                        ) : (
+                          <span className="badge bg-warning-subtle text-warning px-3 py-2 rounded-pill">
+                            {u.status}
+                          </span>
+                        )}
+                      </td>
+
+                      <td>
+                        <span className="badge bg-secondary-subtle text-secondary px-3 py-2 rounded-pill">
+                          {u.roleId?.roleName}
+                        </span>
+                      </td>
+
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+
+        </div>
       </div>
     </div>
   );

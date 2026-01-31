@@ -43,11 +43,24 @@ export default function AddMessForm({ userId, mode = "add", messData, onSaved, o
 
   // Fetch cities
   useEffect(() => {
-    fetch(admin_url+"/cities")
-      .then(res => res.json())
-      .then(setCities)
-      .catch(err => console.error(err));
-  }, []);
+  fetch(admin_url + "/cities")
+    .then(res => res.json())
+    .then(data => {
+      // SAFETY: ensure array
+      if (Array.isArray(data)) {
+        setCities(data);
+      } else if (Array.isArray(data.data)) {
+        setCities(data.data);
+      } else {
+        setCities([]);
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      setCities([]);
+    });
+}, []);
+
 
   // Fetch areas whenever city changes
   useEffect(() => {

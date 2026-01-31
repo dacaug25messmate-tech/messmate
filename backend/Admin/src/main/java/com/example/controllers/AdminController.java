@@ -119,17 +119,15 @@ public class AdminController {
         adminService.deleteFoodItem(id);
     }
 
-    // ================= FOOD ITEM REQUESTS (MERGED) =================
+    // ================= FOOD ITEM REQUESTS  =================
 
     // Admin: View pending food item requests
-    // GET http://localhost:2025/api/admin/food-requests
     @GetMapping("/food-requests")
     public List<FoodItemRequest> getPendingFoodRequests() {
         return foodItemRequestService.getPendingRequests();
     }
 
     // Admin: Approve food item request
-    // PUT http://localhost:2025/api/admin/food-requests/approve/{id}
     @PutMapping("/food-requests/approve/{requestId}")
     public ResponseEntity<?> approveFoodRequest(
             @PathVariable Integer requestId) {
@@ -139,12 +137,25 @@ public class AdminController {
     }
 
     // Admin: Reject food item request
-    // PUT http://localhost:2025/api/admin/food-requests/reject/{id}
     @PutMapping("/food-requests/reject/{requestId}")
     public ResponseEntity<?> rejectFoodRequest(
             @PathVariable Integer requestId) {
 
         foodItemRequestService.rejectRequest(requestId);
         return ResponseEntity.ok("Food item rejected");
+    }
+    
+    //=====================Disable User====================
+
+    @PutMapping("/disable/{id}")
+    public ResponseEntity<?> disableUser(@PathVariable int id) {
+        adminService.disableUser(id);
+        return ResponseEntity.ok("User disabled");
+    }
+
+    @PutMapping("/enable/{id}")
+    public ResponseEntity<?> enableUser(@PathVariable int id) {
+        adminService.enableUser(id);
+        return ResponseEntity.ok("User enabled");
     }
 }
