@@ -1,0 +1,67 @@
+.monthly-plans-container {
+  padding: 15px;
+  background: #ffffff;
+}
+
+/* Mess Name */
+.mess-name {
+  margin-bottom: 10px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* Header */
+.monthly-plans-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 10; /* 🔥 KEY FIX */
+}
+
+/* Add Button */
+.add-plan-btn {
+  padding: 6px 12px;
+  border: 1px solid #333;
+  background: white;
+  cursor: pointer;
+  position: relative;
+  z-index: 20; /* 🔥 ABOVE TABLE */
+}
+
+.add-plan-btn:hover {
+  background-color: #f1f5f9;
+}
+
+/* Table */
+.plans-table {
+  width: 100%;
+  border-collapse: collapse;
+  position: relative;
+  z-index: 1;
+}
+
+.plans-table th {
+  background-color: #f1f5f9;
+  text-align: left;
+  padding: 10px;
+}
+
+.plans-table td {
+  padding: 10px;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Delete */
+.delete-btn {
+  margin-left: 8px;
+  color: red;
+}
+
+/* No data */
+.no-data {
+  text-align: center;
+  padding: 15px;
+  color: gray;
+}

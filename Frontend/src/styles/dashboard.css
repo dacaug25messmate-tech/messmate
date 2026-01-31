@@ -64,3 +64,28 @@
 .dashboard-main h2 {
   margin-bottom: 20px;
 }
+/* CARD */
+.dashboard-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+}
+
+/* TABLE */
+.profile-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.profile-table th {
+  width: 200px;
+  text-align: left;
+  padding: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.profile-table td {
+  padding: 14px;
+}

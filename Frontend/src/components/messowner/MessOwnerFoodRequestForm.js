@@ -17,13 +17,13 @@ export default function MessOwnerFoodRequestForm() {
     (state) => state.subCategories
   );
 
-  const messId = useSelector((state) => state.logged.messId);
+  
+  const userId = useSelector((state) => state.logged.userid);
 
   const [itemName, setItemName] = useState("");
   const [description, setDescription] = useState("");
   const [subCategoryId, setSubCategoryId] = useState("");
 
-  // 🔥 Fetch subcategories when page loads
   useEffect(() => {
     dispatch(fetchSubCategories());
   }, [dispatch]);
@@ -41,7 +41,7 @@ export default function MessOwnerFoodRequestForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!itemName || !subCategoryId || !messId) {
+    if (!itemName || !subCategoryId || !userId) {
       alert("Please fill in all required fields");
       return;
     }
@@ -51,7 +51,7 @@ export default function MessOwnerFoodRequestForm() {
         itemName,
         description,
         subCategoryId: Number(subCategoryId),
-        messId: Number(messId),
+        userId: Number(userId)
       })
     );
   };
@@ -61,7 +61,6 @@ export default function MessOwnerFoodRequestForm() {
       <h3>Request New Food Item</h3>
 
       <form onSubmit={handleSubmit} className="mt-3">
-
         <div className="mb-3">
           <label>Item Name</label>
           <input
@@ -91,12 +90,8 @@ export default function MessOwnerFoodRequestForm() {
             required
           >
             <option value="">Select Subcategory</option>
-
             {subCategories.map((sc) => (
-              <option
-                key={sc.subCategoryId}
-                value={sc.subCategoryId}
-              >
+              <option key={sc.subCategoryId} value={sc.subCategoryId}>
                 {sc.subCategoryName}
               </option>
             ))}

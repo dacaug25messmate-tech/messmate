@@ -36,7 +36,7 @@ export default function AdminDashboard() {
     {
       label: "Review Menu Item Requests",
       icon: <FaClipboardCheck />,
-      path: "menu-requests"
+      path: "food-requests"
     },
     {
       label: "View Feedback",

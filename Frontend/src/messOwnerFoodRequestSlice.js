@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { messowner_url } from "./components/rest_endpoints";
 
 export const submitFoodRequest = createAsyncThunk(
   "messOwnerRequests/submit",
@@ -6,16 +7,17 @@ export const submitFoodRequest = createAsyncThunk(
     try {
       console.log(requestData);
       const res = await fetch(
-        "http://localhost:2025/api/messowner/food-requests",
+        messowner_url+"/food-requests",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            foodName: requestData.itemName, 
-            description: requestData.description,
-            subCategoryId: requestData.subCategoryId,
-            messId: requestData.messId,
-          }),
+  foodName: requestData.itemName, 
+  description: requestData.description,
+  subCategoryId: Number(requestData.subCategoryId), 
+  userId: Number(requestData.userId), 
+}),
+
         }
       );
 

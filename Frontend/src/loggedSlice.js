@@ -6,24 +6,22 @@ export const loggedSlice = createSlice({
     loggedIn: false,
     role: "",
     username: "",
-    userid: null, // store user ID
-    messId: null  // store messId if logged in user is a Mess Owner
+    userid: null
   },
+
   reducers: {
     login: (state, action) => {
-      const { role, uname, uid, messId } = action.payload;
+      const { role, username, userid } = action.payload;
       state.loggedIn = true;
       state.role = role;
-      state.username = uname;
-      state.userid = uid;
-      state.messId = messId || null;
+      state.username = username;
+      state.userid = userid;
     },
     logout: (state) => {
       state.loggedIn = false;
       state.role = "";
       state.username = "";
       state.userid = null;
-      state.messId = null;
     }
   }
 });
