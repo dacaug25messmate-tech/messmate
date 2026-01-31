@@ -1,31 +1,21 @@
-# ===== Java / Spring Boot =====
-*.class
-*.log
-*.jar
-*.war
-*.ear
 
-/backend/bin/
-/backend/target/
-/backend/build/
-
-# ===== Maven =====
-# keep ignoring target and .metadata, but source code is not affected
+# Maven / Java
 target/
+
 .metadata/
-bin/
 
-# ===== Node / React =====
-node_modules/
-build/
-dist/
+# Logs
+*.log
 
-# ===== IDE =====
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
 .vscode/
 .idea/
 *.iml
 
-# ===== OS =====
-.DS_Store
-Thumbs.db
-        
+# Node
+node_modules/
+>>>>>>> df69b6b51d46228f299d4c0bd14b2ed526d91793

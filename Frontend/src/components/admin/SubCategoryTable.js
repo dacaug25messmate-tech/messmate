@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { admin_url } from "../rest_endpoints";
 
 export default function SubCategoryTable({ category, onSelectSubCategory }) {
   const [subCategories, setSubCategories] = useState([]);
@@ -12,7 +13,7 @@ export default function SubCategoryTable({ category, onSelectSubCategory }) {
   useEffect(() => {
     if (!category?.categoryId) return;
 
-    fetch(`http://localhost:2025/api/admin/subcategories/${category.categoryId}`)
+    fetch(`${admin_url}/subcategories/${category.categoryId}`)
       .then((res) => res.json())
       .then((data) => setSubCategories(Array.isArray(data) ? data : []));
   }, [category]);
@@ -21,7 +22,7 @@ export default function SubCategoryTable({ category, onSelectSubCategory }) {
   const addSubCategory = () => {
     if (!name.trim()) return;
 
-    fetch(`http://localhost:2025/api/admin/subcategory/${category.categoryId}`, {
+    fetch(`${admin_url}/subcategory/${category.categoryId}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ subCategoryName: name })

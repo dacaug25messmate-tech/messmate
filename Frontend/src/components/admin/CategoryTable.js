@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { admin_url } from "../rest_endpoints";
 
 export default function CategoryTable({ onSelectCategory }) {
   const [categories, setCategories] = useState([]);
@@ -6,7 +7,7 @@ export default function CategoryTable({ onSelectCategory }) {
   const [selectedId, setSelectedId] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:2025/api/admin/categories")
+    fetch(admin_url+"/categories")
       .then((res) => res.json())
       .then(setCategories);
   }, []);

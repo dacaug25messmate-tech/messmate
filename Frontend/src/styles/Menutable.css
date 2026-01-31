@@ -1,0 +1,65 @@
+
+.admin-menu-wrapper {
+  background: #ffffff;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+/* Title */
+.page-title {
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+/* Tabs */
+.menu-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+/* Table scroll */
+.table-container {
+  overflow-x: auto;
+}
+
+/* 🔥 TABLE LAYOUT FIX (MATCHES 2ND IMAGE) */
+.admin-menu-wrapper table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+/* Column proportions → 3 / 6 / 3 */
+.admin-menu-wrapper th:nth-child(1),
+.admin-menu-wrapper td:nth-child(1) {
+  width: 25%;
+}
+
+.admin-menu-wrapper th:nth-child(2),
+.admin-menu-wrapper td:nth-child(2) {
+  width: 50%;
+}
+
+.admin-menu-wrapper th:last-child,
+.admin-menu-wrapper td:last-child {
+  width: 25%;
+  text-align: center;
+}
+
+/* Description wrapping */
+.admin-menu-wrapper td:nth-child(2) {
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.6;
+}
+
+/* Action buttons */
+.admin-menu-wrapper td:last-child {
+  vertical-align: middle;
+}
+
+.admin-menu-wrapper td:last-child button {
+  width: 90px;
+  margin: 4px;
+}
