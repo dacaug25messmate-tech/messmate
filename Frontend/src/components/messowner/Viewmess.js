@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "../styles/dashboard.css";
+import { messowner_url } from "../rest_endpoints";
 export default function ViewMesses({ userId }) {
 
   const [messes, setMesses] = useState([]);
@@ -7,7 +8,7 @@ export default function ViewMesses({ userId }) {
 
   // 🔹 Load all messes of owner
   useEffect(() => {
-    fetch(`http://localhost:2028/api/messowner/messes/${userId}`)
+    fetch(`${messowner_url}/messes/${userId}`)
       .then(res => res.json())
       .then(setMesses)
       .catch(() => setMesses([]));
@@ -15,7 +16,7 @@ export default function ViewMesses({ userId }) {
 
   // 🔹 View single mess details
   const viewMess = (messId) => {
-    fetch(`http://localhost:2028/api/messowner/mess/details/${messId}`)
+    fetch(`${messowner_url}/mess/details/${messId}`)
       .then(res => res.json())
       .then(setSelectedMess);
   };

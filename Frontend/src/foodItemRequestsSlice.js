@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { admin_url } from "./components/rest_endpoints";
 
-const BASE_URL = "http://localhost:2027/api/admin";
 
 /* ================= FETCH ================= */
 export const fetchFoodRequests = createAsyncThunk(
   "foodRequests/fetch",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await fetch(`${BASE_URL}/food-requests`);
+      const res = await fetch(`${admin_url}/food-requests`);
 
       if (!res.ok) {
         throw new Error("Failed to fetch food requests");
@@ -32,7 +32,7 @@ export const approveFoodRequest = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const res = await fetch(
-        `${BASE_URL}/food-requests/approve/${id}`,
+        `${admin_url}/food-requests/approve/${id}`,
         { method: "PUT" }
       );
 
@@ -53,7 +53,7 @@ export const rejectFoodRequest = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const res = await fetch(
-        `${BASE_URL}/food-requests/reject/${id}`,
+        `${admin_url}/food-requests/reject/${id}`,
         { method: "PUT" }
       );
 

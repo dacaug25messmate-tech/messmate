@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace Customer.Controllers
 {
     [ApiController]
-    [Route("api/customer/mess")]
+    [Route("api/customer")]
     public class CustomerController : ControllerBase
     {
         private readonly CustomerMessRepository _repository;
@@ -29,7 +29,7 @@ namespace Customer.Controllers
         }
 
         // GET: api/customer/mess
-        //http://localhost:2029/api/customer/mess
+        //http://localhost:2029/api/customer
         [HttpGet]
         public IActionResult GetAllMesses()
         {
@@ -38,7 +38,7 @@ namespace Customer.Controllers
         }
 
         // GET: api/customer/mess/{id}
-        //http://localhost:2029/api/customer/mess/{id}
+        //http://localhost:2029/api/customer/{id}
         [HttpGet("{id}")]
         public IActionResult GetMessById(int id)
         {
@@ -111,7 +111,7 @@ namespace Customer.Controllers
 
 
         // PUT: api/customer/mess/profile/{id}
-        // http://localhost:2029/api/customer/mess/profile/{id}
+        // http://localhost:2029/api/customer/profile/{id}
         [HttpPut("profile/{id}")]
         public IActionResult UpdateCustomerProfile(int id, UpdateUserProfileDto dto)
         {
@@ -130,7 +130,7 @@ namespace Customer.Controllers
             }
         }
 
-        // http://localhost:2029/api/customer/mess/{messId}/daily-menu/today
+        // http://localhost:2029/api/customer/{messId}/daily-menu/today
 
         [HttpGet("{messId}/daily-menu/today")]
         public IActionResult GetTodayMenuBoth(int messId)
@@ -149,7 +149,7 @@ namespace Customer.Controllers
         }
 
 
-        // http://localhost:2029/api/customer/mess/{messId}/monthly-plans
+        // http://localhost:2029/api/customer/{messId}/monthly-plans
         [HttpGet("{messId}/monthly-plans")]
         public IActionResult GetMonthlyPlans(int messId)
         {
@@ -161,7 +161,7 @@ namespace Customer.Controllers
             return Ok(plans);
         }
 
-        //http://localhost:2029/api/customer/mess/subscribe
+        //http://localhost:2029/api/customer/subscribe
         [HttpPost("subscribe")]
         public IActionResult Subscribe([FromBody] SubscribeRequestDto dto)
         {
@@ -176,7 +176,7 @@ namespace Customer.Controllers
             }
         }
 
-        //http://localhost:2029/api/customer/mess/subscriptions/{userId}
+        //http://localhost:2029/api/customer/subscriptions/{userId}
         [HttpGet("subscriptions/{userId}")]
         public IActionResult GetMySubscriptions(int userId)
         {
@@ -196,7 +196,7 @@ namespace Customer.Controllers
         }
 
 
-        // http://localhost:2029/api/customer/mess/rate
+        // http://localhost:2029/api/customer/rate
         [HttpPost("rate")]
         public IActionResult RateMess([FromBody] RateMessDto dto)
         {
@@ -211,7 +211,7 @@ namespace Customer.Controllers
             }
         }
 
-        // http://localhost:2029/api/customer/mess/{messId}/rating-summary
+        // http://localhost:2029/api/customer/{messId}/rating-summary
         [HttpGet("{messId}/rating-summary")]
         public IActionResult GetMessRatingSummary(int messId)
         {

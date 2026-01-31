@@ -113,6 +113,7 @@
 import { useEffect, useState } from "react";
 import AddMonthlyPlanModal from "./AddMonthlyPlanModal";
 import "../../styles/monthlyPlans.css";
+import { messowner_url } from "../rest_endpoints";
 
 export default function MonthlyPlans() {
   const userId = localStorage.getItem("userid");
@@ -130,7 +131,7 @@ export default function MonthlyPlans() {
   const loadMesses = async () => {
     try {
       const res = await fetch(
-        `http://localhost:2028/api/messowner/messes/${userId}`
+        `${messowner_url}/messes/${userId}`
       );
 
       if (!res.ok) throw new Error("Failed to load messes");
@@ -151,7 +152,7 @@ export default function MonthlyPlans() {
   const loadPlans = async (messId) => {
     try {
       const res = await fetch(
-        `http://localhost:2028/api/messowner/monthly-plans/${messId}`
+        `${messowner_url}/monthly-plans/${messId}`
       );
 
       if (!res.ok) throw new Error("Failed to load plans");
@@ -169,7 +170,7 @@ export default function MonthlyPlans() {
 
     try {
       await fetch(
-        `http://localhost:2028/api/messowner/monthly-plans/${id}`,
+        `${messowner_url}/monthly-plans/${id}`,
         { method: "DELETE" }
       );
 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "../../styles/mySubscriptions.css";
+import { customer_url } from "../rest_endpoints";
 
 export default function MySubscriptions() {
   const userId = localStorage.getItem("userid");
@@ -8,7 +9,7 @@ export default function MySubscriptions() {
   const [filter, setFilter] = useState("All");
 
   useEffect(() => {
-    fetch(`http://localhost:2029/api/customer/mess/subscriptions/${userId}`)
+    fetch(`${customer_url}/subscriptions/${userId}`)
       .then((res) => res.json())
       .then((data) => {
         setSubscriptions(data);

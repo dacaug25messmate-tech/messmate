@@ -8,6 +8,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css'; // make sure this is imported
 
 import { getMessById } from "./messService";
 import "../../styles/messDetails.css";
+import { customer_url } from "../rest_endpoints";
 
 export default function MessDetails() {
   const { id } = useParams();
@@ -52,7 +53,7 @@ export default function MessDetails() {
 
   /* ================= FETCH RATING SUMMARY (DEBUGGING ADDED) ================= */
   useEffect(() => {
-    fetch(`http://localhost:2029/api/customer/mess/${id}/rating-summary`)
+    fetch(`${customer_url}/${id}/rating-summary`)
       .then((res) => res.json())
       .then((data) => {
         console.log("DEBUG: Rating summary API response:", data); // <-- debugging
@@ -72,7 +73,7 @@ export default function MessDetails() {
       }
 
       const res = await fetch(
-        `http://localhost:2029/api/customer/mess/${id}/daily-menu/today`
+        `${customer_url}/${id}/daily-menu/today`
       );
       if (!res.ok) throw new Error();
 
@@ -100,7 +101,7 @@ export default function MessDetails() {
       }
 
       const res = await fetch(
-        `http://localhost:2029/api/customer/mess/${id}/monthly-plans`
+        `${customer_url}/${id}/monthly-plans`
       );
       const data = await res.json();
 
@@ -136,7 +137,7 @@ export default function MessDetails() {
     const plan = monthlyPlans.find((p) => p.realPlanId === selectedPlanId);
     if (!plan) return toast.error("Plan not found");
 
-    fetch(`http://localhost:2029/api/customer/mess/subscribe`, {
+    fetch(`${customer_url}/subscribe`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userId, planId: plan.realPlanId })

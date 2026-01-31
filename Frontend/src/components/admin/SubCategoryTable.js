@@ -1,40 +1,19 @@
 import { useEffect, useState } from "react";
+import { admin_url } from "../rest_endpoints";
 
 export default function SubCategoryTable({ category, onSelectSubCategory }) {
   const [subCategories, setSubCategories] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedId, setSelectedId] = useState(null);
 
-  // add form state
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [name, setName] = useState("");
-
   useEffect(() => {
     if (!category?.categoryId) return;
 
-    fetch(`http://localhost:2027/api/admin/subcategories/${category.categoryId}`)
+    fetch(`${admin_url}/subcategories/${category.categoryId}`)
       .then((res) => res.json())
       .then((data) => setSubCategories(Array.isArray(data) ? data : []));
   }, [category]);
 
-  //  ADD SUBCATEGORY
-  const addSubCategory = () => {
-    if (!name.trim()) return;
-
-    fetch(`http://localhost:2027/api/admin/subcategory/${category.categoryId}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ subCategoryName: name })
-    })
-      .then((res) => res.json())
-      .then((newSub) => {
-        setSubCategories([...subCategories, newSub]);
-        setName("");
-        setShowAddForm(false);
-      });
-  };
-
-  // NULL-SAFE FILTER
   const filtered = subCategories.filter((s) =>
     (s.subCategoryName || "")
       .toLowerCase()
@@ -42,84 +21,77 @@ export default function SubCategoryTable({ category, onSelectSubCategory }) {
   );
 
   return (
-    <>
-      {/* HEADER ROW */}
-      <div className="d-flex justify-content-between align-items-center mb-2">
-        <h5 className="mb-0">
+    <div>
+      {/* HEADER + SEARCH */}
+      
+        <h5 className="fw-semibold mb-0">
           Subcategories ({category?.categoryName})
         </h5>
 
-        <button
-          className="btn btn-sm btn-primary"
-          onClick={() => setShowAddForm(!showAddForm)}
+        {/* Search bar – same style as Food Items */}
+        <input
+  className="form-control rounded-pill mb-3"
+  placeholder="🔍 Search sub-categoory..."
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+/>
+      
+
+      {/* TABLE */}
+      <table className="table align-middle">
+        <thead
+          style={{
+            backgroundColor: "#eef1f4",
+            color: "#212529"
+          }}
         >
-          {showAddForm ? "✕ Cancel" : "+ Add Subcategory"}
-        </button>
-      </div>
+          <tr>
+            <th>Subcategory Name</th>
+          </tr>
+        </thead>
 
-      {/*  ADD SUBCATEGORY FORM (TOP) */}
-      {showAddForm && (
-        <div className="d-flex gap-2 mb-3">
-          <input
-            className="form-control"
-            placeholder="New subcategory"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            autoFocus
-          />
-          <button
-            className="btn btn-success"
-            disabled={!name.trim()}
-            onClick={addSubCategory}
-          >
-            Save
-          </button>
-        </div>
-      )}
-
-      {/* Search */}
-      <input
-        className="form-control mb-2"
-        placeholder="Search subcategory..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
-
-      {/* Table */}
-      <div className="table-responsive">
-        <table className="table table-bordered table-hover table-striped">
-          <thead className="table-dark">
+        <tbody>
+          {filtered.length === 0 ? (
             <tr>
-              <th>Subcategory Name</th>
+              <td className="text-muted text-center py-4">
+                No subcategories found
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {filtered.length === 0 ? (
-              <tr>
-                <td className="text-center">
-                  No subcategories found
+          ) : (
+            filtered.map((sub) => (
+              <tr
+                key={sub.subCategoryId}
+                className={
+                  selectedId === sub.subCategoryId
+                    ? "table-active"
+                    : ""
+                }
+                onClick={() => {
+                  setSelectedId(sub.subCategoryId);
+                  onSelectSubCategory(sub);
+                }}
+                style={{
+                  cursor: "pointer"
+                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.backgroundColor =
+                    "#f8f9fa")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.backgroundColor =
+                    selectedId === sub.subCategoryId
+                      ? "#e9ecef"
+                      : "transparent")
+                }
+              >
+                <td className="fw-medium">
+                  {sub.subCategoryName}
                 </td>
               </tr>
-            ) : (
-              filtered.map((sub) => (
-                <tr
-                  key={sub.subCategoryId}
-                  className={
-                    selectedId === sub.subCategoryId ? "table-active" : ""
-                  }
-                  onClick={() => {
-                    setSelectedId(sub.subCategoryId);
-                    onSelectSubCategory(sub);
-                  }}
-                  style={{ cursor: "pointer" }}
-                >
-                  <td>{sub.subCategoryName || "-"}</td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
-    </>
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
   );
 }

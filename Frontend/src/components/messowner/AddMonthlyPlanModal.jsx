@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { messowner_url } from "../rest_endpoints";
 
 export default function AddMonthlyPlanModal({
   messes,
@@ -30,7 +31,7 @@ export default function AddMonthlyPlanModal({
     }
 
     try {
-      await fetch("http://localhost:2028/api/monthly-plans/add", {
+      await fetch(messowner_url+"/monthly-plans/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

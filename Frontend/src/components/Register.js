@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { auth_url } from "./rest_endpoints";
 
 export default function Register() {
   const [cities, setCities] = useState([]);
@@ -18,11 +19,11 @@ export default function Register() {
   const selectedCity = watch("cityId");
 
   useEffect(() => {
-    fetch("http://localhost:2026/api/cities")
+    fetch(auth_url+"/cities")
       .then(res => res.json())
       .then(setCities);
 
-    fetch("http://localhost:2026/api/security-questions")
+    fetch(auth_url+"/security-questions")
       .then(res => res.json())
       .then(setQuestions);
   }, []);
@@ -30,7 +31,7 @@ export default function Register() {
   useEffect(() => {
     if (!selectedCity) return;
 
-    fetch(`http://localhost:2026/api/areas/${selectedCity}`)
+    fetch(`${auth_url}/areas/${selectedCity}`)
       .then(res => res.json())
       .then(setAreas);
   }, [selectedCity]);
@@ -42,7 +43,7 @@ export default function Register() {
     };
 
     try {
-      const response = await fetch("http://localhost:2026/user/register", {
+      const response = await fetch(auth_url+"/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)

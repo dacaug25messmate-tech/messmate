@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { messowner_url } from "./components/rest_endpoints";
 
 const messOwnerCustomersSlice = createSlice({
   name: "messOwnerCustomers",
@@ -52,7 +53,7 @@ export const fetchOwnerMesses = (userId) => async (dispatch) => {
   try {
     dispatch(fetchMessesStart());
     const res = await fetch(
-      `http://localhost:2028/api/messowner/messes/${userId}`
+      `${messowner_url}/messes/${userId}`
     );
     if (!res.ok) throw new Error("Failed to fetch messes");
     const data = await res.json();
@@ -70,7 +71,7 @@ export const fetchRegisteredCustomers =
       dispatch(fetchCustomersStart());
 
       const res = await fetch(
-        `http://localhost:2028/api/messowner/customers/${messId}?date=${date}&mealType=${mealType}`
+        `${messowner_url}/customers/${messId}?date=${date}&mealType=${mealType}`
       );
 
       if (!res.ok) throw new Error("Failed to fetch customers");

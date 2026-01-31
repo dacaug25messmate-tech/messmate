@@ -1,11 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { admin_url } from "./components/rest_endpoints";
 
 /* API CALL USING FETCH */
 export const fetchAllUsers = createAsyncThunk(
   "adminUsers/fetchAllUsers",
   async (_, thunkAPI) => {
     try {
-      const response = await fetch("http://localhost:2027/api/admin/viewusers");
+      const response = await fetch(admin_url+"/viewusers");
 
       if (!response.ok) {
         throw new Error("Failed to fetch users");

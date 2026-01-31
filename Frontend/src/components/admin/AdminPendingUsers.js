@@ -19,71 +19,127 @@ export default function AdminPendingUsers() {
   }, [dispatch]);
 
   if (loading) {
-    return <p className="text-center mt-4">Loading pending requests...</p>;
+    return (
+      <div className="text-center py-5 text-muted">
+        Loading pending requests…
+      </div>
+    );
   }
 
   if (error) {
-    return <p className="text-danger text-center mt-4">{error}</p>;
+    return (
+      <p className="text-danger text-center mt-4">
+        {error}
+      </p>
+    );
   }
 
   return (
-    <div>
-      <h2 className="mb-4">Check Registration Requests</h2>
+    <div className="container-fluid px-3">
 
-      <div className="table-responsive">
-        <table className="table table-bordered table-hover table-striped">
-          <thead className="table-dark">
-            <tr>
-              <th>ID</th>
-              <th>User Name</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Status</th>
-              <th>Role</th>
-              <th className="text-center">Action</th>
-            </tr>
-          </thead>
+      {/* Header (same pattern everywhere) */}
+      <div className="mb-4">
+        <h4 className="fw-bold mb-1">
+          Registration Requests
+        </h4>
+        <p className="text-muted small mb-0">
+          Review and approve new user registrations
+        </p>
+      </div>
 
-          <tbody>
-            {users.length === 0 ? (
-              <tr>
-                <td colSpan="7" className="text-center">
-                  No pending registration requests
-                </td>
-              </tr>
-            ) : (
-              users.map((u) => (
-                <tr key={u.userid}>
-                  <td>{u.userid}</td>
-                  <td>{u.userName}</td>
-                  <td>{u.email}</td>
-                  <td>{u.phone}</td>
-                  <td>
-                    <span className="badge bg-warning">
-                      {u.status}
-                    </span>
-                  </td>
-                  <td>{u.roleId?.roleName}</td>
-                  <td className="text-center">
-                    <button
-                      className="btn btn-success btn-sm me-2"
-                      onClick={() => dispatch(approveUser(u.userid))}
-                    >
-                      Approve
-                    </button>
+      {/* Card */}
+      <div className="card shadow-sm border-0 rounded-4">
+        <div className="card-body p-4">
 
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={() => dispatch(rejectUser(u.userid))}
-                    >
-                      Reject
-                    </button>
-                  </td>
+          <div className="table-responsive">
+            <table className="table align-middle">
+
+              {/* Light header */}
+              <thead className="table-light">
+                <tr>
+                  <th>ID</th>
+                  <th>User</th>
+                  <th>Contact</th>
+                  <th>Status</th>
+                  <th>Role</th>
+                  <th className="text-end">Action</th>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              </thead>
+
+              <tbody>
+                {users.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan="6"
+                      className="text-center text-muted py-4"
+                    >
+                      No pending registration requests 😶
+                    </td>
+                  </tr>
+                ) : (
+                  users.map((u) => (
+                    <tr key={u.userid}>
+
+                      <td className="text-muted">
+                        {u.userid}
+                      </td>
+
+                      <td>
+                        <div className="fw-semibold">
+                          {u.userName}
+                        </div>
+                      </td>
+
+                      <td>
+                        <div className="small">
+                          {u.email}
+                        </div>
+                        <div className="text-muted small">
+                          {u.phone}
+                        </div>
+                      </td>
+
+                      <td>
+                        <span className="badge bg-warning-subtle text-warning px-3 py-2 rounded-pill">
+                          {u.status}
+                        </span>
+                      </td>
+
+                      <td>
+                        <span className="badge bg-secondary-subtle text-secondary px-3 py-2 rounded-pill">
+                          {u.roleId?.roleName}
+                        </span>
+                      </td>
+
+                      <td className="text-end">
+                        <div className="d-flex justify-content-end gap-2">
+                          <button
+                            className="btn btn-outline-success btn-sm rounded-pill px-3"
+                            onClick={() =>
+                              dispatch(approveUser(u.userid))
+                            }
+                          >
+                            Approve
+                          </button>
+
+                          <button
+                            className="btn btn-outline-danger btn-sm rounded-pill px-3"
+                            onClick={() =>
+                              dispatch(rejectUser(u.userid))
+                            }
+                          >
+                            Reject
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+
+        </div>
       </div>
     </div>
   );

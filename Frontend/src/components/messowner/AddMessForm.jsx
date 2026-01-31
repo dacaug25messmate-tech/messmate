@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../../styles/messform.css";
+import { admin_url, messowner_url } from "../rest_endpoints";
 
 export default function AddMessForm({ userId, mode = "add", messData, onSaved, onCancel }) {
 
@@ -42,11 +43,24 @@ export default function AddMessForm({ userId, mode = "add", messData, onSaved, o
 
   // Fetch cities
   useEffect(() => {
-    fetch("http://localhost:2026/api/cities")
-      .then(res => res.json())
-      .then(setCities)
-      .catch(err => console.error(err));
-  }, []);
+  fetch(admin_url + "/cities")
+    .then(res => res.json())
+    .then(data => {
+      // SAFETY: ensure array
+      if (Array.isArray(data)) {
+        setCities(data);
+      } else if (Array.isArray(data.data)) {
+        setCities(data.data);
+      } else {
+        setCities([]);
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      setCities([]);
+    });
+}, []);
+
 
   // Fetch areas whenever city changes
   useEffect(() => {
@@ -55,7 +69,7 @@ export default function AddMessForm({ userId, mode = "add", messData, onSaved, o
       setForm(prev => ({ ...prev, areaId: "" }));
       return;
     }
-    fetch(`http://localhost:2026/api/areas/${form.cityId}`)
+    fetch(`${admin_url}/areas/${form.cityId}`)
       .then(res => res.json())
       .then(setAreas)
       .catch(err => console.error(err));
@@ -68,7 +82,7 @@ export default function AddMessForm({ userId, mode = "add", messData, onSaved, o
     e.preventDefault();
     setMessage("");
 
-    const url = "http://localhost:2028/api/messowner/mess";
+    const url = messowner_url+"/mess";
     const method = mode === "edit" ? "put" : "post";
 
     try {

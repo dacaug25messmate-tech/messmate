@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../styles/customerProfile.css"; // custom CSS
+import { customer_url } from "../rest_endpoints";
 
 export default function CustomerProfile() {
   const userId = localStorage.getItem("userid");
@@ -23,7 +24,7 @@ export default function CustomerProfile() {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    fetch("http://localhost:2029/api/customer/mess/cities")
+    fetch(customer_url+"/cities")
       .then((res) => res.json())
       .then(setCities);
   }, []);
@@ -31,7 +32,7 @@ export default function CustomerProfile() {
   useEffect(() => {
     if (!userId) return;
 
-    fetch(`http://localhost:2029/api/customer/mess/profile/${userId}`)
+    fetch(`${customer_url}/profile/${userId}`)
       .then((res) => res.json())
       .then((data) => {
         setProfile(data);
@@ -45,7 +46,7 @@ export default function CustomerProfile() {
         setSelectedArea(data.areaId?.toString() || "");
 
         if (data.cityId) {
-          fetch(`http://localhost:2029/api/customer/mess/areas/${data.cityId}`)
+          fetch(`${customer_url}/areas/${data.cityId}`)
             .then((res) => res.json())
             .then(setAreas);
         }
@@ -64,7 +65,7 @@ export default function CustomerProfile() {
     setErrors({ ...errors, city: "", area: "" });
 
     if (cityId) {
-      fetch(`http://localhost:2029/api/customer/mess/areas/${cityId}`)
+      fetch(`${customer_url}/areas/${cityId}`)
         .then((res) => res.json())
         .then(setAreas);
     }
@@ -89,7 +90,7 @@ export default function CustomerProfile() {
       return;
     }
 
-    fetch(`http://localhost:2029/api/customer/mess/profile/${userId}`, {
+    fetch(`${customer_url}/profile/${userId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...formData, areaId: parseInt(selectedArea) }),

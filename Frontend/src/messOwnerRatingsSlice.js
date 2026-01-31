@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { messowner_url } from "./components/rest_endpoints";
 
 
 export const fetchMessOwnerRatings = createAsyncThunk(
@@ -6,7 +7,7 @@ export const fetchMessOwnerRatings = createAsyncThunk(
   async (messOwnerId, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        `http://localhost:2028/api/messowner/messes/ratings/${messOwnerId}`,
+        `${messowner_url}/messes/ratings/${messOwnerId}`,
         {
           credentials: "include"
         }

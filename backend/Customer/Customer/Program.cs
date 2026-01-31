@@ -1,7 +1,7 @@
-
-using Customer.Models;
+﻿using Customer.Models;
 using Customer.Repository;
 using Microsoft.EntityFrameworkCore;
+using Steeltoe.Discovery.Client;
 using System.Text.Json.Serialization;
 
 namespace Customer
@@ -12,55 +12,63 @@ namespace Customer
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            // Controllers + JSON
+            builder.Services.AddControllers()
+                .AddJsonOptions(x =>
+                    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
-            builder.Services.AddControllers();
+            //  CORS
+            //builder.Services.AddCors(options =>
+            //{
+            //    options.AddDefaultPolicy(policy =>
+            //    {
+            //        policy
+            //            .WithOrigins("http://localhost:3000") // React frontend
+            //            .AllowAnyHeader()
+            //            .AllowAnyMethod();
+            //    });
+            //});
 
-            // Add CORS policy
-            builder.Services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(policy =>
-                {
-                    policy.WithOrigins("http://localhost:3000") // frontend origin
-                          .AllowAnyHeader()
-                          .AllowAnyMethod();
-                });
-            });
-
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            // Swagger
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddControllers().AddJsonOptions(x =>
-    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
+            // DB
             builder.Services.AddDbContext<P06MessmateContext>(options =>
             {
                 options.UseMySql(
-                builder.Configuration.GetConnectionString("MessmateDB"),
-                ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("MessmateDB"))
+                    builder.Configuration.GetConnectionString("MessmateDB"),
+                    ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("MessmateDB"))
                 );
             });
 
+            // Repositories
             builder.Services.AddScoped<CustomerMessRepository>();
             builder.Services.AddScoped<UserRepository>();
 
 
-
+            // Add Steeltoe Discovery Client
+            builder.Services.AddDiscoveryClient(builder.Configuration);
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            // Use Steeltoe Discovery Client
+            app.UseDiscoveryClient();
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            
+
+           // app.UseHttpsRedirection();
+
+            //  CORS 
+           // app.UseCors();
 
             app.UseAuthorization();
-
-            // Enable CORS
-            app.UseCors();
 
             app.MapControllers();
 

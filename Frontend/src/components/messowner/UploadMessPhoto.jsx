@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { messowner_url } from "../rest_endpoints";
 
 export default function UploadMessPhoto({ messId, onUploaded }) {
   const [photo, setPhoto] = useState(null);
@@ -17,7 +18,7 @@ export default function UploadMessPhoto({ messId, onUploaded }) {
 
     setUploading(true);
 
-    fetch("http://localhost:2028/api/messowner/mess/photo/upload", {
+    fetch(messowner_url+"/mess/photo/upload", {
       method: "POST",
       body: formData,
     })

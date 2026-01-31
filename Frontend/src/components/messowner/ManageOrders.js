@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { messowner_url } from "../rest_endpoints";
 
 export default function ManageOrders() {
   const ownerId = useSelector((state) => state.logged.userid);
@@ -27,14 +28,14 @@ export default function ManageOrders() {
       setLoading(true);
       try {
         const res = await fetch(
-          `http://localhost:2028/api/messowner/messes/${ownerId}`
+          `${messowner_url}/messes/${ownerId}`
         );
         const messData = await res.json();
 
         const withCustomers = await Promise.all(
           messData.map(async (mess) => {
             const custRes = await fetch(
-              `http://localhost:2028/api/messowner/customers/${mess.messId}?date=${selectedDate}&mealType=${selectedMeal}`
+              `${messowner_url}/customers/${mess.messId}?date=${selectedDate}&mealType=${selectedMeal}`
             );
             const customers = await custRes.json();
 
@@ -74,7 +75,7 @@ export default function ManageOrders() {
   const markAttendance = async (messId, customerId, status) => {
     try {
       await fetch(
-        `http://localhost:2028/api/messowner/customer-visit?subscriptionId=${customerId}&date=${selectedDate}&mealType=${selectedMeal}&visited=${
+        `${messowner_url}/customer-visit?subscriptionId=${customerId}&date=${selectedDate}&mealType=${selectedMeal}&visited=${
           status === "VISITED"
         }`,
         { method: "POST" }

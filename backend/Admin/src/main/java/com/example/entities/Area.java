@@ -26,8 +26,8 @@ public class Area {
 	@Column(name="area_id")
 	int areaId;
 	
-	@Column(name="areaName")
-	String area_name;
+	@Column(name="area_name")
+	String areaName;
 	
 	@ManyToOne
 	@JoinColumn(name="city_id")

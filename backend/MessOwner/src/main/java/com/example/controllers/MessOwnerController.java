@@ -54,6 +54,14 @@ public class MessOwnerController {
 
     @Autowired
     private MonthlyPlanService monthlyPlanService;
+    
+
+    @GetMapping("/subcategories")
+    public List<SubCategory> getAllSubCategories() {
+        return subCategoryRepository.findAll();
+    }
+    
+    
     //  Add or update daily menu
     @PostMapping("/add")
     public MealMenu addMenu(@RequestBody MealMenuRequest request) {
@@ -268,7 +276,7 @@ public class MessOwnerController {
             Files.write(filePath, photo.getBytes());
 
             // 2. Create URL (this is what you store in DB)
-            String photoUrl = "http://localhost:2025/" + uploadDir + fileName;
+            String photoUrl = "http://localhost:2028/" + uploadDir + fileName;
 
             // 3. Save in DB
             MessPhoto savedPhoto = messOwnerService.addMessPhoto(messid, photoUrl);

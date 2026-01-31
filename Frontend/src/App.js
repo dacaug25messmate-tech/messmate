@@ -29,7 +29,7 @@ import ProfileAndMessInfo from "./components/messowner/ProfileAndMessInfo";
 import MessOwnerFoodRequestForm from "./components/messowner/MessOwnerFoodRequestForm";
 import ManageDailyMenu from "./components/messowner/ManageDailyMenu";
 import ViewRegisteredCustomers from "./components/messowner/ViewRegisteredCustomers";
-import MessOwnerRatings from "./components/messowner/messownerRatings";
+import MessOwnerRatings from "./components/messowner/MessOwnerRatings";
 import MonthlyPlans from "./components/messowner/MonthlyPlanList";
 import ManageOrders from "./components/messowner/ManageOrders";
 

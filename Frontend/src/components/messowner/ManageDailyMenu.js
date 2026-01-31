@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import Select from "react-select";
+import { admin_url, messowner_url } from "../rest_endpoints";
 
 export default function ManageDailyMenu() {
   const today = new Date().toISOString().split("T")[0];
@@ -45,7 +46,7 @@ export default function ManageDailyMenu() {
   useEffect(() => {
     if (!ownerId) return;
 
-    fetch(`http://localhost:2028/api/messowner/messes/${ownerId}`)
+    fetch(`${messowner_url}/messes/${ownerId}`)
       .then(res => res.json())
       .then(setMesses)
       .catch(() => showToast("Failed to load messes", "danger"));
@@ -53,7 +54,7 @@ export default function ManageDailyMenu() {
 
   /* ---------- LOAD CATEGORIES ---------- */
   useEffect(() => {
-    fetch("http://localhost:2027/api/admin/categories")
+    fetch(admin_url+"/categories")
       .then(res => res.json())
       .then(setCategories);
   }, []);
@@ -61,7 +62,7 @@ export default function ManageDailyMenu() {
   /* ---------- LOAD SUBCATEGORIES ---------- */
   useEffect(() => {
     if (!categoryId) return setSubCategories([]);
-    fetch(`http://localhost:2027/api/admin/subcategories/${categoryId}`)
+    fetch(`${admin_url}/subcategories/${categoryId}`)
       .then(res => res.json())
       .then(setSubCategories);
   }, [categoryId]);
@@ -69,7 +70,7 @@ export default function ManageDailyMenu() {
   /* ---------- LOAD FOOD ITEMS ---------- */
   useEffect(() => {
     if (!subCategoryId) return setFoodItems([]);
-    fetch(`http://localhost:2027/api/admin/fooditems/${subCategoryId}`)
+    fetch(`${admin_url}/fooditems/${subCategoryId}`)
       .then(res => res.json())
       .then(setFoodItems);
   }, [subCategoryId]);
@@ -79,7 +80,7 @@ export default function ManageDailyMenu() {
     if (!selectedMessId) return;
 
     fetch(
-      `http://localhost:2028/api/messowner/fetch?messId=${selectedMessId}&date=${menuDate}`
+      `${messowner_url}/fetch?messId=${selectedMessId}&date=${menuDate}`
     )
       .then(res => res.json())
       .then(data => {
@@ -120,7 +121,7 @@ export default function ManageDailyMenu() {
     if (!selectedMessId) return showToast("Select a mess first", "warning");
 
     try {
-      const res = await fetch("http://localhost:2028/api/messowner/add", {
+      const res = await fetch(messowner_url+"/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -149,7 +150,7 @@ export default function ManageDailyMenu() {
     if (!selectedMessId) return showToast("Select a mess first", "warning");
 
     fetch(
-      `http://localhost:2028/api/messowner/fetch?messId=${selectedMessId}&date=${menuDate}`
+      `${messowner_url}/fetch?messId=${selectedMessId}&date=${menuDate}`
     )
       .then(res => res.json())
       .then(data => {

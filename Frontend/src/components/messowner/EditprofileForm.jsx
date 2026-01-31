@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "../../styles/ProfileEditCss.css";
+import { messowner_url } from "../rest_endpoints";
 
 export default function EditProfileForm({ profileData, onCancel, onSaved }) {
   const [formData, setFormData] = useState({
@@ -61,7 +62,7 @@ export default function EditProfileForm({ profileData, onCancel, onSaved }) {
 
     try {
       const res = await fetch(
-        "http://localhost:2028/api/messowner/profile/update",
+        messowner_url+"/profile/update",
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

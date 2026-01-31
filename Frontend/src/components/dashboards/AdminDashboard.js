@@ -29,7 +29,7 @@ export default function AdminDashboard() {
       path: "disable-user"
     },
     {
-      label: "Manage Menu Structure",
+      label: "Manage Menu",
       icon: <FaUtensils />,
       path: "menu"
     },

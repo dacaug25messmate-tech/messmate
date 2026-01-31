@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { admin_url } from "../rest_endpoints";
 
 export default function AdminDisableUser() {
   const [users, setUsers] = useState([]);
@@ -14,7 +15,7 @@ export default function AdminDisableUser() {
   /* ================= FETCH USERS ================= */
   const fetchUsers = async () => {
     try {
-      const res = await fetch("http://localhost:2027/api/admin/viewusers", {
+      const res = await fetch(admin_url+"/viewusers", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -30,7 +31,7 @@ export default function AdminDisableUser() {
   /* ================= ACTIONS ================= */
   const disableUser = async (id) => {
     try {
-      await fetch(`http://localhost:2027/api/admin/disable/${id}`, {
+      await fetch(`${admin_url}/disable/${id}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -46,7 +47,7 @@ export default function AdminDisableUser() {
 
   const enableUser = async (id) => {
     try {
-      await fetch(`http://localhost:2027/api/admin/enable/${id}`, {
+      await fetch(`${admin_url}/enable/${id}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,

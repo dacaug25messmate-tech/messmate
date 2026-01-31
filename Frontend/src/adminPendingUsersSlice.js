@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { admin_url } from "./components/rest_endpoints";
 
-const BASE_URL = "http://localhost:2027/api/admin";
 
 // 🔹 Fetch pending users
 export const fetchPendingUsers = createAsyncThunk(
   "adminPendingUsers/fetchPendingUsers",
   async () => {
-    const response = await fetch(`${BASE_URL}/pendingusers`);
+    const response = await fetch(`${admin_url}/pendingusers`);
 
     if (!response.ok) {
       throw new Error("Failed to fetch pending users");
@@ -20,7 +20,7 @@ export const fetchPendingUsers = createAsyncThunk(
 export const approveUser = createAsyncThunk(
   "adminPendingUsers/approveUser",
   async (id, { dispatch }) => {
-    const response = await fetch(`${BASE_URL}/approve/${id}`, {
+    const response = await fetch(`${admin_url}/approve/${id}`, {
       method: "PUT"
     });
 
@@ -36,7 +36,7 @@ export const approveUser = createAsyncThunk(
 export const rejectUser = createAsyncThunk(
   "adminPendingUsers/rejectUser",
   async (id, { dispatch }) => {
-    const response = await fetch(`${BASE_URL}/reject/${id}`, {
+    const response = await fetch(`${admin_url}/reject/${id}`, {
       method: "PUT"
     });
 

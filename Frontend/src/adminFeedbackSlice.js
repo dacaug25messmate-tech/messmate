@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { admin_url } from "./components/rest_endpoints";
 
 export const fetchAllFeedback = createAsyncThunk(
   "adminFeedback/fetchAll",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch("http://localhost:2027/admin/feedback");
+      const response = await fetch(admin_url+"/feedback");
 
       if (!response.ok) {
         throw new Error("Failed to fetch feedback");
