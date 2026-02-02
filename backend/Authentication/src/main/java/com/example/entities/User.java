@@ -62,5 +62,12 @@ public class User {
 	
 	@OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
 	private List<Mess> messes;
+	
+	@Column(name = "forgot_attempts")
+	private Integer forgotAttempts = 0;
+
+	@Column(name = "account_locked")
+	private Boolean accountLocked = false;
+
 
 }

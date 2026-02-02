@@ -1,18 +1,67 @@
 .app-navbar {
-  background: #1e293b;
-  padding: 10px 20px;
+  background: linear-gradient(
+    90deg,
+    rgba(15, 23, 42, 0.85),
+    rgba(30, 41, 59, 0.85)
+  );
+  backdrop-filter: blur(6px);
+  padding: 12px 20px;
 }
 
+
 .app-navbar .navbar-brand {
-  color: #fff;
-  font-weight: 600;
+  color: #38bdf8;
+  font-size: 1.4rem;
 }
 
 .app-navbar .nav-link {
   color: #e5e7eb;
+  font-weight: 500;
   margin-right: 10px;
+  transition: all 0.2s ease;
 }
 
 .app-navbar .nav-link:hover {
   color: #38bdf8;
+}
+
+.app-navbar .btn-outline-primary {
+  border-color: #38bdf8;
+  color: #38bdf8;
+}
+
+.app-navbar .btn-outline-primary:hover {
+  background-color: #38bdf8;
+  color: #2a220f;
+}
+
+.navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.navbar-toggler-icon {
+  filter: invert(1);
+}
+
+
+/* Remove black background on click / focus */
+.app-navbar .nav-link:focus,
+.app-navbar .nav-link:active,
+.app-navbar .nav-link.active {
+  background-color: transparent !important;
+  color: #38bdf8 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Remove button focus black/blue ring */
+.app-navbar .btn:focus,
+.app-navbar .btn:active {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Mobile tap highlight remove */
+.app-navbar a {
+  -webkit-tap-highlight-color: transparent;
 }

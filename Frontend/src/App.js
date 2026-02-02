@@ -3,6 +3,7 @@ import AppHomeNavbar from "./components/AppHomeNavbar";
 import AppHome from "./components/AppHome";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import ForgotPassword from "./components/ForgotPassword";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -33,6 +34,7 @@ import MessOwnerRatings from "./components/messowner/MessOwnerRatings";
 import MonthlyPlans from "./components/messowner/MonthlyPlanList";
 import ManageOrders from "./components/messowner/ManageOrders";
 
+
 /* AUTH */
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -40,12 +42,21 @@ function App() {
   return (
     <>
       <AppHomeNavbar />
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        newestOnTop={true} 
+        closeOnClick
+        pauseOnHover
+        draggable
+      />
+
 
       <Routes>
         {/* PUBLIC ROUTES */}
         <Route path="/" element={<AppHome />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/register" element={<Register />} />
 
         {/* PUBLIC CUSTOMER ROUTES */}

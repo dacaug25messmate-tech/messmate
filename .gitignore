@@ -19,3 +19,8 @@ Thumbs.db
 # Node
 node_modules/
 >>>>>>> df69b6b51d46228f299d4c0bd14b2ed526d91793
+
+
+backend/Customer/.vs
+backend/Customer/Customer/obj/Release/
+
