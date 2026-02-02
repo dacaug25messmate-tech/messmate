@@ -1,39 +1,29 @@
-import "../../styles/dashboard.css";
+import "../../styles/messformdisplay.css";
 import AddMessForm from "../../components/messowner/AddMessForm.jsx";
-import MonthlyPlans from "../../components/messowner/MonthlyPlans"; // Assuming you have this component
+import MonthlyPlans from "./MonthlyPlanList.js";
+import UploadMessPhoto from "../../components/messowner/UploadMessPhoto.jsx";
+import EditProfileForm from "./EditprofileForm.jsx";
 import { useEffect, useState } from "react";
+import { messowner_url } from "../rest_endpoints.js";
 
 export default function ProfileAndMessInfo() {
   const userId = localStorage.getItem("userid");
 
   const [data, setData] = useState(null);
-  const [activeMenu, setActiveMenu] = useState("Profile & Mess Info");
+  const [activeMenu] = useState("Profile & Mess Info");
   const [activeTab, setActiveTab] = useState("profile");
-  const [messExists, setMessExists] = useState(false);
 
   const [myMesses, setMyMesses] = useState([]);
   const [selectedMess, setSelectedMess] = useState(null);
 
-//   // Sidebar menu items (you missed defining this array)
-//   const items = [
-//     { label: "Profile & Mess Info", icon: "👤" },
-//     { label: "Manage Monthly Plans", icon: "📅" },
-//     // add more if needed
-//   ];
-
   // Load profile & mess data
   const loadProfile = () => {
-    fetch(`http://localhost:2025/api/messowner/profile/${userId}`)
+    fetch(`${messowner_url}/profile/${userId}`)
       .then((res) => res.json())
       .then(setData)
       .catch(() => setData(null));
 
-    fetch(`http://localhost:2025/api/messowner/mess/${userId}`)
-      .then((res) => res.ok ? res.json() : null)
-      .then((data) => setMessExists(!!data))
-      .catch(() => setMessExists(false));
-
-    fetch(`http://localhost:2025/api/messowner/messes/${userId}`)
+    fetch(`${messowner_url}/messes/${userId}`)
       .then((res) => res.json())
       .then(setMyMesses)
       .catch(() => setMyMesses([]));
@@ -43,17 +33,15 @@ export default function ProfileAndMessInfo() {
     loadProfile();
   }, [userId]);
 
-  // When add/edit form is saved
   const handleSaved = () => {
     loadProfile();
     setActiveTab("mess");
   };
 
-  // Delete mess handler
   const handleDeleteMess = (messId) => {
     if (!window.confirm("Are you sure you want to delete this mess?")) return;
 
-    fetch(`http://localhost:2025/api/messowner/mess/${messId}`, {
+    fetch(`${messowner_url}/mess/${messId}`, {
       method: "DELETE",
     })
       .then((res) => {
@@ -65,15 +53,8 @@ export default function ProfileAndMessInfo() {
       .catch(() => alert("Error deleting mess"));
   };
 
-  // Start adding new mess
-  const handleAddFromRow = () => {
-    setSelectedMess(null);
-    setActiveTab("add");
-  };
-
-  // Edit mess from row
   const handleEditFromRow = (messId) => {
-    fetch(`http://localhost:2025/api/messowner/mess/details/${messId}`)
+    fetch(`${messowner_url}/mess/details/${messId}`)
       .then((res) => res.json())
       .then((data) => {
         setSelectedMess(data);
@@ -81,9 +62,8 @@ export default function ProfileAndMessInfo() {
       });
   };
 
-  // View mess details (NEW tab: messDetails)
   const handleViewMess = (messId) => {
-    fetch(`http://localhost:2025/api/messowner/mess/details/${messId}`)
+    fetch(`${messowner_url}/mess/details/${messId}`)
       .then((res) => res.json())
       .then((data) => {
         setSelectedMess(data);
@@ -95,36 +75,10 @@ export default function ProfileAndMessInfo() {
 
   return (
     <div className="dashboard-container">
-      {/* SIDEBAR */}
-      {/* <div className="dashboard-sidebar">
-        <div className="sidebar-header">
-          <h4>Mess Owner</h4>
-        </div> */}
-
-        {/* <ul className="sidebar-list">
-          {items.map((item, i) => (
-            <li
-              key={i}
-              className={`sidebar-item ${
-                activeMenu === item.label ? "active" : ""
-              }`}
-              onClick={() => {
-                setActiveMenu(item.label);
-                setActiveTab("profile");
-                setSelectedMess(null);
-              }}
-            >
-              <span className="sidebar-icon">{item.icon}</span>
-              <span className="sidebar-label">{item.label}</span>
-            </li>
-          ))}
-        </ul> */}
-      {/* </div> */}
-
-      {/* MAIN CONTENT */}
       <div className="dashboard-main">
         {activeMenu === "Profile & Mess Info" && (
           <div className="dashboard-card">
+
             {/* TABS */}
             <div className="profile-tabs">
               <button
@@ -150,47 +104,46 @@ export default function ProfileAndMessInfo() {
               >
                 Add Mess
               </button>
-
-              <button
-                onClick={() => alert("Add Photo feature not implemented yet")}
-              >
-                Add Photo
-              </button>
             </div>
 
             {/* PROFILE */}
             {activeTab === "profile" && (
-              <table className="profile-table">
-                <tbody>
-                  <tr>
-                    <th>Full Name</th>
-                    <td>{data.fullName}</td>
-                  </tr>
-                  <tr>
-                    <th>Username</th>
-                    <td>{data.username}</td>
-                  </tr>
-                  <tr>
-                    <th>Email</th>
-                    <td>{data.email}</td>
-                  </tr>
-                  <tr>
-                    <th>Phone</th>
-                    <td>{data.phone}</td>
-                  </tr>
-                  <tr>
-                    <th>Address</th>
-                    <td>{data.address}</td>
-                  </tr>
-                </tbody>
-              </table>
+              <>
+                <table className="profile-table">
+                  <tbody>
+                    <tr><th>Full Name</th><td>{data.fullName}</td></tr>
+                    <tr><th>Username</th><td>{data.username}</td></tr>
+                    <tr><th>Email</th><td>{data.email}</td></tr>
+                    <tr><th>Phone</th><td>{data.phone}</td></tr>
+                    <tr><th>Address</th><td>{data.address}</td></tr>
+                  </tbody>
+                </table>
+
+                <button
+                  style={{ marginTop: "15px" }}
+                  onClick={() => setActiveTab("editProfile")}
+                >
+                  Edit Profile
+                </button>
+              </>
+            )}
+
+            {/* EDIT PROFILE */}
+            {activeTab === "editProfile" && (
+              <EditProfileForm
+                profileData={data}
+                onCancel={() => setActiveTab("profile")}
+                onSaved={() => {
+                  loadProfile();
+                  setActiveTab("profile");
+                }}
+              />
             )}
 
             {/* MESS LIST */}
             {activeTab === "mess" && (
               <>
                 <h3>My Messes</h3>
-
                 <table className="profile-table">
                   <thead>
                     <tr>
@@ -213,19 +166,34 @@ export default function ProfileAndMessInfo() {
                         <td>{mess.messName}</td>
                         <td>{mess.messAddress}</td>
                         <td>
-                          <button onClick={() => handleViewMess(mess.messId)}>
+                          {/* ADD PHOTO */}
+                          <button
+                            style={{ marginRight: "8px" }}
+                            onClick={() => {
+                              setSelectedMess(mess);
+                              setActiveTab("addPhoto");
+                            }}
+                          >
+                            Add Photo
+                          </button>
+
+                          <button
+                            style={{ marginRight: "8px" }}
+                            onClick={() => handleViewMess(mess.messId)}
+                          >
                             View
                           </button>
 
                           <button
-                            style={{ marginLeft: "8px" }}
+                            style={{ marginRight: "8px" }}
                             onClick={() => handleEditFromRow(mess.messId)}
                           >
                             Edit
                           </button>
 
                           <button
-                            style={{ marginLeft: "8px", color: "red" }}
+                            style={{ backgroundColor: "red", color: "white" }}
+
                             onClick={() => handleDeleteMess(mess.messId)}
                           >
                             Delete
@@ -238,53 +206,39 @@ export default function ProfileAndMessInfo() {
               </>
             )}
 
-            {/* MESS DETAILS VIEW */}
+            {/* MESS DETAILS */}
             {activeTab === "messDetails" && selectedMess && (
               <div style={{ marginTop: "25px" }}>
                 <h4>Mess Details</h4>
                 <table className="profile-table">
                   <tbody>
-                    <tr>
-                      <th>Name</th>
-                      <td>{selectedMess.messName}</td>
-                    </tr>
-                    <tr>
-                      <th>Address</th>
-                      <td>{selectedMess.messAddress}</td>
-                    </tr>
-                    <tr>
-                      <th>Type</th>
-                      <td>{selectedMess.messType}</td>
-                    </tr>
+                    <tr><th>Name</th><td>{selectedMess.messName}</td></tr>
+                    <tr><th>Address</th><td>{selectedMess.messAddress}</td></tr>
+                    <tr><th>Type</th><td>{selectedMess.messType}</td></tr>
                     <tr>
                       <th>Lunch</th>
-                      <td>
-                        {selectedMess.lunchOpenTime} - {selectedMess.lunchCloseTime}
-                      </td>
+                      <td>{selectedMess.lunchOpenTime} - {selectedMess.lunchCloseTime}</td>
                     </tr>
                     <tr>
                       <th>Dinner</th>
-                      <td>
-                        {selectedMess.dinnerOpenTime} - {selectedMess.dinnerCloseTime}
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Area</th>
-                      <td>{selectedMess.areaId?.area_name || "N/A"}</td>
+                      <td>{selectedMess.dinnerOpenTime} - {selectedMess.dinnerCloseTime}</td>
                     </tr>
                   </tbody>
                 </table>
-                <button onClick={() => setActiveTab("mess")}>Back to List</button>
+
+                <button onClick={() => setActiveTab("mess")}>
+                  Back to List
+                </button>
               </div>
             )}
 
-            {/* ADD FORM */}
+            {/* ADD MESS */}
             {activeTab === "add" && (
               <AddMessForm userId={userId} mode="add" onSaved={handleSaved} />
             )}
 
-            {/* EDIT FORM */}
-            {activeTab === "edit" && (
+            {/* EDIT MESS */}
+            {activeTab === "edit" && selectedMess && (
               <AddMessForm
                 userId={userId}
                 mode="edit"
@@ -292,10 +246,21 @@ export default function ProfileAndMessInfo() {
                 onSaved={handleSaved}
               />
             )}
+
+            {/* UPLOAD PHOTO */}
+            {activeTab === "addPhoto" && selectedMess && (
+              <UploadMessPhoto
+                messId={selectedMess.messId}
+                onUploaded={() => {
+                  alert("Photo uploaded successfully!");
+                  setActiveTab("mess");
+                }}
+              />
+            )}
+
           </div>
         )}
 
-        {/* Manage Monthly Plans Tab */}
         {activeMenu === "Manage Monthly Plans" && (
           <div className="dashboard-card">
             <MonthlyPlans messId={selectedMess?.messId} />

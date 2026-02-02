@@ -1,0 +1,219 @@
+/* ===========================
+   Container
+=========================== */
+.monthly-plans-container {
+  padding: 15px;
+  background: #ffffff;
+}
+
+/* ===========================
+   Mess Name
+=========================== */
+.mess-name {
+  margin-bottom: 10px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* ===========================
+   Header (Add Plan button top-right)
+=========================== */
+.monthly-plans-header {
+  display: flex;
+  justify-content: space-between; /* h3 left, button right */
+  align-items: center;
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+.monthly-plans-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* ===========================
+   Add Plan Button
+=========================== */
+.add-plan-btn {
+  padding: 6px 12px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.add-plan-btn:hover {
+  background-color: #f1f5f9;
+}
+
+.add-plan-btn:active {
+  transform: scale(0.95);
+}
+
+/* ===========================
+   Table
+=========================== */
+.plans-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.plans-table th {
+  background-color: #f1f5f9;
+  text-align: left;
+  padding: 10px;
+  font-weight: 600;
+}
+
+.plans-table td {
+  padding: 10px;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* ===========================
+   Delete Button
+=========================== */
+.delete-btn {
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid #ef4444;
+  background-color: #ffffff;
+  color: #ef4444;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+.delete-btn:active {
+  transform: scale(0.95);
+}
+
+/* FORCE DELETE BUTTON STYLE */
+.plans-table td button {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid #ef4444;
+  background-color: #ffffff;
+  color: #ef4444;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.plans-table td button:hover {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+.plans-table td button:active {
+  transform: scale(0.95);
+}
+
+/* ===========================
+   No Data Row
+=========================== */
+.no-data {
+  text-align: center;
+  padding: 15px;
+  color: gray;
+}
+
+/* ===========================
+   ADD PLAN FORM / MODAL
+=========================== */
+
+/* Modal Box */
+.add-plan-modal {
+  background: #ffffff;
+  padding: 20px 22px;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  width: 420px;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+/* Modal Title */
+.add-plan-modal h2 {
+  margin-bottom: 14px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Inputs & Selects */
+.add-plan-modal input,
+.add-plan-modal select {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #cfd8e3;
+  background-color: #f8fbff;
+}
+
+/* Select arrow fix */
+.add-plan-modal select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M1.5 5.5l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 14px;
+}
+
+/* Focus Style */
+.add-plan-modal input:focus,
+.add-plan-modal select:focus {
+  outline: none;
+  border-color: #0d6efd;
+  background-color: #ffffff;
+}
+
+/* Buttons Row */
+.add-plan-modal .form-buttons {
+  display: flex;
+  justify-content: flex-start; /* buttons left by default */
+  margin-top: 12px;
+}
+
+.add-plan-modal button {
+  padding: 8px 18px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Save Button */
+.add-plan-modal button:first-of-type {
+  background: #0d6efd;
+  color: #ffffff;
+  border: none;
+}
+
+.add-plan-modal button:first-of-type:hover {
+  background: #0b5ed7;
+}
+
+/* Cancel Button */
+.add-plan-modal button:last-of-type {
+  background: #ffffff;
+  color: #333;
+  border: 1px solid #ccc;
+  margin-left: 10px;
+}
+
+.add-plan-modal button:last-of-type:hover {
+  background: #f1f5f9;
+}
