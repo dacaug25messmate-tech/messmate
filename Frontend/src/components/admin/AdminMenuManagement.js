@@ -1,5 +1,3 @@
-
-
 import { useState } from "react";
 import CategoryTable from "./CategoryTable";
 import SubCategoryTable from "./SubCategoryTable";
