@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import "../../styles/ProfileEditCss.css";
 import { messowner_url } from "../rest_endpoints";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function EditProfileForm({ profileData, onCancel, onSaved }) {
   const [formData, setFormData] = useState({
@@ -27,7 +27,7 @@ export default function EditProfileForm({ profileData, onCancel, onSaved }) {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: "" }); // clear error while typing
+    setErrors({ ...errors, [e.target.name]: "" });
   };
 
   const validate = () => {
@@ -57,21 +57,17 @@ export default function EditProfileForm({ profileData, onCancel, onSaved }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!validate()) return;
 
     try {
-      const res = await fetch(
-        messowner_url+"/profile/update",
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            userId: localStorage.getItem("userid"),
-            ...formData,
-          }),
-        }
-      );
+      const res = await fetch(`${messowner_url}/profile/update`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: localStorage.getItem("userid"),
+          ...formData,
+        }),
+      });
 
       if (!res.ok) throw new Error("Update failed");
 
@@ -83,51 +79,118 @@ export default function EditProfileForm({ profileData, onCancel, onSaved }) {
     }
   };
 
-  if (loading) return <p>Loading profile...</p>;
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center mt-5">
+        <div className="text-center">
+          <div className="spinner-border text-primary"></div>
+          <p className="mt-3">Loading profile...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <form className="profile-form" onSubmit={handleSubmit}>
-      <h3>Edit Profile</h3>
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-md-6 col-lg-5">
+          <div className="card shadow-lg border-0">
+            <div className="card-body p-4">
 
-      <label>Full Name</label>
-      <input
-        name="fullName"
-        value={formData.fullName}
-        onChange={handleChange}
-      />
-      {errors.fullName && <span className="error">{errors.fullName}</span>}
+              <h3 className="text-center mb-4 fw-bold text-primary">
+                Edit Profile
+              </h3>
 
-      <label>Email</label>
-      <input
-        name="email"
-        value={formData.email}
-        onChange={handleChange}
-      />
-      {errors.email && <span className="error">{errors.email}</span>}
+              <form onSubmit={handleSubmit}>
 
-      <label>Phone</label>
-      <input
-        name="phone"
-        value={formData.phone}
-        onChange={handleChange}
-        maxLength="10"
-      />
-      {errors.phone && <span className="error">{errors.phone}</span>}
+                {/* Full Name */}
+                <div className="mb-3">
+                  <label className="form-label fw-semibold">Full Name</label>
+                  <input
+                    type="text"
+                    name="fullName"
+                    className={`form-control ${errors.fullName ? "is-invalid" : ""}`}
+                    placeholder="Enter your full name"
+                    value={formData.fullName}
+                    onChange={handleChange}
+                  />
+                  <div className="invalid-feedback">
+                    {errors.fullName}
+                  </div>
+                </div>
 
-      <label>Address</label>
-      <input
-        name="address"
-        value={formData.address}
-        onChange={handleChange}
-      />
-      {errors.address && <span className="error">{errors.address}</span>}
+                {/* Email */}
+                <div className="mb-3">
+                  <label className="form-label fw-semibold">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                    placeholder="example@email.com"
+                    value={formData.email}
+                    onChange={handleChange}
+                  />
+                  <div className="invalid-feedback">
+                    {errors.email}
+                  </div>
+                </div>
 
-      <div style={{ marginTop: "15px" }}>
-        <button type="submit">Save</button>
-        <button type="button" onClick={onCancel} style={{ marginLeft: "10px" }}>
-          Cancel
-        </button>
+                {/* Phone */}
+                <div className="mb-3">
+                  <label className="form-label fw-semibold">Phone</label>
+                  <input
+                    type="text"
+                    name="phone"
+                    maxLength="10"
+                    className={`form-control ${errors.phone ? "is-invalid" : ""}`}
+                    placeholder="10 digit mobile number"
+                    value={formData.phone}
+                    onChange={handleChange}
+                  />
+                  <div className="invalid-feedback">
+                    {errors.phone}
+                  </div>
+                </div>
+
+                {/* Address */}
+                <div className="mb-4">
+                  <label className="form-label fw-semibold">Address</label>
+                  <textarea
+                    name="address"
+                    rows="2"
+                    className={`form-control ${errors.address ? "is-invalid" : ""}`}
+                    placeholder="Enter your address"
+                    value={formData.address}
+                    onChange={handleChange}
+                  />
+                  <div className="invalid-feedback">
+                    {errors.address}
+                  </div>
+                </div>
+
+                {/* Buttons */}
+                <div className="d-flex justify-content-between">
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary"
+                    onClick={onCancel}
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    type="submit"
+                    className="btn btn-primary px-4"
+                  >
+                    Save Changes
+                  </button>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
-    </form>
+    </div>
   );
 }

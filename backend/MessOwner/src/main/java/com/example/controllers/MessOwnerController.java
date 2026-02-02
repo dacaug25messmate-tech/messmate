@@ -267,7 +267,7 @@ public class MessOwnerController {
     ) {
         try {
             // 1. Save file locally (example folder)
-            String uploadDir = "uploads/mess-photos/";
+            String uploadDir = "uploads/mess-photo/";
             File dir = new File(uploadDir);
             if (!dir.exists()) dir.mkdirs();
 

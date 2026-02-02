@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import { messowner_url } from "../rest_endpoints";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function AddMonthlyPlanModal({
   messes,
-  selectedMess,
-  plan,    // If editing, you can prefill
+  defaultMess,
+  plan,
   onClose,
   onSaved
 }) {
-  const [messId, setMessId] = useState(selectedMess?.messId || "");
+  const [messId, setMessId] = useState(defaultMess?.messId || "");
   const [planName, setPlanName] = useState(plan?.planName || "");
   const [price, setPrice] = useState(plan?.monthlyPrice || "");
   const [meal, setMeal] = useState(plan?.mealInclusion || "Lunch");
@@ -25,13 +26,13 @@ export default function AddMonthlyPlanModal({
   }, [plan]);
 
   const savePlan = async () => {
-    if (!messId) {
-      alert("Please select a mess");
+    if (!messId || !planName || !price || !validity) {
+      alert("Please fill all fields");
       return;
     }
 
     try {
-      await fetch(messowner_url+"/monthly-plans/add", {
+      await fetch(`${messowner_url}/monthly-plans/add`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -52,85 +53,102 @@ export default function AddMonthlyPlanModal({
 
   return (
     <>
-      {/* Overlay */}
-      <div
-        style={{
-          position: "fixed",
-          inset: 0,
-          background: "rgba(0,0,0,0.4)",
-          zIndex: 999
-        }}
-        onClick={onClose}
-      />
+      {/* Backdrop */}
+      <div className="modal-backdrop fade show"></div>
 
       {/* Modal */}
-      <div
-        style={{
-          position: "fixed",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          background: "#fff",
-          padding: "20px",
-          width: "400px",
-          zIndex: 1000,
-          borderRadius: "6px"
-        }}
-      >
-        <h3>{plan ? "Edit Plan" : "Add Monthly Plan"}</h3>
+      <div className="modal fade show d-block" tabIndex="-1">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
 
-        <select
-          value={messId}
-          onChange={(e) => setMessId(e.target.value)}
-          style={{ width: "100%", marginBottom: "10px" }}
-        >
-          <option value="">-- Select Mess --</option>
-          {messes.map((m) => (
-            <option key={m.messId} value={m.messId}>
-              {m.messName}
-            </option>
-          ))}
-        </select>
+            <div className="modal-header">
+              <h5 className="modal-title">
+                {plan ? "Edit Monthly Plan" : "Add Monthly Plan"}
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                onClick={onClose}
+              ></button>
+            </div>
 
-        <input
-          placeholder="Plan Name"
-          value={planName}
-          onChange={(e) => setPlanName(e.target.value)}
-          style={{ width: "100%", marginBottom: "10px" }}
-        />
+            <div className="modal-body">
+              {/* Mess */}
+              <div className="mb-3">
+                <label className="form-label">Mess</label>
+                <select
+                  className="form-select"
+                  value={messId}
+                  onChange={(e) => setMessId(e.target.value)}
+                >
+                  <option value="">-- Select Mess --</option>
+                  {messes.map((m) => (
+                    <option key={m.messId} value={m.messId}>
+                      {m.messName}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-        <input
-          placeholder="Monthly Price"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          style={{ width: "100%", marginBottom: "10px" }}
-        />
+              {/* Plan Name */}
+              <div className="mb-3">
+                <label className="form-label">Plan Name</label>
+                <input
+                  className="form-control"
+                  value={planName}
+                  onChange={(e) => setPlanName(e.target.value)}
+                />
+              </div>
 
-        <select
-          value={meal}
-          onChange={(e) => setMeal(e.target.value)}
-          style={{ width: "100%", marginBottom: "10px" }}
-        >
-          <option>Lunch</option>
-          <option>Dinner</option>
-          <option>Both</option>
-        </select>
+              {/* Price */}
+              <div className="mb-3">
+                <label className="form-label">Monthly Price</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                />
+              </div>
 
-        <input
-          placeholder="Validity (days)"
-          value={validity}
-          onChange={(e) => setValidity(e.target.value)}
-          style={{ width: "100%", marginBottom: "10px" }}
-        />
+              {/* Meal */}
+              <div className="mb-3">
+                <label className="form-label">Meals Included</label>
+                <select
+                  className="form-select"
+                  value={meal}
+                  onChange={(e) => setMeal(e.target.value)}
+                >
+                  <option>Lunch</option>
+                  <option>Dinner</option>
+                  <option>Both</option>
+                </select>
+              </div>
 
-        <div style={{ textAlign: "right" }}>
-          <button onClick={savePlan}>Save</button>
-          <button onClick={onClose} style={{ marginLeft: "10px" }}>
-            Cancel
-          </button>
+              {/* Validity */}
+              <div className="mb-3">
+                <label className="form-label">Validity (days)</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  value={validity}
+                  onChange={(e) => setValidity(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="modal-footer">
+              <button className="btn btn-secondary" onClick={onClose}>
+                Cancel
+              </button>
+              <button className="btn btn-primary" onClick={savePlan}>
+                Save
+              </button>
+            </div>
+
+          </div>
         </div>
       </div>
     </>
   );
 }
-

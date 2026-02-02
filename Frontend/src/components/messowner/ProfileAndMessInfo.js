@@ -1,4 +1,3 @@
-
 import "../../styles/messformdisplay.css";
 import AddMessForm from "../../components/messowner/AddMessForm.jsx";
 import MonthlyPlans from "./MonthlyPlanList.js";
@@ -34,13 +33,11 @@ export default function ProfileAndMessInfo() {
     loadProfile();
   }, [userId]);
 
-  // When add/edit mess is saved
   const handleSaved = () => {
     loadProfile();
     setActiveTab("mess");
   };
 
-  // Delete mess
   const handleDeleteMess = (messId) => {
     if (!window.confirm("Are you sure you want to delete this mess?")) return;
 
@@ -56,7 +53,6 @@ export default function ProfileAndMessInfo() {
       .catch(() => alert("Error deleting mess"));
   };
 
-  // Edit mess
   const handleEditFromRow = (messId) => {
     fetch(`${messowner_url}/mess/details/${messId}`)
       .then((res) => res.json())
@@ -66,7 +62,6 @@ export default function ProfileAndMessInfo() {
       });
   };
 
-  // View mess details
   const handleViewMess = (messId) => {
     fetch(`${messowner_url}/mess/details/${messId}`)
       .then((res) => res.json())
@@ -109,19 +104,9 @@ export default function ProfileAndMessInfo() {
               >
                 Add Mess
               </button>
-
-              <button
-                onClick={() => {
-                  if (!selectedMess) return alert("Select a mess first");
-                  setActiveTab("addPhoto");
-                }}
-                className={activeTab === "addPhoto" ? "tab-active" : ""}
-              >
-                Add Photo
-              </button>
             </div>
 
-            {/* PROFILE VIEW */}
+            {/* PROFILE */}
             {activeTab === "profile" && (
               <>
                 <table className="profile-table">
@@ -143,7 +128,7 @@ export default function ProfileAndMessInfo() {
               </>
             )}
 
-            {/* EDIT PROFILE (ADDED LOGIC) */}
+            {/* EDIT PROFILE */}
             {activeTab === "editProfile" && (
               <EditProfileForm
                 profileData={data}
@@ -181,19 +166,34 @@ export default function ProfileAndMessInfo() {
                         <td>{mess.messName}</td>
                         <td>{mess.messAddress}</td>
                         <td>
-                          <button onClick={() => handleViewMess(mess.messId)}>
+                          {/* ADD PHOTO */}
+                          <button
+                            style={{ marginRight: "8px" }}
+                            onClick={() => {
+                              setSelectedMess(mess);
+                              setActiveTab("addPhoto");
+                            }}
+                          >
+                            Add Photo
+                          </button>
+
+                          <button
+                            style={{ marginRight: "8px" }}
+                            onClick={() => handleViewMess(mess.messId)}
+                          >
                             View
                           </button>
 
                           <button
-                            style={{ marginLeft: "8px" }}
+                            style={{ marginRight: "8px" }}
                             onClick={() => handleEditFromRow(mess.messId)}
                           >
                             Edit
                           </button>
 
                           <button
-                            style={{ marginLeft: "8px", color: "red" }}
+                            style={{ backgroundColor: "red", color: "white" }}
+
                             onClick={() => handleDeleteMess(mess.messId)}
                           >
                             Delete
@@ -222,10 +222,6 @@ export default function ProfileAndMessInfo() {
                     <tr>
                       <th>Dinner</th>
                       <td>{selectedMess.dinnerOpenTime} - {selectedMess.dinnerCloseTime}</td>
-                    </tr>
-                    <tr>
-                      <th>Area</th>
-                      <td>{selectedMess.areaId?.area_name || "N/A"}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -257,7 +253,7 @@ export default function ProfileAndMessInfo() {
                 messId={selectedMess.messId}
                 onUploaded={() => {
                   alert("Photo uploaded successfully!");
-                  setActiveTab("messDetails");
+                  setActiveTab("mess");
                 }}
               />
             )}
@@ -265,7 +261,6 @@ export default function ProfileAndMessInfo() {
           </div>
         )}
 
-        {/* MONTHLY PLANS */}
         {activeMenu === "Manage Monthly Plans" && (
           <div className="dashboard-card">
             <MonthlyPlans messId={selectedMess?.messId} />
@@ -275,4 +270,3 @@ export default function ProfileAndMessInfo() {
     </div>
   );
 }
-
