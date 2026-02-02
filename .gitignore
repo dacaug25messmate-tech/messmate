@@ -19,8 +19,8 @@ bin/
 # =========================
 # ASP.NET Core / .NET
 # =========================
-.vs/
-bin/
+backend/Customer/.vs/
+backend/Customer/bin/
 obj/
 *.user
 *.suo
