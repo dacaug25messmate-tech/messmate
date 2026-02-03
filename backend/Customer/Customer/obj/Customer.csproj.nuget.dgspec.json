@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\PGDAC\\Project\\messmate\\backend\\Customer\\Customer\\Customer.csproj": {}
+    "D:\\PGDAC\\Project\\final project\\messmate\\backend\\Customer\\Customer\\Customer.csproj": {}
   },
   "projects": {
-    "D:\\PGDAC\\Project\\messmate\\backend\\Customer\\Customer\\Customer.csproj": {
+    "D:\\PGDAC\\Project\\final project\\messmate\\backend\\Customer\\Customer\\Customer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PGDAC\\Project\\messmate\\backend\\Customer\\Customer\\Customer.csproj",
+        "projectUniqueName": "D:\\PGDAC\\Project\\final project\\messmate\\backend\\Customer\\Customer\\Customer.csproj",
         "projectName": "Customer",
-        "projectPath": "D:\\PGDAC\\Project\\messmate\\backend\\Customer\\Customer\\Customer.csproj",
+        "projectPath": "D:\\PGDAC\\Project\\final project\\messmate\\backend\\Customer\\Customer\\Customer.csproj",
         "packagesPath": "C:\\Users\\Moraya\\.nuget\\packages\\",
-        "outputPath": "D:\\PGDAC\\Project\\messmate\\backend\\Customer\\Customer\\obj\\",
+        "outputPath": "D:\\PGDAC\\Project\\final project\\messmate\\backend\\Customer\\Customer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

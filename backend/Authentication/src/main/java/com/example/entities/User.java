@@ -60,6 +60,9 @@ public class User {
 
 	String status;
 	
+	@Column(name="active_status")
+	String activeStatus;//ACTIVE/INACTIVE;
+	
 	@OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
 	private List<Mess> messes;
 	

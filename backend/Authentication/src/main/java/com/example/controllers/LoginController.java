@@ -43,8 +43,11 @@ public class LoginController {
 
             case "ACCESS_DENIED":
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+                
 
             case "NOT_APPROVED":
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+            case "ACCOUNT_INACTIVE":
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
 
             default:
@@ -96,6 +99,10 @@ public class LoginController {
                 } else {
                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
                 }
+                
+            case "ACCOUNT_INACTIVE":
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+
 
             case "ACCOUNT_LOCKED":
                 return ResponseEntity.status(HttpStatus.LOCKED).body(response);

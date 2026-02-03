@@ -122,7 +122,7 @@ export default function MessOwnerFoodRequestForm() {
 
                   <div className="mb-4">
                     <label className="form-label fw-semibold">
-                      Description <span className="text-muted">(optional)</span>
+                      Description 
                     </label>
                     <textarea
                       className="form-control"

@@ -25,6 +25,12 @@ public class LoginService {
             response.setStatus("USER_NOT_FOUND");
             return response;
         }
+        
+     // Account inactive 
+        if ("INACTIVE".equalsIgnoreCase(user.getActiveStatus())) {
+            response.setStatus("ACCOUNT_INACTIVE");
+            return response;
+        }
 
         // Rejected by admin
         if ("REJECTED".equalsIgnoreCase(user.getStatus())) {

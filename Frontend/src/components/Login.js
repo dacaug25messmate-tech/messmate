@@ -38,6 +38,8 @@ export default function Login() {
       if (response.status === 403) {
         if (data.status === "ACCESS_DENIED") toast.error("Access Denied");
         else if (data.status === "NOT_APPROVED") toast.warning("Wait until admin approval");
+        else if (data.status === "ACCOUNT_INACTIVE")
+    toast.error("Your account is inactive.");
         else toast.error("You are not allowed to login");
         return;
       }

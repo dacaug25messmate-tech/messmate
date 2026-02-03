@@ -12,17 +12,20 @@ export default function AdminFoodItemRequests() {
   const { requests, loading } = useSelector(
     (state) => state.foodRequests
   );
+  console.log(requests);
+
 
   useEffect(() => {
     dispatch(fetchFoodRequests());
   }, [dispatch]);
 
-  if (loading)
+  if (loading) {
     return (
       <div className="text-center py-5 text-muted">
         Loading food item requests…
       </div>
     );
+  }
 
   return (
     <div className="container-fluid px-3">
@@ -44,10 +47,10 @@ export default function AdminFoodItemRequests() {
               <thead className="table-light">
                 <tr>
                   <th style={{ width: "5%" }}>#</th>
-                  <th style={{ width: "15%" }}>Item</th>
+                  <th style={{ width: "20%" }}>Item</th>
                   <th>Description</th>
-                  <th style={{ width: "15%" }}>Mess Owner</th>
-                  <th style={{ width: "15%" }}>Sub Category</th>
+                  {/* <th style={{ width: "20%" }}>Mess Owner</th>
+                  <th style={{ width: "20%" }}>Sub Category</th> */}
                   <th className="text-end" style={{ width: "15%" }}>
                     Action
                   </th>
@@ -64,6 +67,7 @@ export default function AdminFoodItemRequests() {
                 ) : (
                   requests.map((r) => (
                     <tr key={r.requestId}>
+
                       <td className="text-muted">
                         {r.requestId}
                       </td>
@@ -78,24 +82,23 @@ export default function AdminFoodItemRequests() {
                         {r.description}
                       </td>
 
-                      <td>
-                        {r.messId?.ownerName || "-"}
+                      {/* ✅ FIXED FIELD */}
+                      {/* <td>
+                        {r.messOwnerName}
                       </td>
 
                       <td>
                         <span className="badge bg-secondary-subtle text-secondary rounded-pill px-3 py-2">
-                          {r.subCategoryId?.subCategoryName || "-"}
+                          {r.subCategoryName}
                         </span>
-                      </td>
+                      </td> */}
 
                       <td className="text-end">
                         <div className="d-flex justify-content-end gap-2">
                           <button
                             className="btn btn-outline-success btn-sm rounded-pill px-3"
                             onClick={() =>
-                              dispatch(
-                                approveFoodRequest(r.requestId)
-                              )
+                              dispatch(approveFoodRequest(r.requestId))
                             }
                           >
                             Approve
@@ -104,15 +107,14 @@ export default function AdminFoodItemRequests() {
                           <button
                             className="btn btn-outline-danger btn-sm rounded-pill px-3"
                             onClick={() =>
-                              dispatch(
-                                rejectFoodRequest(r.requestId)
-                              )
+                              dispatch(rejectFoodRequest(r.requestId))
                             }
                           >
                             Reject
                           </button>
                         </div>
                       </td>
+
                     </tr>
                   ))
                 )}

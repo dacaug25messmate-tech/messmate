@@ -9,10 +9,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class FoodItemRequestDTO {
+public class AdminFoodItemRequestDTO {
 
-	private String foodName;
+    private Integer requestId;
+    private String itemName;
     private String description;
-    private Integer subCategoryId;
-    private Integer userId;
+    private String messOwnerName;
+    private String subCategoryName;
 }
