@@ -42,7 +42,12 @@ function App() {
   return (
     <>
       <AppHomeNavbar />
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer
+  containerId="global"
+  position="top-right"
+  autoClose={3000}
+  style={{ zIndex: 99999 }}
+/>
 
       <Routes>
         {/* PUBLIC ROUTES */}

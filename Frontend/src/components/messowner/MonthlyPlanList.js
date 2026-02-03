@@ -16,10 +16,11 @@ export default function MonthlyPlans() {
     loadMesses();
   }, []);
 
+  // 🔹 Load all messes of owner
   const loadMesses = async () => {
     try {
       const res = await fetch(`${messowner_url}/messes/${userId}`);
-      if (!res.ok) throw new Error("Failed to load messes");
+      if (!res.ok) throw new Error();
 
       const data = await res.json();
       setMesses(Array.isArray(data) ? data : []);
@@ -28,11 +29,12 @@ export default function MonthlyPlans() {
         setSelectedMess(data[0]);
         loadPlans(data[0].messId);
       }
-    } catch (err) {
+    } catch {
       setError("Unable to load messes");
     }
   };
 
+  // 🔹 Load plans for mess
   const loadPlans = async (messId) => {
     try {
       const res = await fetch(`${messowner_url}/monthly-plans/${messId}`);
@@ -43,14 +45,35 @@ export default function MonthlyPlans() {
     }
   };
 
-  const deletePlan = async (id) => {
-    if (!window.confirm("Delete this plan?")) return;
+  // 🔹 Delete plan (backend protected)
+  const deletePlan = async (plan) => {
+    if (plan.activeSubscriberCount > 0) {
+      alert(
+        `This plan has ${plan.activeSubscriberCount} active subscriber(s) and cannot be deleted.`
+      );
+      return;
+    }
 
-    await fetch(`${messowner_url}/monthly-plans/delete/${id}`, {
-      method: "DELETE",
-    });
+    if (!window.confirm("Are you sure you want to delete this plan?")) return;
 
-    loadPlans(selectedMess.messId);
+    try {
+      const res = await fetch(
+        `${messowner_url}/monthly-plans/delete/${plan.planId}`,
+        { method: "DELETE" }
+      );
+
+      if (res.status === 409) {
+        const msg = await res.text();
+        alert(msg || "This plan is already subscribed.");
+        return;
+      }
+
+      if (!res.ok) throw new Error();
+
+      loadPlans(selectedMess.messId);
+    } catch {
+      alert("Error deleting plan. Please try again.");
+    }
   };
 
   if (!selectedMess) {
@@ -59,10 +82,8 @@ export default function MonthlyPlans() {
 
   return (
     <div className="container mt-4">
-
-      {error && (
-        <div className="alert alert-danger">{error}</div>
-      )}
+      {/* Error */}
+      {error && <div className="alert alert-danger">{error}</div>}
 
       {/* Mess Selector */}
       <div className="mb-3">
@@ -88,15 +109,12 @@ export default function MonthlyPlans() {
       {/* Header */}
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h3>Monthly Plans</h3>
-        <button
-          className="btn btn-primary"
-          onClick={() => setShowModal(true)}
-        >
+        <button className="btn btn-primary" onClick={() => setShowModal(true)}>
           + Add Plan
         </button>
       </div>
 
-      {/* Table */}
+      {/* Plans Table */}
       <table className="table table-bordered table-striped">
         <thead className="table-dark">
           <tr>
@@ -104,13 +122,15 @@ export default function MonthlyPlans() {
             <th>Price</th>
             <th>Meals</th>
             <th>Validity</th>
+            <th>Subscribers</th>
             <th>Action</th>
           </tr>
         </thead>
+
         <tbody>
           {plans.length === 0 ? (
             <tr>
-              <td colSpan="5" className="text-center">
+              <td colSpan="6" className="text-center">
                 No plans found
               </td>
             </tr>
@@ -122,9 +142,24 @@ export default function MonthlyPlans() {
                 <td>{p.mealInclusion}</td>
                 <td>{p.validityPeriod}</td>
                 <td>
+                  {p.activeSubscriberCount > 0 ? (
+                    <span className="text-danger fw-bold">
+                      {p.activeSubscriberCount}
+                    </span>
+                  ) : (
+                    <span className="text-success">0</span>
+                  )}
+                </td>
+                <td>
                   <button
                     className="btn btn-sm btn-danger"
-                    onClick={() => deletePlan(p.planId)}
+                    disabled={p.activeSubscriberCount > 0}
+                    title={
+                      p.activeSubscriberCount > 0
+                        ? "Plan has active subscribers"
+                        : "Delete plan"
+                    }
+                    onClick={() => deletePlan(p)}
                   >
                     Delete
                   </button>
@@ -135,6 +170,7 @@ export default function MonthlyPlans() {
         </tbody>
       </table>
 
+      {/* Add Plan Modal */}
       {showModal && (
         <AddMonthlyPlanModal
           messes={messes}

@@ -40,6 +40,7 @@ public class AdminService {
 	                .orElseThrow(() -> new RuntimeException("User not found"));
 
 	        user.setStatus("APPROVED");
+	        user.setActiveStatus("ACTIVE");
 	        return userRepository.save(user);
 	    }
 

@@ -184,12 +184,14 @@ public class MessOwnerController {
     }
 
     @DeleteMapping("/monthly-plans/delete/{planId}")
-    public ResponseEntity<?> deletePlan(
-            @PathVariable Integer planId) {
-        monthlyPlanService.deletePlan(planId);
-        return ResponseEntity.ok("Plan deleted successfully");
+    public ResponseEntity<?> deletePlan(@PathVariable Integer planId) {
+        try {
+            monthlyPlanService.deletePlan(planId);
+            return ResponseEntity.ok("Plan deleted successfully");
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(409).body(ex.getMessage());
+        }
     }
-
     
     @PostMapping("/mess")
     public ResponseEntity<MessResponseDTO> addMess(@RequestBody MessRequestDTO dto) {
@@ -265,26 +267,9 @@ public class MessOwnerController {
             @RequestParam Integer messid,
             @RequestParam("photo") MultipartFile photo
     ) {
-        try {
-            // 1. Save file locally (example folder)
-            String uploadDir = "uploads/mess-photo/";
-            File dir = new File(uploadDir);
-            if (!dir.exists()) dir.mkdirs();
-
-            String fileName = System.currentTimeMillis() + "_" + photo.getOriginalFilename();
-            Path filePath = Paths.get(uploadDir + fileName);
-            Files.write(filePath, photo.getBytes());
-
-            // 2. Create URL (this is what you store in DB)
-            String photoUrl = "http://localhost:2028/" + uploadDir + fileName;
-
-            // 3. Save in DB
-            MessPhoto savedPhoto = messOwnerService.addMessPhoto(messid, photoUrl);
-
-            return ResponseEntity.ok(savedPhoto);
-
-        } catch (IOException e) {
-            return ResponseEntity.badRequest().body("Photo upload failed");
-        }
+        return ResponseEntity.ok(
+                messOwnerService.addMessPhoto(messid, photo)
+        );
     }
+
 }

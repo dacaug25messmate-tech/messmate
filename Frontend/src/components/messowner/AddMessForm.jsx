@@ -80,8 +80,8 @@ export default function AddMessForm({
     if (!form.messName || form.messName.trim().length < 3)
       newErrors.messName = "Mess name must be at least 3 characters";
 
-    if (!form.messAddress || form.messAddress.trim().length < 10)
-      newErrors.messAddress = "Address must be at least 10 characters";
+    if (!form.messAddress || form.messAddress.trim().length < 5)
+      newErrors.messAddress = "Address must be at least 5 characters";
 
     if (!form.messType)
       newErrors.messType = "Mess type is required";
@@ -124,7 +124,12 @@ export default function AddMessForm({
         data: dto
       });
 
-      setMessage(mode === "edit" ? "Mess updated successfully!" : "Mess added successfully!");
+      setMessage(
+        mode === "edit"
+          ? "Mess updated successfully!"
+          : "Mess added successfully!"
+      );
+
       onSaved && onSaved(res.data);
     } catch (err) {
       console.error(err.response?.data || err.message);
@@ -134,6 +139,7 @@ export default function AddMessForm({
 
   return (
     <form className="mess-info-form" onSubmit={handleSubmit}>
+
       {/* Mess Name */}
       <div className="info-row">
         <label>Mess Name</label>
@@ -146,11 +152,11 @@ export default function AddMessForm({
         {errors.messName && <small className="error">{errors.messName}</small>}
       </div>
 
-      {/* Address */}
+     {/* Address */}
       <div className="info-row">
-        <label>Mess Address</label>
-        <input
-          name="messAddress"
+         <label>Mess Address</label>
+         <input
+           name="messAddress"
           value={form.messAddress}
           onChange={handleChange}
           className={errors.messAddress ? "error-input" : ""}
@@ -158,15 +164,21 @@ export default function AddMessForm({
         {errors.messAddress && <small className="error">{errors.messAddress}</small>}
       </div>
 
-      {/* Type */}
+
+      {/* Mess Type Dropdown */}
       <div className="info-row">
         <label>Mess Type</label>
-        <input
+        <select
           name="messType"
           value={form.messType}
           onChange={handleChange}
           className={errors.messType ? "error-input" : ""}
-        />
+        >
+          <option value="">Select Mess Type</option>
+          <option value="VEG">VEG</option>
+          <option value="NON_VEG">NON-VEG</option>
+          <option value="JAIN">JAIN</option>
+        </select>
         {errors.messType && <small className="error">{errors.messType}</small>}
       </div>
 

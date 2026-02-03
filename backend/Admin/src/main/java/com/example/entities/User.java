@@ -65,5 +65,12 @@ public class User {
 	
 	@Column(name="active_status")
 	private String activeStatus;//Active/Inactive
+	
+	@Column(name = "forgot_attempts")
+	private Integer forgotAttempts = 0;
+
+	@Column(name = "account_locked")
+	private Boolean accountLocked = false;
+
 
 }

@@ -31,7 +31,7 @@ export default function MessDetails() {
   const [showDailyMenu, setShowDailyMenu] = useState(false);
   const [showMonthlyPlans, setShowMonthlyPlans] = useState(false);
 
-  /* ================= RATING (NEW) ================= */
+  /* ================= RATING ================= */
   const [ratingSummary, setRatingSummary] = useState({
     averageRating: 0,
     totalRatings: 0
@@ -51,12 +51,12 @@ export default function MessDetails() {
       .finally(() => setLoading(false));
   }, [id]);
 
-  /* ================= FETCH RATING SUMMARY (DEBUGGING ADDED) ================= */
+  /* ================= FETCH RATING SUMMARY ================= */
   useEffect(() => {
     fetch(`${customer_url}/${id}/rating-summary`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("DEBUG: Rating summary API response:", data); // <-- debugging
+        console.log("DEBUG: Rating summary API response:", data);
         setRatingSummary(data);
       })
       .catch((err) => {
@@ -72,9 +72,7 @@ export default function MessDetails() {
         return;
       }
 
-      const res = await fetch(
-        `${customer_url}/${id}/daily-menu/today`
-      );
+      const res = await fetch(`${customer_url}/${id}/daily-menu/today`);
       if (!res.ok) throw new Error();
 
       const data = await res.json();
@@ -100,9 +98,7 @@ export default function MessDetails() {
         return;
       }
 
-      const res = await fetch(
-        `${customer_url}/${id}/monthly-plans`
-      );
+      const res = await fetch(`${customer_url}/${id}/monthly-plans`);
       const data = await res.json();
 
       const normalizedPlans = (data || []).map((p) => ({
@@ -171,7 +167,7 @@ export default function MessDetails() {
     }
   };
 
-  /* ================= STAR RENDER (NEW) ================= */
+  /* ================= STAR RENDER ================= */
   const renderStars = (rating) => {
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating - fullStars >= 0.5;
@@ -201,11 +197,7 @@ export default function MessDetails() {
               <Carousel interval={2500} pause="hover">
                 {mess.messPhotos.map((p, i) => (
                   <Carousel.Item key={i}>
-                    <img
-                      src={p.photoUrl}
-                      alt={mess.messName}
-                      className="w-100"
-                    />
+                    <img src={p.photoUrl} alt={mess.messName} className="w-100" />
                   </Carousel.Item>
                 ))}
               </Carousel>
@@ -218,26 +210,31 @@ export default function MessDetails() {
             <div>
               <h2 className="fw-bold">{mess.messName}</h2>
 
-              {/* ⭐ RATING DISPLAY (DEBUGGING ADDED) */}
+              {/* ⭐ RATING DISPLAY */}
               <div className="d-flex align-items-center gap-2 mt-1">
                 {ratingSummary.totalRatings > 0
                   ? renderStars(ratingSummary.averageRating)
                   : <span className="text-muted">No ratings yet</span>}
               </div>
 
-              <span
-                className={`badge mess-type ${getBadgeClass(mess.messType)}`}
-              >
+              <span className={`badge mess-type ${getBadgeClass(mess.messType)}`}>
                 {mess.messType}
               </span>
 
               <p className="text-muted mt-2">
-                📍 {mess.area?.areaName}, {mess.area?.city?.cityName}
+                📍 {mess.areaName}, {mess.cityName}
               </p>
 
               <div className="info-card mt-3">
                 <h6>🏠 Address</h6>
                 <p className="mb-0">{mess.messAddress}</p>
+              </div>
+
+              <div className="info-card mt-2">
+                <h6>📞Phone</h6>
+                <p className="mb-0">
+                  <a href={`tel:${mess.ownerPhone}`}>{mess.ownerPhone}</a>
+                </p>
               </div>
             </div>
 
@@ -245,17 +242,13 @@ export default function MessDetails() {
               <div className="col-6">
                 <div className="timing-card lunch">
                   <h6>🍱 Lunch</h6>
-                  <p className="mb-0">
-                    {mess.lunchOpenTime} – {mess.lunchCloseTime}
-                  </p>
+                  <p className="mb-0">{mess.lunchOpenTime} – {mess.lunchCloseTime}</p>
                 </div>
               </div>
               <div className="col-6">
                 <div className="timing-card dinner">
                   <h6>🍽️ Dinner</h6>
-                  <p className="mb-0">
-                    {mess.dinnerOpenTime} – {mess.dinnerCloseTime}
-                  </p>
+                  <p className="mb-0">{mess.dinnerOpenTime} – {mess.dinnerCloseTime}</p>
                 </div>
               </div>
             </div>
@@ -264,16 +257,10 @@ export default function MessDetails() {
 
         {/* TABS */}
         <div className="d-flex justify-content-center gap-3 mb-4">
-          <button
-            className={`tab-btn ${showDailyMenu && "active"}`}
-            onClick={fetchDailyMenu}
-          >
+          <button className={`tab-btn ${showDailyMenu && "active"}`} onClick={fetchDailyMenu}>
             Daily Menu
           </button>
-          <button
-            className={`tab-btn ${showMonthlyPlans && "active"}`}
-            onClick={fetchMonthlyPlans}
-          >
+          <button className={`tab-btn ${showMonthlyPlans && "active"}`} onClick={fetchMonthlyPlans}>
             Monthly Plans
           </button>
         </div>
@@ -311,18 +298,14 @@ export default function MessDetails() {
               monthlyPlans.map((plan) => (
                 <div className="col-md-4 mb-3" key={plan.realPlanId}>
                   <div
-                    className={`card plan-card ${
-                      selectedPlanId === plan.realPlanId && "selected"
-                    }`}
+                    className={`card plan-card ${selectedPlanId === plan.realPlanId && "selected"}`}
                     onClick={() => setSelectedPlanId(plan.realPlanId)}
                   >
                     <div className="card-body text-center">
                       <h6>{plan.planName}</h6>
                       <p className="price">₹{plan.price}</p>
                       <p>{plan.mealInclusion}</p>
-                      <p className="text-muted">
-                        {plan.validityPeriod} days
-                      </p>
+                      <p className="text-muted">{plan.validityPeriod} days</p>
                     </div>
                   </div>
                 </div>
@@ -333,11 +316,7 @@ export default function MessDetails() {
 
         {/* SUBSCRIBE */}
         <div className="text-center mt-4">
-          <button
-            className="btn btn-primary subscribe-btn"
-            disabled={!selectedPlanId}
-            onClick={handleSubscribe}
-          >
+          <button className="btn btn-primary subscribe-btn" disabled={!selectedPlanId} onClick={handleSubscribe}>
             Subscribe
           </button>
         </div>

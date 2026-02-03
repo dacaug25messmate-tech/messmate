@@ -1,39 +1,60 @@
-﻿    using Customer.Models;
+﻿using Customer.Models;
 using Customer.Models.Dto;
 using Microsoft.EntityFrameworkCore;
-    using System.Collections.Generic;
+using System.Collections.Generic;
 
-    namespace Customer.Repository
+namespace Customer.Repository
+{
+    // Only read operations for customer
+    public class CustomerMessRepository
     {
-        // Only read operations for customer
-        public class CustomerMessRepository
+        private readonly P06MessmateContext _context;
+
+        public CustomerMessRepository(P06MessmateContext context)
         {
-            private readonly P06MessmateContext _context;
+            _context = context;
+        }
 
-            public CustomerMessRepository(P06MessmateContext context)
-            {
-                _context = context;
-            }
+        // Get all messes (for search/filter in frontend)
+        public IEnumerable<Mess> GetAll()
+        {
+            return _context.Messes
+                           .Include(m => m.Area)       // area/city info
+                                .ThenInclude(a => a.City)
+                           .Include(m => m.Photos) // optional: for frontend images
+                           .Include(m => m.User)
+                           .ToList();
+        }
 
-            // Get all messes (for search/filter in frontend)
-            public IEnumerable<Mess> GetAll()
-            {
-                return _context.Messes
-                               .Include(m => m.Area)       // area/city info
-                                    .ThenInclude(a => a.City)
-                               .Include(m => m.Photos) // optional: for frontend images
-                               .ToList();
-            }
-
-            // Get mess by ID
-            public Mess GetById(int id)
-            {
-                return _context.Messes
+        // Get mess by ID
+        public MessInfoDto GetMessById(int id)
+        {
+            var mess = _context.Messes
                                .Include(m => m.Area)
-                                       .ThenInclude(a => a.City)
+                                    .ThenInclude(a => a.City)
+                               .Include(m => m.User) // include owner
                                .Include(m => m.Photos)
                                .FirstOrDefault(m => m.MessId == id);
-            }
+
+            if (mess == null) return null!;
+
+            return new MessInfoDto
+            {
+                MessId = mess.MessId,
+                MessName = mess.MessName,
+                MessAddress = mess.MessAddress,
+                MessType = mess.MessType,
+                OwnerPhone = mess.User.Phone,  // <-- owner phone
+                AreaName = mess.Area.AreaName,
+                CityName = mess.Area.City.CityName,
+                Photos = mess.Photos.Select(p => new MessPhotoDto { PhotoUrl = p.PhotoUrl }).ToList(),
+                LunchOpenTime = mess.LunchOpenTime.ToString("hh\\:mm"),
+                LunchCloseTime = mess.LunchCloseTime.ToString("hh\\:mm"),
+                DinnerOpenTime = mess.DinnerOpenTime.ToString("hh\\:mm"),
+                DinnerCloseTime = mess.DinnerCloseTime.ToString("hh\\:mm")
+            };
+        }
+
 
         public DailyMenuForDay GetTodayMenuBoth(int messId, DateTime date)
         {
@@ -126,6 +147,7 @@ using Microsoft.EntityFrameworkCore;
                 .Select(s => new SubscriptionDetailsDto
                 {
                     SubscriptionId = s.SubscriptionId,
+                    MessId = s.Plan.Mess.MessId,
                     MessName = s.Plan.Mess.MessName,
                     PlanName = s.Plan.PlanName,
                     MealInclusion = s.Plan.MealInclusion,
@@ -161,31 +183,26 @@ using Microsoft.EntityFrameworkCore;
 
 
 
-        // Add or update rating
+        // Add  rating
         public Rating RateMess(RateMessDto dto)
         {
-            // Check if user is subscribed to the mess
+            // ✅ Validate rating range
+            if (dto.Rating < 1 || dto.Rating > 5)
+                throw new Exception("Rating must be between 1 and 5");
+
+            // ✅ Correct subscription check via Plan
             var isSubscribed = _context.Subscriptions
                 .Include(s => s.Plan)
-                .Any(s => s.UserId == dto.UserId && s.Plan.MessId == dto.MessId && s.Status == "Active");
+                .Any(s =>
+                    s.UserId == dto.UserId &&
+                    s.Plan != null &&
+                    s.Plan.MessId == dto.MessId &&
+                    s.Status == "Active"
+                );
 
             if (!isSubscribed)
                 throw new Exception("User is not subscribed to this mess");
 
-            // Check if user has already rated this mess
-            var existingRating = _context.Ratings
-                .FirstOrDefault(r => r.UserId == dto.UserId && r.MessId == dto.MessId);
-
-            if (existingRating != null)
-            {
-                // Update rating
-                existingRating.Rating1 = dto.Rating;
-                existingRating.Comments = dto.Comments;
-                _context.SaveChanges();
-                return existingRating;
-            }
-
-            // Add new rating
             var rating = new Rating
             {
                 UserId = dto.UserId,
@@ -199,6 +216,9 @@ using Microsoft.EntityFrameworkCore;
 
             return rating;
         }
+
+
+
 
         public MessRatingSummaryDto GetMessRatingSummary(int messId)
         {
@@ -218,6 +238,19 @@ using Microsoft.EntityFrameworkCore;
             {
                 AverageRating = Math.Round(ratings.Average(r => r.Rating1), 1),
                 TotalRatings = ratings.Count()
+            };
+        }
+
+        // Get visit summary for a subscription
+        public VisitSummaryDto GetVisitSummary(int subscriptionId)
+        {
+            var logs = _context.CustomerVisitLogs
+                .Where(v => v.SubscriptionId == subscriptionId);
+
+            return new VisitSummaryDto
+            {
+                TotalVisits = logs.Count(v => v.VisitStatus == "Visited"),
+                TotalUnVisits = logs.Count(v => v.VisitStatus == "Unvisited")
             };
         }
 

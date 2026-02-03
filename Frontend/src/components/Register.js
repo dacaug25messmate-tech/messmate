@@ -39,7 +39,7 @@ export default function Register() {
   const onSubmit = async (formData) => {
     const payload = {
       ...formData,
-      status: formData.roleId === "3" ? "APPROVE" : "PENDING"
+      status: formData.roleId === "3" ? "APPROVED" : "PENDING"
     };
 
     try {
@@ -114,9 +114,10 @@ export default function Register() {
             required: "Username is required",
             minLength: { value: 3, message: "Username must be at least 3 characters" },
             pattern: {
-              value: /^[A-Za-z]+$/,
-              message: "Username should contain only letters"
-            }
+      value: /^[A-Za-z][A-Za-z0-9_]*$/,
+      message:
+        "Username must start with a letter and can contain letters, numbers, and underscore",
+    },
           })}
         />
         {errors.userName && <small className="text-danger">{errors.userName.message}</small>}
@@ -147,8 +148,8 @@ export default function Register() {
           {...register("email", {
             required: "Email is required",
             pattern: {
-              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-              message: "Invalid email format"
+             value: /^(?!\.)(?!.*\.\.)([a-zA-Z0-9._%+-]+)(?<!\.)@([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*\.)+[a-zA-Z]{2,}$/,
+            message: "Invalid email format"
             }
           })}
         />

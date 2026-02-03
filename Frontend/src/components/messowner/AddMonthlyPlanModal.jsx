@@ -25,9 +25,27 @@ export default function AddMonthlyPlanModal({
     }
   }, [plan]);
 
+  // Allow only positive numbers
+  const handlePositiveNumber = (setter) => (e) => {
+    const value = e.target.value;
+    if (value === "" || Number(value) >= 0) {
+      setter(value);
+    }
+  };
+
   const savePlan = async () => {
     if (!messId || !planName || !price || !validity) {
       alert("Please fill all fields");
+      return;
+    }
+
+    if (Number(price) <= 0) {
+      alert("Monthly price must be greater than 0");
+      return;
+    }
+
+    if (Number(validity) <= 0) {
+      alert("Validity must be greater than 0 days");
       return;
     }
 
@@ -73,6 +91,7 @@ export default function AddMonthlyPlanModal({
             </div>
 
             <div className="modal-body">
+
               {/* Mess */}
               <div className="mb-3">
                 <label className="form-label">Mess</label>
@@ -94,20 +113,23 @@ export default function AddMonthlyPlanModal({
               <div className="mb-3">
                 <label className="form-label">Plan Name</label>
                 <input
+                  type="text"
                   className="form-control"
                   value={planName}
                   onChange={(e) => setPlanName(e.target.value)}
+                  placeholder="Eg: Monthly Basic"
                 />
               </div>
 
-              {/* Price */}
+              {/* Monthly Price */}
               <div className="mb-3">
                 <label className="form-label">Monthly Price</label>
                 <input
                   type="number"
+                  min="1"
                   className="form-control"
                   value={price}
-                  onChange={(e) => setPrice(e.target.value)}
+                  onChange={handlePositiveNumber(setPrice)}
                 />
               </div>
 
@@ -130,11 +152,13 @@ export default function AddMonthlyPlanModal({
                 <label className="form-label">Validity (days)</label>
                 <input
                   type="number"
+                  min="1"
                   className="form-control"
                   value={validity}
-                  onChange={(e) => setValidity(e.target.value)}
+                  onChange={handlePositiveNumber(setValidity)}
                 />
               </div>
+
             </div>
 
             <div className="modal-footer">

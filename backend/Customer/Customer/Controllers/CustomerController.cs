@@ -13,52 +13,44 @@ namespace Customer.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly CustomerMessRepository _repository;
-
         private readonly UserRepository _userRepository;
-
         private readonly P06MessmateContext _context;
 
-
-
-        public CustomerController(CustomerMessRepository repository, UserRepository userRepo, P06MessmateContext context)
+        public CustomerController(
+            CustomerMessRepository repository,
+            UserRepository userRepo,
+            P06MessmateContext context)
         {
             _repository = repository;
             _userRepository = userRepo;
             _context = context;
-
         }
 
-        // GET: api/customer/mess
-        //http://localhost:2029/api/customer
+        // GET: api/customer
         [HttpGet]
         public IActionResult GetAllMesses()
         {
-            IEnumerable<Mess> messes = _repository.GetAll();
+            var messes = _repository.GetAll();
             return Ok(messes);
         }
 
-        // GET: api/customer/mess/{id}
-        //http://localhost:2029/api/customer/{id}
-        [HttpGet("{id}")]
+        //FIXED ROUTE CONSTRAINT
+        [HttpGet("{id:int}")]
         public IActionResult GetMessById(int id)
         {
-            var mess = _repository.GetById(id);
+            var mess = _repository.GetMessById(id);
             if (mess == null)
                 return NotFound();
 
             return Ok(mess);
         }
 
-        // GET: api/customer/profile/{id}
-        //http://localhost:2029/api/customer/profile/{id}
-        [HttpGet("profile/{id}")]
+        [HttpGet("profile/{id:int}")]
         public IActionResult GetCustomerProfile(int id)
         {
             var user = _userRepository.GetById(id);
             if (user == null)
                 return NotFound();
-
-            var messes = _repository.GetAll().Where(m => m.UserId == id).ToList();
 
             var userDto = new UserDto
             {
@@ -69,56 +61,40 @@ namespace Customer.Controllers
                 Address = user.Address,
                 Area = user.Area?.AreaName ?? "",
                 City = user.Area?.City?.CityName ?? "",
-                AreaId = user.AreaId,                  
+                AreaId = user.AreaId,
                 CityId = user.Area?.CityId ?? 0
             };
 
             return Ok(userDto);
         }
 
-        //GET /api/common/cities
-
         [HttpGet("cities")]
         public IActionResult GetCities()
         {
             var cities = _context.Cities
-                .Select(c => new {
-                    c.CityId,
-                    c.CityName
-                })
+                .Select(c => new { c.CityId, c.CityName })
                 .ToList();
 
             return Ok(cities);
         }
 
-
-        // GET: api/customer/mess/areas/{cityId}
-        [HttpGet("areas/{cityId}")]
+        [HttpGet("areas/{cityId:int}")]
         public IActionResult GetAreasByCity(int cityId)
         {
             var areas = _context.Areas
                 .Where(a => a.CityId == cityId)
-                .Select(a => new
-                {
-                    a.AreaId,
-                    a.AreaName
-                })
+                .Select(a => new { a.AreaId, a.AreaName })
                 .ToList();
 
             return Ok(areas);
         }
 
-
-
-        // PUT: api/customer/mess/profile/{id}
-        // http://localhost:2029/api/customer/profile/{id}
-        [HttpPut("profile/{id}")]
+        [HttpPut("profile/{id:int}")]
         public IActionResult UpdateCustomerProfile(int id, UpdateUserProfileDto dto)
         {
             try
             {
                 bool updated = _userRepository.UpdateProfile(id, dto);
-
                 if (!updated)
                     return NotFound("User not found");
 
@@ -130,14 +106,10 @@ namespace Customer.Controllers
             }
         }
 
-        // http://localhost:2029/api/customer/{messId}/daily-menu/today
-
-        [HttpGet("{messId}/daily-menu/today")]
+        [HttpGet("{messId:int}/daily-menu/today")]
         public IActionResult GetTodayMenuBoth(int messId)
         {
-            var today = DateTime.Today;
-
-            var result = _repository.GetTodayMenuBoth(messId, today);
+            var result = _repository.GetTodayMenuBoth(messId, DateTime.Today);
 
             if ((result.Lunch == null || !result.Lunch.Any()) &&
                 (result.Dinner == null || !result.Dinner.Any()))
@@ -148,20 +120,16 @@ namespace Customer.Controllers
             return Ok(result);
         }
 
-
-        // http://localhost:2029/api/customer/{messId}/monthly-plans
-        [HttpGet("{messId}/monthly-plans")]
+        [HttpGet("{messId:int}/monthly-plans")]
         public IActionResult GetMonthlyPlans(int messId)
         {
             var plans = _repository.GetMonthlyPlans(messId);
-
             if (!plans.Any())
                 return NotFound("No plans available");
 
             return Ok(plans);
         }
 
-        //http://localhost:2029/api/customer/subscribe
         [HttpPost("subscribe")]
         public IActionResult Subscribe([FromBody] SubscribeRequestDto dto)
         {
@@ -176,27 +144,24 @@ namespace Customer.Controllers
             }
         }
 
-        //http://localhost:2029/api/customer/subscriptions/{userId}
-        [HttpGet("subscriptions/{userId}")]
+        [HttpGet("subscriptions/{userId:int}")]
         public IActionResult GetMySubscriptions(int userId)
         {
             var subscriptions = _repository.GetUserSubscriptions(userId);
             return Ok(subscriptions);
         }
 
-        [HttpGet("my-subscribed/{userId}")]
+        [HttpGet("my-subscribed/{userId:int}")]
         public IActionResult GetMySubscribedMesses(int userId)
         {
             var messes = _repository.GetSubscribedMesses(userId);
-
             if (!messes.Any())
                 return NotFound("No subscribed messes found");
 
             return Ok(messes);
         }
 
-
-        // http://localhost:2029/api/customer/rate
+        // RATE ENDPOINT (UNCHANGED FLOW)
         [HttpPost("rate")]
         public IActionResult RateMess([FromBody] RateMessDto dto)
         {
@@ -211,14 +176,27 @@ namespace Customer.Controllers
             }
         }
 
-        // http://localhost:2029/api/customer/{messId}/rating-summary
-        [HttpGet("{messId}/rating-summary")]
+
+        //  FIXED ROUTE CONSTRAINT
+        [HttpGet("{messId:int}/rating-summary")]
         public IActionResult GetMessRatingSummary(int messId)
         {
             var summary = _repository.GetMessRatingSummary(messId);
             return Ok(summary);
         }
 
-
+        [HttpGet("subscription/{subscriptionId:int}/visit-summary")]
+        public IActionResult GetVisitSummary(int subscriptionId)
+        {
+            try
+            {
+                var summary = _repository.GetVisitSummary(subscriptionId);
+                return Ok(summary);
+            }
+            catch
+            {
+                return NotFound(new { message = "Visit data not found" });
+            }
+        }
     }
 }

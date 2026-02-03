@@ -89,3 +89,7 @@
 .profile-table td {
   padding: 14px;
 }
+
+.Toastify__toast-container {
+  z-index: 99999 !important;
+}

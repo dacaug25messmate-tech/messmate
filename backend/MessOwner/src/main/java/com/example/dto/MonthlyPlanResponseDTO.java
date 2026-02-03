@@ -7,7 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class MonthlyPlanResponseDTO {
 
-    private Integer planId;
+	private Integer planId;
     private String planName;
     private double monthlyPrice;
     private String mealInclusion;
@@ -15,4 +15,5 @@ public class MonthlyPlanResponseDTO {
 
     private Integer messId;
     private String messName;
+    private long activeSubscriberCount;
 }

@@ -350,10 +350,11 @@ export default function ManageDailyMenu() {
 
               <div className="col-md-4">
                 <input
-                  type="date"
-                  className="form-control"
-                  value={menuDate}
-                  onChange={e => setMenuDate(e.target.value)}
+                type="date"
+                className="form-control"
+                value={menuDate}
+                max={today}   //  prevents future dates
+                onChange={e => setMenuDate(e.target.value)}
                 />
               </div>
 

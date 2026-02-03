@@ -3,6 +3,8 @@
     public class SubscriptionDetailsDto
     {
         public int SubscriptionId { get; set; }
+
+        public int MessId { get; set;  }
         public string MessName { get; set; } = "";
         public string PlanName { get; set; } = "";
         public string MealInclusion { get; set; } = "";

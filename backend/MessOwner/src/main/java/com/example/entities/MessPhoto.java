@@ -17,7 +17,7 @@ public class MessPhoto {
     private Integer photoId;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mess_id", nullable = false)
     private Mess mess;
 

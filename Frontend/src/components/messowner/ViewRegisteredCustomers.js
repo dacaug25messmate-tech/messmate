@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchOwnerMesses,
@@ -19,13 +19,14 @@ const ViewRegisteredCustomers = () => {
   );
   const [mealType, setMealType] = useState("LUNCH");
 
-
+  /* ---------------- FETCH MESSES ---------------- */
   useEffect(() => {
     if (userId) {
       dispatch(fetchOwnerMesses(userId));
     }
   }, [dispatch, userId]);
 
+  /* ---------------- FETCH CUSTOMERS ---------------- */
   useEffect(() => {
     if (expandedMessId && selectedDate && mealType) {
       dispatch(
@@ -33,6 +34,20 @@ const ViewRegisteredCustomers = () => {
       );
     }
   }, [dispatch, expandedMessId, selectedDate, mealType]);
+
+  /* ---------------- DATE FILTER LOGIC ---------------- */
+  const filteredCustomers = useMemo(() => {
+    const selected = new Date(selectedDate);
+
+    return customers.filter((c) => {
+      if (!c.startDate || !c.endDate) return false;
+
+      const start = new Date(c.startDate);
+      const end = new Date(c.endDate);
+
+      return selected >= start && selected <= end;
+    });
+  }, [customers, selectedDate]);
 
   if (loading) return <p>Loading registered customers...</p>;
   if (error) return <p className="text-danger">Error: {error}</p>;
@@ -70,7 +85,7 @@ const ViewRegisteredCustomers = () => {
               <h5 className="mb-0">{mess.messName}</h5>
               {expandedMessId === mess.messId && (
                 <small className="text-muted">
-                  Registered Customers: {customers.length}
+                  Registered Customers: {filteredCustomers.length}
                 </small>
               )}
             </div>
@@ -92,7 +107,7 @@ const ViewRegisteredCustomers = () => {
           {/* BODY */}
           {expandedMessId === mess.messId && (
             <div className="card-body">
-              {customers.length === 0 ? (
+              {filteredCustomers.length === 0 ? (
                 <p>No customers registered.</p>
               ) : (
                 <table className="table table-bordered table-hover">
@@ -108,7 +123,7 @@ const ViewRegisteredCustomers = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {customers.map((c, index) => (
+                    {filteredCustomers.map((c, index) => (
                       <tr key={c.subscriptionId}>
                         <td>{index + 1}</td>
                         <td>{c.fullName}</td>

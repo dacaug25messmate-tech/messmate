@@ -20,6 +20,23 @@ export default function ManageOrders() {
   const [messSearch, setMessSearch] = useState("");
   const [customerSearch, setCustomerSearch] = useState({});
 
+  // toast
+  const [showToast, setShowToast] = useState(false);
+
+  const today = new Date().toISOString().split("T")[0];
+
+  /* ================= DATE CHANGE HANDLER ================= */
+  const handleDateChange = (e) => {
+    const newDate = e.target.value;
+
+    if (newDate > today) {
+      setShowToast(true);
+      return; // 🚫 block future date
+    }
+
+    setSelectedDate(newDate);
+  };
+
   /* ================= FETCH MESSES + CUSTOMERS ================= */
   useEffect(() => {
     if (!ownerId) return;
@@ -42,20 +59,19 @@ export default function ManageOrders() {
             return {
               ...mess,
               customers: customers.map((c) => ({
-  id: c.subscriptionId,
-  name: c.fullName,
-  phone: c.phone,
-  mealType: c.mealType,
-  attendanceStatus:
-    c.visitStatus === 1
-      ? "VISITED"
-      : c.visitStatus === 0
-      ? "UNVISITED"
-      : null,
-  startDate: c.startDate,
-  endDate: c.endDate,
-}))
-
+                id: c.subscriptionId,
+                name: c.fullName,
+                phone: c.phone,
+                mealType: c.mealType,
+                attendanceStatus:
+                  c.visitStatus === 1
+                    ? "VISITED"
+                    : c.visitStatus === 0
+                    ? "UNVISITED"
+                    : null,
+                startDate: c.startDate,
+                endDate: c.endDate,
+              })),
             };
           })
         );
@@ -81,7 +97,6 @@ export default function ManageOrders() {
         { method: "POST" }
       );
 
-      // update UI instantly
       setMesses((prev) =>
         prev.map((m) =>
           m.messId === messId
@@ -110,7 +125,6 @@ export default function ManageOrders() {
   const mealMatch = (c) =>
     c.mealType === selectedMeal || c.mealType === "BOTH";
 
-  /* ================= RENDER ================= */
   if (loading) {
     return <div className="text-center mt-5">Loading...</div>;
   }
@@ -121,6 +135,26 @@ export default function ManageOrders() {
 
   return (
     <div className="container mt-4">
+      {/* TOAST */}
+      {showToast && (
+        <div
+          className="toast show position-fixed top-0 end-0 m-3 text-bg-warning"
+          style={{ zIndex: 1055 }}
+        >
+          <div className="toast-header">
+            <strong className="me-auto">Invalid Date</strong>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={() => setShowToast(false)}
+            />
+          </div>
+          <div className="toast-body">
+            You can manage orders only up to today.
+          </div>
+        </div>
+      )}
+
       {/* HEADER */}
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h4 className="fw-bold">Manage Orders</h4>
@@ -129,7 +163,7 @@ export default function ManageOrders() {
             type="date"
             className="form-control"
             value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
+            onChange={handleDateChange}
           />
           <select
             className="form-select"
@@ -191,7 +225,6 @@ export default function ManageOrders() {
 
             {expandedMess === mess.messId && (
               <div className="card-body">
-                {/* COUNTS */}
                 <div className="mb-3">
                   <span className="badge bg-dark me-2">
                     Total: {activeCustomers.length}
@@ -204,7 +237,6 @@ export default function ManageOrders() {
                   </span>
                 </div>
 
-                {/* CUSTOMER SEARCH */}
                 <input
                   className="form-control mb-3"
                   placeholder="Search customer"
@@ -217,7 +249,6 @@ export default function ManageOrders() {
                   }
                 />
 
-                {/* CUSTOMERS */}
                 {activeCustomers.map((c) => (
                   <div
                     key={c.id}
@@ -244,21 +275,24 @@ export default function ManageOrders() {
 
                     <div>
                       <button
-  className="btn btn-success btn-sm me-2"
-  disabled={c.attendanceStatus !== null}
-  onClick={() => markAttendance(mess.messId, c.id, "VISITED")}
->
-  Visited
-</button>
+                        className="btn btn-success btn-sm me-2"
+                        disabled={c.attendanceStatus !== null}
+                        onClick={() =>
+                          markAttendance(mess.messId, c.id, "VISITED")
+                        }
+                      >
+                        Visited
+                      </button>
 
-<button
-  className="btn btn-outline-danger btn-sm"
-  disabled={c.attendanceStatus !== null}
-  onClick={() => markAttendance(mess.messId, c.id, "UNVISITED")}
->
-  Unvisited
-</button>
-
+                      <button
+                        className="btn btn-outline-danger btn-sm"
+                        disabled={c.attendanceStatus !== null}
+                        onClick={() =>
+                          markAttendance(mess.messId, c.id, "UNVISITED")
+                        }
+                      >
+                        Unvisited
+                      </button>
                     </div>
                   </div>
                 ))}

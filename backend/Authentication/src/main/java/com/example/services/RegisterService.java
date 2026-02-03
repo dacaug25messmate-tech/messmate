@@ -63,9 +63,11 @@ public class RegisterService {
 	        
 	     // ROLE-BASED STATUS (SERVER ENFORCED)
 	        if (role.getRoleName().equalsIgnoreCase("CUSTOMER")) {
-	            user.setStatus("APPROVE");
-	        } else if (role.getRoleName().equalsIgnoreCase("MESSOWNER")) {
+	            user.setStatus("APPROVED");
+	            user.setActiveStatus("ACTIVE");        
+	            } else if (role.getRoleName().equalsIgnoreCase("MESSOWNER")) {
 	            user.setStatus("PENDING");
+	            user.setActiveStatus("INACTIVE");
 	        }
 	        
 	        urepo.save(user);

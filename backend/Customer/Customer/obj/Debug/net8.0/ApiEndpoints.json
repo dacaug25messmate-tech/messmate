@@ -186,6 +186,22 @@
   },
   {
     "ContainingType": "Customer.Controllers.CustomerController",
+    "Method": "GetVisitSummary",
+    "RelativePath": "api/customer/subscription/{subscriptionId}/visit-summary",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "subscriptionId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Customer.Controllers.CustomerController",
     "Method": "GetMySubscriptions",
     "RelativePath": "api/customer/subscriptions/{userId}",
     "HttpMethod": "GET",

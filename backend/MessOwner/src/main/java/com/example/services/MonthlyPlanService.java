@@ -11,6 +11,7 @@ import com.example.entities.Mess;
 import com.example.entities.MonthlyPlan;
 import com.example.repository.MessRepository;
 import com.example.repository.MonthlyPlanRepository;
+import com.example.repository.SubscriptionRepository;
 
 @Service
 public class MonthlyPlanService {
@@ -20,6 +21,9 @@ public class MonthlyPlanService {
 
     @Autowired
     private MessRepository messRepo;
+    
+    @Autowired
+    SubscriptionRepository subscriptionRepo;
 
     // ADD PLAN
     public MonthlyPlan addPlan(Integer messId, MonthlyPlan plan) {
@@ -47,25 +51,49 @@ public class MonthlyPlanService {
 
     // DELETE PLAN
     public void deletePlan(Integer planId) {
-        planRepo.deleteById(planId);
+
+        // 1️⃣ Check if plan exists
+        MonthlyPlan plan = planRepo.findById(planId)
+                .orElseThrow(() -> new RuntimeException("Plan not found"));
+
+        // 2️⃣ Check dependent users (ACTIVE subscriptions)
+        long activeSubscriptions =
+                subscriptionRepo.countActiveSubscriptionsByPlanId(planId);
+
+        // 3️⃣ Block deletion if dependent users exist
+        if (activeSubscriptions > 0) {
+            throw new RuntimeException(
+                "This plan has active subscribers and cannot be deleted"
+            );
+        }
+
+        // 4️⃣ Safe to delete
+        planRepo.delete(plan);
     }
 
-    // ✅ GET PLANS WITH MESS NAME
+    //  GET PLANS WITH MESS NAME
     public List<MonthlyPlanResponseDTO> getPlansByMess(Integer messId) {
 
         List<MonthlyPlan> plans = planRepo.findByMessMessId(messId);
 
-        return plans.stream().map(plan ->
-                new MonthlyPlanResponseDTO(
-                        plan.getPlanId(),
-                        plan.getPlanName(),
-                        plan.getMonthlyPrice(),
-                        plan.getMealInclusion(),
-                        plan.getValidityPeriod(),
-                        plan.getMess().getMessId(),
-                        plan.getMess().getMessName()
-                )
-        ).toList();
+        return plans.stream().map(plan -> {
+
+            long activeCount =
+                subscriptionRepo.countActiveSubscriptionsByPlanId(
+                    plan.getPlanId()
+                );
+
+            return new MonthlyPlanResponseDTO(
+                    plan.getPlanId(),
+                    plan.getPlanName(),
+                    plan.getMonthlyPrice(),
+                    plan.getMealInclusion(),
+                    plan.getValidityPeriod(),
+                    plan.getMess().getMessId(),
+                    plan.getMess().getMessName(),
+                    activeCount
+            );
+        }).toList();
     }
 
     public MonthlyPlan addPlan(MonthlyPlanRequestDTO dto) {

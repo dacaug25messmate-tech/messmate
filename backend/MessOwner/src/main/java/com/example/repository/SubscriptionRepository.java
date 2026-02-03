@@ -16,4 +16,12 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Inte
         AND s.status = 'ACTIVE'
     """)
     List<Subscription> findActiveSubscriptionsByMessId(@Param("messId") int messId);
+    
+    
+    @Query("""
+    	    SELECT COUNT(s) FROM Subscription s
+    	    WHERE s.plan.planId = :planId
+    	    AND s.status = 'ACTIVE'
+    	""")
+    	long countActiveSubscriptionsByPlanId(@Param("planId") int planId);
 }

@@ -1,5 +1,11 @@
 package com.example.services;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -7,6 +13,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.dto.CustomerOrderDTO;
 import com.example.dto.MealMenuRequest;
@@ -378,6 +385,32 @@ public List<Mess> getAllMessesByUser(Integer userId) {
     public void deleteMessPhoto(Integer photoId) {
         messPhotoRepository.deleteById(photoId);
     }
+    
+    public MessPhoto addMessPhoto(Integer messId, MultipartFile photo) {
 
-   
+        try {
+            Mess mess = messRepo.findById(messId)
+                    .orElseThrow(() -> new RuntimeException("Mess not found"));
+
+            String uploadDir = "uploads/mess-photos/";
+            File dir = new File(uploadDir);
+            if (!dir.exists()) dir.mkdirs();
+
+            String fileName = System.currentTimeMillis() + "_" + photo.getOriginalFilename();
+            Path filePath = Paths.get(uploadDir, fileName);
+            Files.copy(photo.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            // PUBLIC URL
+            String photoUrl = "http://localhost:2028/uploads/mess-photos/" + fileName;
+
+            MessPhoto messPhoto = new MessPhoto();
+            messPhoto.setMess(mess);
+            messPhoto.setPhotoUrl(photoUrl);
+
+            return messPhotoRepository.save(messPhoto);
+
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to upload photo");
+        }
+    }   
 }
