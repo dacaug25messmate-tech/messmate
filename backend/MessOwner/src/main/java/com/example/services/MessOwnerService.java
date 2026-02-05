@@ -181,10 +181,22 @@ public Mess updateMess(MessRequestDTO dto) {
 
 
 public void deleteMess(Integer messId) {
+
     Mess mess = messRepo.findById(messId)
             .orElseThrow(() -> new RuntimeException("Mess not found"));
+
+    long activeSubscriptions =
+            subscriptionRepository.countActiveSubscriptionsByMessId(messId);
+
+    if (activeSubscriptions > 0) {
+        throw new RuntimeException(
+            "Cannot delete mess. Customers are currently subscribed to this mess."
+        );
+    }
+
     messRepo.delete(mess);
 }
+
 
 
 public List<Mess> getAllMessesByUser(Integer userId) {

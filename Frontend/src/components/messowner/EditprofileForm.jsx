@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { messowner_url } from "../rest_endpoints";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-export default function EditProfileForm({ profileData, onCancel, onSaved }) {
+export default function EditProfileForm({ profileData, onCancel= () => window.history.back(), onSaved }) {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",

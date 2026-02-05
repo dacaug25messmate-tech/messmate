@@ -8,7 +8,7 @@ export default function AddMessForm({
   mode = "add",
   messData,
   onSaved,
-  onCancel
+  onCancel= () => window.history.back()
 }) {
   const emptyForm = {
     messName: "",

@@ -39,19 +39,29 @@ export default function ProfileAndMessInfo() {
   };
 
   const handleDeleteMess = (messId) => {
-    if (!window.confirm("Are you sure you want to delete this mess?")) return;
+  if (!window.confirm("Are you sure you want to delete this mess?")) return;
 
-    fetch(`${messowner_url}/mess/${messId}`, {
-      method: "DELETE",
+  fetch(`${messowner_url}/mess/${messId}`, {
+    method: "DELETE",
+  })
+    .then(async (res) => {
+      const message = await res.text();
+
+      if (!res.ok) {
+        // Backend business rule message
+        alert(message);
+        return;
+      }
+
+      alert(message); // "Mess deleted successfully"
+      loadProfile();
+      setSelectedMess(null);
     })
-      .then((res) => {
-        if (!res.ok) throw new Error();
-        alert("Mess deleted successfully");
-        loadProfile();
-        setSelectedMess(null);
-      })
-      .catch(() => alert("Error deleting mess"));
-  };
+    .catch(() => {
+      alert("Server error. Please try again later.");
+    });
+};
+
 
   const handleEditFromRow = (messId) => {
     fetch(`${messowner_url}/mess/details/${messId}`)

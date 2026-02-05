@@ -1,8 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\PGDAC\\Project\\final project\\messmate\\backend\\Customer\\",
+  "WorkspaceRootPath": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\",
   "Documents": [
     {
+<<<<<<< HEAD
       "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\pgdac\\project\\final project\\messmate\\backend\\customer\\customer\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|solutionrelative:customer\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -33,26 +34,86 @@
     {
       "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\pgdac\\project\\final project\\messmate\\backend\\customer\\customer\\models\\dto\\updateuserprofiledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|solutionrelative:customer\\models\\dto\\updateuserprofiledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+=======
+      "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\cdac\\final project\\messmate\\backend\\customer\\customer\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|solutionrelative:customer\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+>>>>>>> 2415481 (Final commit: project completed)
     },
     {
-      "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\pgdac\\project\\final project\\messmate\\backend\\customer\\customer\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\cdac\\final project\\messmate\\backend\\customer\\customer\\models\\mess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|solutionrelative:customer\\models\\mess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\cdac\\final project\\messmate\\backend\\customer\\customer\\repository\\customermessrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|solutionrelative:customer\\repository\\customermessrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\cdac\\final project\\messmate\\backend\\customer\\customer\\models\\dto\\subscriptiondetails.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|solutionrelative:customer\\models\\dto\\subscriptiondetails.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\cdac\\final project\\messmate\\backend\\customer\\customer\\models\\dto\\ratemessdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|solutionrelative:customer\\models\\dto\\ratemessdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\cdac\\final project\\messmate\\backend\\customer\\customer\\models\\dto\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|solutionrelative:customer\\models\\dto\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\cdac\\final project\\messmate\\backend\\customer\\customer\\models\\rating.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|solutionrelative:customer\\models\\rating.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\cdac\\final project\\messmate\\backend\\customer\\customer\\models\\customervisitlog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|solutionrelative:customer\\models\\customervisitlog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\cdac\\final project\\messmate\\backend\\customer\\customer\\models\\dto\\messratingsummarydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|solutionrelative:customer\\models\\dto\\messratingsummarydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\cdac\\final project\\messmate\\backend\\customer\\customer\\models\\dto\\dailymenudto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|solutionrelative:customer\\models\\dto\\dailymenudto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\cdac\\final project\\messmate\\backend\\customer\\customer\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|solutionrelative:customer\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\cdac\\final project\\messmate\\backend\\customer\\customer\\models\\dto\\subscriberequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|solutionrelative:customer\\models\\dto\\subscriberequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\cdac\\final project\\messmate\\backend\\customer\\customer\\models\\dto\\subscribedmessdtocs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|solutionrelative:customer\\models\\dto\\subscribedmessdtocs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\cdac\\final project\\messmate\\backend\\customer\\customer\\models\\dto\\monthlyplandto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|solutionrelative:customer\\models\\dto\\monthlyplandto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\cdac\\final project\\messmate\\backend\\customer\\customer\\models\\dto\\dailymenuforday.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|solutionrelative:customer\\models\\dto\\dailymenuforday.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\cdac\\final project\\messmate\\backend\\customer\\customer\\models\\p06messmatecontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|solutionrelative:customer\\models\\p06messmatecontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\cdac\\final project\\messmate\\backend\\customer\\customer\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|solutionrelative:customer\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\pgdac\\project\\final project\\messmate\\backend\\customer\\customer\\customer.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
-      "RelativeMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|solutionrelative:customer\\customer.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+      "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\cdac\\final project\\messmate\\backend\\customer\\customer\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|solutionrelative:customer\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\pgdac\\project\\final project\\messmate\\backend\\customer\\customer\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|solutionrelative:customer\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\pgdac\\project\\final project\\messmate\\backend\\customer\\customer\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\cdac\\final project\\messmate\\backend\\customer\\customer\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|solutionrelative:customer\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\pgdac\\project\\final project\\messmate\\backend\\customer\\customer\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|solutionrelative:customer\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|d:\\cdac\\final project\\messmate\\backend\\customer\\customer\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{34CD1548-E007-44D7-8BBB-91E7F694394A}|Customer\\Customer.csproj|solutionrelative:customer\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -62,11 +123,16 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
+<<<<<<< HEAD
           "SelectedChildIndex": 12,
+=======
+          "SelectedChildIndex": 1,
+>>>>>>> 2415481 (Final commit: project completed)
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 2,
+<<<<<<< HEAD
               "Title": "VisitSummaryDto.cs",
               "DocumentMoniker": "D:\\PGDAC\\Project\\final project\\messmate\\backend\\Customer\\Customer\\Models\\Dto\\VisitSummaryDto.cs",
               "RelativeDocumentMoniker": "Customer\\Models\\Dto\\VisitSummaryDto.cs",
@@ -144,18 +210,37 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
+=======
+>>>>>>> 2415481 (Final commit: project completed)
               "Title": "CustomerMessRepository.cs",
-              "DocumentMoniker": "D:\\PGDAC\\Project\\final project\\messmate\\backend\\Customer\\Customer\\Repository\\CustomerMessRepository.cs",
+              "DocumentMoniker": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Repository\\CustomerMessRepository.cs",
               "RelativeDocumentMoniker": "Customer\\Repository\\CustomerMessRepository.cs",
-              "ToolTip": "D:\\PGDAC\\Project\\final project\\messmate\\backend\\Customer\\Customer\\Repository\\CustomerMessRepository.cs",
+              "ToolTip": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Repository\\CustomerMessRepository.cs",
               "RelativeToolTip": "Customer\\Repository\\CustomerMessRepository.cs",
+<<<<<<< HEAD
               "ViewState": "AgIAAPIAAAAAAAAAAAAUwAIBAAABAAAAAAAAAA==",
+=======
+              "ViewState": "AgIAAO8AAAAAAAAAAAAUwPcAAABAAAAAAAAAAA==",
+>>>>>>> 2415481 (Final commit: project completed)
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T03:19:53.431Z",
+              "WhenOpened": "2026-02-03T03:19:53.431Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CustomerController.cs",
+              "DocumentMoniker": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Controllers\\CustomerController.cs",
+              "RelativeDocumentMoniker": "Customer\\Controllers\\CustomerController.cs",
+              "ToolTip": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Controllers\\CustomerController.cs",
+              "RelativeToolTip": "Customer\\Controllers\\CustomerController.cs",
+              "ViewState": "AgIAAFsAAAAAAAAAAAAYwMkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-30T17:00:47.93Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+<<<<<<< HEAD
               "DocumentIndex": 9,
               "Title": "Customer.http",
               "DocumentMoniker": "D:\\PGDAC\\Project\\final project\\messmate\\backend\\Customer\\Customer\\Customer.http",
@@ -193,10 +278,193 @@
             {
               "$type": "Document",
               "DocumentIndex": 12,
+=======
+              "DocumentIndex": 3,
+              "Title": "SubscriptionDetails.cs",
+              "DocumentMoniker": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\Dto\\SubscriptionDetails.cs",
+              "RelativeDocumentMoniker": "Customer\\Models\\Dto\\SubscriptionDetails.cs",
+              "ToolTip": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\Dto\\SubscriptionDetails.cs",
+              "RelativeToolTip": "Customer\\Models\\Dto\\SubscriptionDetails.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T07:43:25.542Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "RateMessDto.cs",
+              "DocumentMoniker": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\Dto\\RateMessDto.cs",
+              "RelativeDocumentMoniker": "Customer\\Models\\Dto\\RateMessDto.cs",
+              "ToolTip": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\Dto\\RateMessDto.cs",
+              "RelativeToolTip": "Customer\\Models\\Dto\\RateMessDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T07:43:03.308Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Mess.cs",
+              "DocumentMoniker": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\Mess.cs",
+              "RelativeDocumentMoniker": "Customer\\Models\\Mess.cs",
+              "ToolTip": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\Mess.cs",
+              "RelativeToolTip": "Customer\\Models\\Mess.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T06:47:47.3Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "UserDto.cs",
+              "DocumentMoniker": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\Dto\\UserDto.cs",
+              "RelativeDocumentMoniker": "Customer\\Models\\Dto\\UserDto.cs",
+              "ToolTip": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\Dto\\UserDto.cs",
+              "RelativeToolTip": "Customer\\Models\\Dto\\UserDto.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAywAwAAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T08:11:10.96Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Rating.cs",
+              "DocumentMoniker": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\Rating.cs",
+              "RelativeDocumentMoniker": "Customer\\Models\\Rating.cs",
+              "ToolTip": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\Rating.cs",
+              "RelativeToolTip": "Customer\\Models\\Rating.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAIwBUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T08:36:13.196Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CustomerVisitLog.cs",
+              "DocumentMoniker": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\CustomerVisitLog.cs",
+              "RelativeDocumentMoniker": "Customer\\Models\\CustomerVisitLog.cs",
+              "ToolTip": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\CustomerVisitLog.cs",
+              "RelativeToolTip": "Customer\\Models\\CustomerVisitLog.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAUwBMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T08:36:00.717Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "MessRatingSummaryDto.cs",
+              "DocumentMoniker": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\Dto\\MessRatingSummaryDto.cs",
+              "RelativeDocumentMoniker": "Customer\\Models\\Dto\\MessRatingSummaryDto.cs",
+              "ToolTip": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\Dto\\MessRatingSummaryDto.cs",
+              "RelativeToolTip": "Customer\\Models\\Dto\\MessRatingSummaryDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T06:48:05.031Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "DailyMenuDto.cs",
+              "DocumentMoniker": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\Dto\\DailyMenuDto.cs",
+              "RelativeDocumentMoniker": "Customer\\Models\\Dto\\DailyMenuDto.cs",
+              "ToolTip": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\Dto\\DailyMenuDto.cs",
+              "RelativeToolTip": "Customer\\Models\\Dto\\DailyMenuDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T07:41:11.812Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "User.cs",
+              "DocumentMoniker": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\User.cs",
+              "RelativeDocumentMoniker": "Customer\\Models\\User.cs",
+              "ToolTip": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\User.cs",
+              "RelativeToolTip": "Customer\\Models\\User.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAA0wCsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T06:47:36.451Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "SubscribeRequestDto.cs",
+              "DocumentMoniker": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\Dto\\SubscribeRequestDto.cs",
+              "RelativeDocumentMoniker": "Customer\\Models\\Dto\\SubscribeRequestDto.cs",
+              "ToolTip": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\Dto\\SubscribeRequestDto.cs",
+              "RelativeToolTip": "Customer\\Models\\Dto\\SubscribeRequestDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T07:43:18.949Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "SubscribedMessDtocs.cs",
+              "DocumentMoniker": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\Dto\\SubscribedMessDtocs.cs",
+              "RelativeDocumentMoniker": "Customer\\Models\\Dto\\SubscribedMessDtocs.cs",
+              "ToolTip": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\Dto\\SubscribedMessDtocs.cs",
+              "RelativeToolTip": "Customer\\Models\\Dto\\SubscribedMessDtocs.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T07:43:11.331Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "MonthlyPlanDto.cs",
+              "DocumentMoniker": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\Dto\\MonthlyPlanDto.cs",
+              "RelativeDocumentMoniker": "Customer\\Models\\Dto\\MonthlyPlanDto.cs",
+              "ToolTip": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\Dto\\MonthlyPlanDto.cs",
+              "RelativeToolTip": "Customer\\Models\\Dto\\MonthlyPlanDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T07:42:56.699Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "DailyMenuForDay.cs",
+              "DocumentMoniker": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\Dto\\DailyMenuForDay.cs",
+              "RelativeDocumentMoniker": "Customer\\Models\\Dto\\DailyMenuForDay.cs",
+              "ToolTip": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\Dto\\DailyMenuForDay.cs",
+              "RelativeToolTip": "Customer\\Models\\Dto\\DailyMenuForDay.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T07:42:35.701Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "P06MessmateContext.cs",
+              "DocumentMoniker": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\P06MessmateContext.cs",
+              "RelativeDocumentMoniker": "Customer\\Models\\P06MessmateContext.cs",
+              "ToolTip": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Models\\P06MessmateContext.cs",
+              "RelativeToolTip": "Customer\\Models\\P06MessmateContext.cs",
+              "ViewState": "AgIAAOABAAAAAAAAAAAAAPUBAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T07:05:11.172Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Program.cs",
+              "RelativeDocumentMoniker": "Customer\\Program.cs",
+              "ToolTip": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Program.cs",
+              "RelativeToolTip": "Customer\\Program.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAA1wAYAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-30T18:09:30.256Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+>>>>>>> 2415481 (Final commit: project completed)
               "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\PGDAC\\Project\\final project\\messmate\\backend\\Customer\\Customer\\appsettings.json",
+              "DocumentMoniker": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\appsettings.json",
               "RelativeDocumentMoniker": "Customer\\appsettings.json",
-              "ToolTip": "D:\\PGDAC\\Project\\final project\\messmate\\backend\\Customer\\Customer\\appsettings.json",
+              "ToolTip": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\appsettings.json",
               "RelativeToolTip": "Customer\\appsettings.json",
               "ViewState": "AgIAAAwAAAAAAAAAAAAowBYAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
@@ -204,6 +472,7 @@
             },
             {
               "$type": "Document",
+<<<<<<< HEAD
               "DocumentIndex": 8,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\PGDAC\\Project\\final project\\messmate\\backend\\Customer\\Customer\\Program.cs",
@@ -226,6 +495,29 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-30T17:00:47.93Z",
               "EditorCaption": ""
+=======
+              "DocumentIndex": 18,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "Customer\\Properties\\launchSettings.json",
+              "ToolTip": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\Properties\\launchSettings.json",
+              "RelativeToolTip": "Customer\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABoAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-01-31T06:15:52.007Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "Customer\\appsettings.Development.json",
+              "ToolTip": "D:\\cdac\\Final Project\\messmate\\backend\\Customer\\Customer\\appsettings.Development.json",
+              "RelativeToolTip": "Customer\\appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-01-31T06:16:44.877Z"
+>>>>>>> 2415481 (Final commit: project completed)
             }
           ]
         }
